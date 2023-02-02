@@ -144,7 +144,6 @@ PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
 PREFIX wevp: <http://ns.inria.fr/meteo/vocab/weatherproperty/> 
 
     SELECT 
-
    (sum(if(?temp_min<0.0, 1, 0)) as ?nbFrostDays) 
    (sum(if(?rainfall>0.0, 1, 0)) as ?nbRainyDays) 
    (sum(if(?temp_min>20.0, 1, 0)) as ?nbHeatDays) 
@@ -950,15 +949,12 @@ function buildQuery_extractRDF(stationName, startDate, endDate) {
             wes-attribute:observationDate ?date ; 
             wes-measure:minDailyTemperature ?temp_min ; 
             wes-measure:maxDailyTemperature ?temp_max ;
-            wes-measure:avgDailyTemperature ?temp_avg; 
             wes-measure:rainfall24h ?rainfall;  
-            wes-measure:dailyRangeTemperature ?tdiff ; 
-            wes-measure:gdd ?gdd 
         ].
 
     } 
     WHERE {
-        SELECT distinct ?issueDate ?uriDataset ?uriSlice1 ?station ?date  ?periodStartDate ?periodEndDate ?temp_avg ?temp_min  ?temp_max (?temp_max -  ?temp_min) as ?tdiff  ?rainfall ?gdd 
+        SELECT distinct ?issueDate ?uriDataset ?uriSlice1 ?station ?date ?periodStartDate ?periodEndDate ?temp_min  ?temp_max  ?rainfall ?gdd 
         WHERE
         {
             VALUES ?stationName {"`+ stationName +`"}
@@ -973,13 +969,10 @@ function buildQuery_extractRDF(stationName, startDate, endDate) {
                 wes-attribute:observationDate ?date ;
                 wes-measure:minDailyTemperature ?temp_min; 
                 wes-measure:maxDailyTemperature ?temp_max; 
-                wes-measure:avgDailyTemperature ?temp_avg; 
-                wes-measure:rainfall24h ?rainfall]  .
+                wes-measure:rainfall24h ?rainfall ].
                 
             ?station a weo:WeatherStation ; rdfs:label ?stationName; weo:stationID ?stationID .
-            BIND( IF( xsd:float(?temp_avg) > 10.0 , xsd:float(?temp_avg) - 10.0, xsd:float(1))  as ?gdd)
-            #BIND (?periodStartDate  as xsd:date("2021-02-01")
-            #BIND (?periodStartDate  as xsd:date("2021-02-01")
+           
             BIND(xsd:date(NOW()) AS ?issueDate)
             FILTER (?date >=xsd:date(?periodStartDate))
             FILTER (?date <=xsd:date(?periodEndDate))

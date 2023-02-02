@@ -155,7 +155,7 @@ div#param{
 
 div#period{
   border: black solid 1px;
-  margin-top: 100px;
+  margin-top: 20px;
   border-radius: 15px;
 }
 
@@ -228,7 +228,7 @@ div#dateEnd {
 }
 
 p {
-margin: 20px 20px;
+margin: 5px 20px;
 text-align: justify;
 text-justify: inter-word;
 }
@@ -244,7 +244,7 @@ input {
 input.date {
   width: 250px;
   height: 30px;
-  font-size: 16px;
+  font-size: 22px;
   text-align: center;
 }
 
@@ -324,7 +324,7 @@ color: white;
 h2 {
   text-align: center;
   padding: 25px;
-  margin-bottom: 50px;
+  margin-bottom: 0px;
   background-color: lightblue;
   border-radius: 15px;
 }
@@ -491,7 +491,7 @@ background-color: #ffffff;
 
 div#export{
   border: black solid 1px;
-  margin-top: 100px;
+  margin-top: 20px;
   border-radius: 15px;
 }
 
