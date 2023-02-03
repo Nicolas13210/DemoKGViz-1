@@ -28,11 +28,11 @@ Repository files
 This repository contains:
 
 - `README.md` (this file): providing documentation;
-- `index.html`: the interface Web page, allowing to explore the WeKG-MF SPARQL endpoint visually;
+- `index.html`: the interface Web page, allowing to calculate and visualize different charts of agro-meteorological parameters according to users's preferences (location, time period);
 - `css/`: contains the style files;
 - `js/`: gathers JavaScript libraries;
 - `LICENSE.md`.
-- `WeKG-MF SPARQL Queries.ipynb` : A `sparqlkernel` jupyter notebook of SPARQL queries 
+- `WeKG-MF SPARQL Queries.ipynb` : A `sparqlkernel` jupyter notebook of SPARQL queries (using sparqlkernel package)
 
 
 Corresponding Author
