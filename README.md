@@ -32,7 +32,7 @@ This repository contains:
 - `css/`: contains the style files;
 - `js/`: gathers JavaScript libraries;
 - `LICENSE.md`.
-- `WeKG-MF SPARQL Queries.ipynb` : A jupyter kernel of SPARQL queries 
+- `WeKG-MF SPARQL Queries.ipynb` : A `sparqlkernel` jupyter notebook of SPARQL queries 
 
 
 Corresponding Author
