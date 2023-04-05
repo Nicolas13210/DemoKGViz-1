@@ -111,5 +111,6 @@ h2 {
     margin-bottom: 0;
     background-color: lightblue;
     border-radius: 15px;
+    margin-top: 0;
 }
 </style>

@@ -3,17 +3,18 @@ import MeteorologicalParameter from "@/components/MeteorologicalParameter.vue";
 import PeriodParameter from "@/components/PeriodParameter.vue";
 import ExportResult from "@/components/ExportResult.vue";
 
-import DefaultBarChart from "@/components/DefaultBarChart.vue";
+
 import LeafletMap from "@/components/LeafletMap.vue";
+import ChartResult from "@/components/ChartResult.vue";
 
 export default {
     name: "App",
     components: {
+      ChartResult,
         LeafletMap,
         MeteorologicalParameter,
         PeriodParameter,
         ExportResult,
-        DefaultBarChart,
     }
 }
 </script>
@@ -24,7 +25,7 @@ export default {
         <MeteorologicalParameter></MeteorologicalParameter>
         <PeriodParameter></PeriodParameter>
         <ExportResult></ExportResult>
-        <DefaultBarChart></DefaultBarChart>
+        <ChartResult></ChartResult>
     </div>
 </template>
 
