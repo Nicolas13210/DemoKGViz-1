@@ -14,9 +14,9 @@
 
       <l-geo-json :geojson="geoJson" :options="geoJsonOptions"></l-geo-json>
 
-      <l-marker v-for="marker in markers" :lat-lng="marker.coordinates" :name="marker.name" :draggable="false"
-        :ref="marker.name">
-        <l-popup :content="marker.name"></l-popup>
+      <l-marker v-for="marker in stations.bindings" :lat-lng="[parseFloat(marker.lat.value), parseFloat(marker.long.value)]" :name="marker.name" :draggable="false"
+        :ref="marker.stationName.value">
+        <l-popup :content="marker.stationName.value"></l-popup>
       </l-marker>
     </l-map>
   </div>
@@ -28,12 +28,18 @@ import regionsJson from "../assets/regions.json"
 import { LMap, LTileLayer, LGeoJson, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
 
 export default {
+  name: 'LeafletMap',
   components: {
     LMap,
     LTileLayer,
     LGeoJson,
     LMarker,
     LPopup
+  },
+  computed: {
+    stations () {
+      return this.$store.getters.getAll
+    }
   },
   data() {
     return {
@@ -67,9 +73,9 @@ export default {
     };
   },
   methods: {
-    showMarkerPopup(name) {
-      this.$refs[name][0].openPopup()
-    },
+/*     showMarkerPopup(name) {
+      this.$refs[name][0].openPopup();
+    }, */
 
     changeLocation(coordinates) {
       this.center = coordinates;
