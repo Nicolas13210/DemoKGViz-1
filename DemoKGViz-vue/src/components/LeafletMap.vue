@@ -1,30 +1,39 @@
 <template>
-  <div style="height:600px; width:800px">
-    <l-map ref="map" v-model:zoom="zoom" :center="[47.41322, -1.219482]" :use-global-leaflet="false">
+  <div class="map">
+    <l-map ref="map" v-model:zoom="zoom" :center="[47.41322, 2]" :use-global-leaflet="false">
       <l-tile-layer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           layer-type="base"
           name="OpenStreetMap"
       ></l-tile-layer>
+      <l-geo-json :geojson="geoJson"></l-geo-json>
     </l-map>
   </div>
 </template>
 
 <script>
 import "leaflet/dist/leaflet.css";
-import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
+import regionsJson from "../assets/regions.json"
+import { LMap, LTileLayer,LGeoJson  } from "@vue-leaflet/vue-leaflet";
 
 export default {
   components: {
     LMap,
     LTileLayer,
+    LGeoJson 
   },
   data() {
     return {
-      zoom: 2,
+      zoom: 6,
+      geoJson: regionsJson
     };
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.map {
+  height: 700px;
+  width: 700px;
+}
+</style>
