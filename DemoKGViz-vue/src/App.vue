@@ -15,25 +15,31 @@ export default {
         MeteorologicalParameter,
         PeriodParameter,
         ExportResult,
-    }
+    },
+  created() {
+    this.$store.dispatch("setStationsApi");
+  },
 }
 </script>
 
 <template>
-    <div class="app">
-        <LeafletMap></LeafletMap>
-        <MeteorologicalParameter></MeteorologicalParameter>
-        <PeriodParameter></PeriodParameter>
-        <ExportResult></ExportResult>
-        <ChartResult></ChartResult>
-    </div>
+  <div class="app">
+    <h1 class="app-title">
+      WeKG-MF-based Agrometeorological Parameters Computing and Visualisation
+    </h1>
+    <LeafletMap></LeafletMap>
+    <MeteorologicalParameter></MeteorologicalParameter>
+    <PeriodParameter></PeriodParameter>
+    <ExportResult></ExportResult>
+    <ChartResult></ChartResult>
+  </div>
 </template>
 
 // global styles
 <style>
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 </style>
 
@@ -41,6 +47,14 @@ body {
 .app {
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 0 30px 30px 30px;
+}
+
+.app-title {
+  text-align: center;
+  background-color: rgb(75, 125, 190);
+  border-radius: 15px;
+  padding: 20px ;
+  color: white;
 }
 </style>

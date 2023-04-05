@@ -94,3 +94,17 @@ export function buildQuery_extractData(stationName, startDate, endDate) {
     ORDER BY ?date
     `;
 }
+
+export function buildQuery_station() {
+    return `
+    PREFIX dct: <http://purl.org/dc/terms/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX geosparql:  <http://www.opengis.net/ont/geosparql#> 
+    SELECT distinct * WHERE {
+     
+        
+        ?station rdfs:label ?stationName;  geo:lat ?lat; geo:long ?long .
+    }
+    `
+}
