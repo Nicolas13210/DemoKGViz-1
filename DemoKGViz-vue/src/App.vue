@@ -15,7 +15,10 @@ export default {
         MeteorologicalParameter,
         PeriodParameter,
         ExportResult,
-    }
+    },
+  created() {
+    this.$store.dispatch("setStationsApi");
+  },
 }
 </script>
 
