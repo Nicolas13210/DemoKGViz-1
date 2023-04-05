@@ -30,5 +30,6 @@ body {
 .app {
   display: flex;
   flex-direction: column;
+  padding: 30px;
 }
 </style>
