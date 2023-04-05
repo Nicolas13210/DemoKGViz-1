@@ -1,6 +1,8 @@
 import {createApp} from 'vue'
 import App from './App.vue'
 import {createStore} from 'vuex'
+import FloatingVue from 'floating-vue'
+
 
 let SPARQL = function (o) {
     this.query = function (q) {
@@ -54,22 +56,41 @@ const store = createStore({
         clearDataCalc(state) {
             state.dataCalc.clear()
         },
-        pushParameter(state, parameter, type) {
-            state.parameters.push(parameter)
-            state.types.get(type).push(parameter)
+        pushParameter(state, payload) {
+            state.parameters.push(payload['parameter'])
+            state.weatherTypes.get(payload['type']).push(payload['parameter'])
         },
         cleanParameters(state, parameter) {
             state.parameters = state.parameters.filter(function (item) {
-                return item !== parameter;
+                return item !== parameter
             })
         },
         destroyGraphLoaded(state, key) {
-            state.graphLoaded.get(key).destroy();
-            state.graphLoaded.delete(key);
+            state.graphLoaded.get(key).destroy()
+            state.graphLoaded.delete(key)
         }
-    }
+    },
+    actions: {
+        clearDataCalc(context) {
+            context.commit('clearDataCalc')
+        },
+        pushParameter(context, payload) {
+            context.commit('pushParameter', payload)
+        },
+        cleanParameters(context, parameter) {
+            context.commit('cleanParameters', parameter)
+        },
+        destroyGraphLoaded(context, key) {
+            context.commit('destroyGraphLoaded', key)
+        }
+    },
 })
+
+/* floating-vue configuration */
+// Display the tooltip quickly (50ms instead of 200ms)
+FloatingVue.options.themes.tooltip.delay.show = 50;
 
 const app = createApp(App)
 app.use(store)
+app.use(FloatingVue)
 app.mount('#app')
