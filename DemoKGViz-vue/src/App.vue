@@ -1,15 +1,16 @@
 <script>
 import DefaultBarChart from "@/components/DefaultBarChart.vue";
+import LeafletMap from "@/components/LeafletMap.vue";
 
 export default {
   name: "App",
-  components: {DefaultBarChart}
+  components: {LeafletMap, DefaultBarChart}
 }
 </script>
 
 <template>
   <div>app</div>
-  <DefaultBarChart></DefaultBarChart>
+<LeafletMap></LeafletMap>
 </template>
 
 <style scoped>
