@@ -3,7 +3,14 @@
     <h2>Choose a localisation</h2>
     <div class="map-options">
       <h3>Options</h3>
-      <div>
+      <div class="map-options-list">
+        <select>
+          <option selected="selected" value="default">
+            -- Please choose an option --
+          </option>
+          <option v-for="station in stations.bindings" :value="station.stationName.value">{{ station.stationName.value }}
+          </option>
+        </select>
         <button v-for="option in options" @click="changeLocation(option.coordinates)">{{ option.name }}</button>
       </div>
     </div>
@@ -12,11 +19,12 @@
       <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base"
         name="OpenStreetMap"></l-tile-layer>
 
-      <l-geo-json :geojson="geoJson" :options="geoJsonOptions"></l-geo-json>
+      <l-geo-json :geojson="geoJson" :options="geoJsonOptions" :optionsStyle="() => geoJsonStyle"></l-geo-json>
 
-      <l-marker v-for="marker in stations.bindings" :lat-lng="[parseFloat(marker.lat.value), parseFloat(marker.long.value)]" :name="marker.name" :draggable="false"
+      <l-marker v-for="(marker, i) in stations.bindings"
+        :lat-lng="[parseFloat(marker.lat.value), parseFloat(marker.long.value)]" :name="marker.name" :draggable="false"
         :ref="marker.stationName.value">
-        <l-popup :content="marker.stationName.value"></l-popup>
+        <l-popup :ref="'marker' + i" :content="marker.stationName.value"></l-popup>
       </l-marker>
     </l-map>
   </div>
@@ -37,7 +45,7 @@ export default {
     LPopup
   },
   computed: {
-    stations () {
+    stations() {
       return this.$store.getters.getAll
     }
   },
@@ -51,50 +59,52 @@ export default {
       geoJson: regionsJson,
       options: [
         { name: "Metropolis", coordinates: [47, 2] },
-        { name: "Metropolis 2", coordinates: [47, 3] },
-        { name: "Metropolis 3", coordinates: [47, 4] },
-        { name: "Metropolis 4", coordinates: [47, 5] },
+        { name: "Réunion/Mayotte", coordinates: [47, 3] },
+        { name: "Guyanne", coordinates: [47, 4] },
+        { name: "Saint-Pierre-Et-Miquelon", coordinates: [46.766333,-56.179167] },
+        { name: "Guadeloupe/Martinique", coordinates: [47, 5] },
       ],
       geoJsonOptions: {
         onEachFeature: this.onEachFeature,
-        /*         styleOnEachFeature: {
-                  color: '#ff0000',
-                  fillColor: '#ff0000',
-                  fillOpacity: 0.5
-                } */
       },
-      markers: [
-        { name: "1", coordinates: [47, 2] },
-        { name: "2", coordinates: [47, 3] },
-        { name: "3", coordinates: [47, 4] },
-        { name: "4", coordinates: [47, 5] },
-        { name: "5", coordinates: [47, 6] }
-      ]
-    };
+      geoJsonStyle: {
+        fillColor: 'gray',
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.4
+      },
+    }
   },
   methods: {
-/*     showMarkerPopup(name) {
-      this.$refs[name][0].openPopup();
-    }, */
-
     changeLocation(coordinates) {
       this.center = coordinates;
     },
 
     onEachFeature(feature, layer) {
-      this.setPopup(layer, feature.properties.nom)
-      this.setClickListener(layer, feature.properties.nom);
+      this.setRegionListeners(layer);
     },
 
-    setPopup(layer, name) {
-      layer.bindPopup(name)
+    setRegionListeners(layer) {
+      layer.on({
+        mouseover: this.setRegionHoverStyle,
+        mouseout: this.unsetRegionHoverStyle
+      });
     },
-
-    setClickListener(layer, name) {
-      layer.on('click', () => {
-        console.log("name", name)
+    setRegionHoverStyle(layer) {
+      layer.target.setStyle({
+        fillColor: 'red',
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.1
       })
-    }
+    },
+    unsetRegionHoverStyle(layer) {
+      layer.target.setStyle({
+        ...this.geoJsonStyle
+      })
+    },
   }
 }
 </script>
@@ -127,7 +137,14 @@ export default {
   margin: 0;
 }
 
+.map-options-list {
+  display: flex;
+  gap: 10px
+}
+
 button {
   padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 </style>
