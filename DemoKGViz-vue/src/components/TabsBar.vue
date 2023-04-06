@@ -1,8 +1,7 @@
 <template>
     <div>
-      <v-card>
         <v-tabs v-model="tab"
-                bg-color="primary">
+                bg-color="secondary">
           <v-tab value="map">Map</v-tab>
           <v-tab value="data">Data</v-tab>
           <v-tab value="pie-chart">Pie chart</v-tab>
@@ -28,7 +27,6 @@
             </v-window-item>
           </v-window>
         </v-card-text>
-      </v-card>
     </div>
 </template>
 

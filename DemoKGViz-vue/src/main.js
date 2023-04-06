@@ -7,6 +7,7 @@ import {createVuetify} from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import {aliases, mdi} from 'vuetify/iconsets/mdi'
+import colors from 'vuetify/lib/util/colors'
 
 /* floating-vue configuration */
 // Display the tooltip quickly (50ms instead of 200ms)
@@ -21,7 +22,19 @@ const vuetify = createVuetify({
         sets: {
             mdi,
         }
-    }
+    },
+    theme: {
+        themes: {
+            light: {
+                dark: false,
+                colors: {
+                    primary: colors.indigo.darken1,
+                    secondary: colors.indigo.lighten1
+                }
+            },
+        },
+    },
+
 })
 
 const app = createApp(App)

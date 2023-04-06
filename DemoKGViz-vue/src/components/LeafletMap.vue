@@ -109,7 +109,7 @@ export default {
 .map {
   display: flex;
   flex-direction: column;
-  height: 800px;
+  height: 80vh;
 }
 
 .map-options {
