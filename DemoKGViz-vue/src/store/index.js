@@ -83,6 +83,22 @@ const mainModule = {
         },
         destroyGraphLoaded(context, key) {
             context.commit('destroyGraphLoaded', key)
+        },
+        async setApi(context, ) {
+            try {
+                const response = await axios.post("/sparql", {
+                    query: buildQuery_station(),
+                    apikey: "YOUR-API-KEY-HERE",
+                }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    responseType: 'json'
+                });
+                context.commit("setStations", { stations: response.data });
+            } catch (error) {
+                console.log("error", error);
+            }
         }
     }
 }
