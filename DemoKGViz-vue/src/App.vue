@@ -3,6 +3,7 @@ import MeteorologicalParameter from "@/components/MeteorologicalParameter.vue";
 import TabsBar from "@/components/TabsBar.vue";
 import SideBar from "@/components/sideBar/SideBar.vue";
 
+
 export default {
     name: "App",
     components: {

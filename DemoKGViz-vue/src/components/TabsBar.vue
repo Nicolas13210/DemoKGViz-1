@@ -1,6 +1,5 @@
 <template>
     <div>
-      <h2>test</h2>
       <v-card>
         <v-tabs v-model="tab"
                 bg-color="primary">
