@@ -67,7 +67,6 @@ export default {
 
 <template>
     <div id="export">
-        <h2 id="period-select">Export</h2>
         <div class="groupExport">
             <button class="export" id="RDF" v-on:click="createFileRDF(textStation, startDate, endDate)">
                 <img class="export" src="../img/rdf_logo.png" alt="export">
@@ -85,19 +84,8 @@ export default {
 </template>
 
 <style scoped>
-h2 {
-    text-align: center;
-    padding: 25px;
-    margin-bottom: 0;
-    background-color: lightblue;
-    border-radius: 15px;
-    margin-top: 0;
-}
-
 div#export {
-    border: black solid 1px;
     margin-top: 20px;
-    border-radius: 15px;
 }
 
 button.export {
