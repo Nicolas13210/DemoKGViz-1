@@ -6,55 +6,52 @@ import ExportResult from "@/components/ExportResult.vue";
 
 import LeafletMap from "@/components/LeafletMap.vue";
 import ChartResult from "@/components/ChartResult.vue";
+import SideBar from "@/components/sideBar/SideBar.vue";
 
 export default {
     name: "App",
     components: {
-      ChartResult,
+        SideBar,
+        ChartResult,
         LeafletMap,
         MeteorologicalParameter,
         PeriodParameter,
         ExportResult,
     },
-  created() {
-    this.$store.dispatch("setStationsApi");
-  },
+    created() {
+        this.$store.dispatch("setStationsApi");
+    },
 }
 </script>
 
 <template>
-  <div class="app">
-    <h1 class="app-title">
-      WeKG-MF-based Agrometeorological Parameters Computing and Visualisation
-    </h1>
-    <LeafletMap></LeafletMap>
-    <MeteorologicalParameter></MeteorologicalParameter>
-    <PeriodParameter></PeriodParameter>
-    <ExportResult></ExportResult>
-    <ChartResult></ChartResult>
-  </div>
+    <v-card>
+        <v-layout>
+            <v-app-bar title="WeKG-MF-based Agrometeorological Parameters Computing and Visualisation"></v-app-bar>
+
+            <v-navigation-drawer>
+                <SideBar></SideBar>
+            </v-navigation-drawer>
+
+            <v-main style="min-height: 300px;">
+                <LeafletMap></LeafletMap>
+                <MeteorologicalParameter></MeteorologicalParameter>
+                <PeriodParameter></PeriodParameter>
+                <ExportResult></ExportResult>
+                <ChartResult></ChartResult>
+            </v-main>
+        </v-layout>
+    </v-card>
 </template>
 
 // global styles
 <style>
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 </style>
 
 <style scoped>
-.app {
-  display: flex;
-  flex-direction: column;
-  padding: 0 30px 30px 30px;
-}
 
-.app-title {
-  text-align: center;
-  background-color: rgb(75, 125, 190);
-  border-radius: 15px;
-  padding: 20px ;
-  color: white;
-}
 </style>

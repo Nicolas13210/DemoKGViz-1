@@ -8,13 +8,16 @@ export default {
 </script>
 
 <template>
-    <div id="param">
-        <h2 id="parameters-select">Agro-Meteorological Parameters</h2>
-
-        <div id="column1">
-            <p id="dailyTemp" style="font-size: 1.5em;">
-                <strong>Daily temperature</strong>
-                <br>
+    <v-expansion-panels multiple>
+        <v-expansion-panel>
+            <v-expansion-panel-title disable-icon-rotate>
+                Daily temperature
+                <template v-slot:actions>
+                    <v-icon color="error" icon="mdi-alert-circle">
+                    </v-icon>
+                </template>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
                 <MeteorologicalParameterItem title="Daily minimum temperature (T<sub>min</sub>)"
                                              tooltip="The daily minimum temperature represents the lower temperature for each days"
                                              type="TmpRain"
@@ -38,13 +41,18 @@ export default {
                                              type="TmpRain"
                                              param="TDiff">
                 </MeteorologicalParameterItem>
-            </p>
-        </div>
+            </v-expansion-panel-text>
+        </v-expansion-panel>
 
-        <div id="column2">
-            <p id="rain" style="font-size: 1.5em;">
-                <strong>Precipitation</strong>
-                <br>
+        <v-expansion-panel>
+            <v-expansion-panel-title disable-icon-rotate>
+                Precipitation
+                <template v-slot:actions>
+                    <v-icon color="error" icon="mdi-alert-circle">
+                    </v-icon>
+                </template>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
                 <MeteorologicalParameterItem title="Daily precipitation (rainDay)"
                                              tooltip="Cumulative daily precipitation Rd recorded from 6:00 UTC day d till 6:00 UTC day d+1"
                                              type="TmpRain"
@@ -62,34 +70,52 @@ export default {
                                              type="GddRain"
                                              param="sumRain">
                 </MeteorologicalParameterItem>
-            </p>
+            </v-expansion-panel-text>
+        </v-expansion-panel>
 
-            <p id="wet" style="font-size: 1.5em;">
-                <strong>Humidity</strong>
-                <br>
+        <v-expansion-panel>
+            <v-expansion-panel-title disable-icon-rotate>
+                Humidity
+                <template v-slot:actions>
+                    <v-icon color="error" icon="mdi-alert-circle">
+                    </v-icon>
+                </template>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
                 <MeteorologicalParameterItem title="Number of wet days (nbWetDays)"
                                              tooltip="Number of wet days represents the number of days during which the humidity is higher than 60% for a period"
                                              type="Numb"
                                              param="nbWetDays">
                 </MeteorologicalParameterItem>
-            </p>
+            </v-expansion-panel-text>
+        </v-expansion-panel>
 
-            <p id="wind" style="font-size: 1.5em;">
-                <strong>Wind</strong>
-                <br>
+        <v-expansion-panel>
+            <v-expansion-panel-title disable-icon-rotate>
+                Wind
+                <template v-slot:actions>
+                    <v-icon color="error" icon="mdi-alert-circle">
+                    </v-icon>
+                </template>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
                 <MeteorologicalParameterItem title="Number of high wind days (wind)"
                                              tooltip="Number of high wind days represents the number of days during the wind is higher than 5.28 m/s for a period"
                                              type="Numb"
                                              param="highWind">
                 </MeteorologicalParameterItem>
-            </p>
+            </v-expansion-panel-text>
+        </v-expansion-panel>
 
-        </div>
-
-        <div id="column3">
-            <p id="frost" style="font-size: 1.5em;">
-                <strong>Frost days and ice days</strong>
-                <br>
+        <v-expansion-panel>
+            <v-expansion-panel-title disable-icon-rotate>
+                Frost days and ice days
+                <template v-slot:actions>
+                    <v-icon color="error" icon="mdi-alert-circle">
+                    </v-icon>
+                </template>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
                 <MeteorologicalParameterItem title="Number of frost days (frostDays)"
                                              tooltip="Number of frost days represents the number of days during which the minimum temperature is lower than 0°C for a period"
                                              type="Numb"
@@ -101,11 +127,18 @@ export default {
                                              type="Numb"
                                              param="iceDays">
                 </MeteorologicalParameterItem>
-            </p>
+            </v-expansion-panel-text>
+        </v-expansion-panel>
 
-            <p id="summer" style="font-size: 1.5em;">
-                <strong>Summer days and heat days</strong>
-                <br>
+        <v-expansion-panel>
+            <v-expansion-panel-title disable-icon-rotate>
+                Summer days and heat days
+                <template v-slot:actions>
+                    <v-icon color="error" icon="mdi-alert-circle">
+                    </v-icon>
+                </template>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
                 <MeteorologicalParameterItem title="Number of summer days (summerDays)"
                                              tooltip="Number of summer days represents the number of days during which the maximum temperature is higher than 25°C for a period"
                                              type="Numb"
@@ -117,11 +150,18 @@ export default {
                                              type="Numb"
                                              param="heatDays">
                 </MeteorologicalParameterItem>
-            </p>
+            </v-expansion-panel-text>
+        </v-expansion-panel>
 
-            <p id="heating" style="font-size: 1.5em;">
-                <strong>Growing degree days</strong>
-                <br>
+        <v-expansion-panel>
+            <v-expansion-panel-title disable-icon-rotate>
+                Growing degree days
+                <template v-slot:actions>
+                    <v-icon color="error" icon="mdi-alert-circle">
+                    </v-icon>
+                </template>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
                 <MeteorologicalParameterItem title="Growing degree days (GDD)"
                                              tooltip="Growing degree days is equal to the average daily temperature minus base temperature"
                                              type="GddRain"
@@ -147,57 +187,11 @@ export default {
                                              type="GddRain"
                                              param="GSTmin">
                 </MeteorologicalParameterItem>
-            </p>
-        </div>
-
-        <div id="column4">
-
-        </div>
-        <p id="parameters-choose">Parameters selected :</p>
-    </div>
+            </v-expansion-panel-text>
+        </v-expansion-panel>
+    </v-expansion-panels>
 </template>
 
 <style scoped>
-div#param {
-    border: black solid 1px;
-    margin-top: 100px;
-    border-radius: 15px;
-}
-
-div#column1 {
-    width: 33%;
-    display: inline-block;
-    height: auto;
-    vertical-align: top;
-}
-
-div#column2 {
-    width: 33%;
-    display: inline-block;
-    height: auto;
-    vertical-align: top;
-}
-
-div#column3 {
-    width: 33%;
-    display: inline-block;
-    height: auto;
-    vertical-align: top;
-}
-
-p {
-    margin: 5px 20px;
-    text-align: justify;
-    text-justify: inter-word;
-}
-
-h2 {
-    text-align: center;
-    padding: 25px;
-    margin-bottom: 0;
-    background-color: lightblue;
-    border-radius: 15px;
-    margin-top: 0;
-}
 
 </style>
