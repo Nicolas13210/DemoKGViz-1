@@ -1,17 +1,13 @@
 <template>
   <div class="map">
-    <h2>Choose a localisation</h2>
     <div class="map-options">
       <h3>Options</h3>
       <div class="map-options-list">
-        <select>
-          <option selected="selected" value="default">
-            -- Please choose an option --
-          </option>
+        <v-select label="      -- Please choose an option --">
           <option v-for="station in stations.bindings" :value="station.stationName.value">{{ station.stationName.value }}
           </option>
-        </select>
-        <button v-for="option in options" @click="changeLocation(option.coordinates)">{{ option.name }}</button>
+        </v-select>
+        <v-btn variant="outlined" v-for="option in options" @click="changeLocation(option.coordinates)">{{ option.name }}</v-btn>
       </div>
     </div>
 
@@ -113,17 +109,7 @@ export default {
 .map {
   display: flex;
   flex-direction: column;
-  height: 800px;
-  border: 1px solid black;
-  border-radius: 15px;
-}
-
-.map h2 {
-  background-color: lightblue;
-  padding: 20px;
-  margin: 0;
-  text-align: center;
-  border-radius: 15px;
+  height: 80vh;
 }
 
 .map-options {

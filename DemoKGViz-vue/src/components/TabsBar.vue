@@ -1,8 +1,7 @@
 <template>
     <div>
-      <v-card>
         <v-tabs v-model="tab"
-                bg-color="primary">
+                bg-color="secondary">
           <v-tab value="map">Map</v-tab>
           <v-tab value="data">Data</v-tab>
           <v-tab value="pie-chart">Pie chart</v-tab>
@@ -18,7 +17,10 @@
               TODO
             </v-window-item>
             <v-window-item value="pie-chart">
-              <ChartResult></ChartResult>
+              <D3Chart :data="[{ x: 1, y: 10 },{ x: 2, y: 20 },{ x: 3, y: 30 },{ x: 4, y: 15 }]"
+                      :line2Data="[{ x: 1, y: 10 },{ x: 2, y: 20 },{ x: 3, y: 30 },{ x: 4, y: 20 }]"
+                      :line1Data="[{ x: 1, y: 10 },{ x: 2, y: 20 },{ x: 3, y: 30 },{ x: 4, y: 15 }]"
+              ></D3Chart>
             </v-window-item>
             <v-window-item value="line-chart">
               <ChartResult></ChartResult>
@@ -28,7 +30,6 @@
             </v-window-item>
           </v-window>
         </v-card-text>
-      </v-card>
     </div>
 </template>
 
@@ -38,6 +39,7 @@ import LeafletMap from "@/components/LeafletMap.vue";
 import MeteorologicalParameter from "@/components/sideBar/MeteorologicalParameter.vue";
 import PeriodParameter from "@/components/sideBar/PeriodParameter.vue";
 import ExportResult from "@/components/ExportResult.vue";
+import D3Chart from "./D3Chart.vue";
 
 export default {
   name: "TabsBar",
@@ -50,7 +52,8 @@ export default {
     MeteorologicalParameter,
     PeriodParameter,
     ExportResult,
-  },
+    D3Chart
+},
 }
 </script>
 

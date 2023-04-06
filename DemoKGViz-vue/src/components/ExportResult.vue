@@ -67,49 +67,31 @@ export default {
 
 <template>
     <div id="export">
-        <h2 id="period-select">Export</h2>
         <div class="groupExport">
-            <button class="export" id="RDF" v-on:click="createFileRDF(textStation, startDate, endDate)">
+            <v-btn class="export" variant="outlined" id="RDF" v-on:click="createFileRDF(textStation, startDate, endDate)">
                 <img class="export" src="../img/rdf_logo.png" alt="export">
-            </button>
+            </v-btn>
 
-            <button class="export" id="JSON" v-on:click="createFileJSON(textStation, startDate, endDate)">
+            <v-btn class="export" variant="outlined" id="JSON" v-on:click="createFileJSON(textStation, startDate, endDate)">
                 <img class="export" src="../img/json_logo.png" alt="export">
-            </button>
+            </v-btn>
 
-            <button class="export" id="CSV" v-on:click="createFileCSV(textStation, startDate, endDate)">
+            <v-btn class="export" variant="outlined" id="CSV" v-on:click="createFileCSV(textStation, startDate, endDate)">
                 <img class="export" src="../img/csv_logo.png" alt="export">
-            </button>
+            </v-btn>
         </div>
     </div>
 </template>
 
 <style scoped>
-h2 {
-    text-align: center;
-    padding: 25px;
-    margin-bottom: 0;
-    background-color: lightblue;
-    border-radius: 15px;
-    margin-top: 0;
-}
-
 div#export {
-    border: black solid 1px;
     margin-top: 20px;
-    border-radius: 15px;
 }
 
 button.export {
     width: 100px;
     height: 100px;
-    display: inline-block;
-    justify-content: center;
-    align-items: center;
     border-radius: 15px;
-    border: black solid 1px;
-    cursor: pointer;
-    background-color: white;
 }
 
 div.groupExport {

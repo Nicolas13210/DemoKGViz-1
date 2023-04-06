@@ -1,6 +1,5 @@
 <template>
   <div id="visualisation">
-    <h2>Visualisations</h2>
     <div class="groupVisualisation">
       <DefaultBarChart></DefaultBarChart>
     </div>
@@ -21,19 +20,8 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  text-align: center;
-  padding: 25px;
-  margin-bottom: 0;
-  background-color: lightblue;
-  border-radius: 15px;
-  margin-top: 0;
-}
-
 div#visualisation {
-  border: black solid 1px;
   margin-top: 20px;
-  border-radius: 15px;
 }
 
 div.groupVisualisation {
