@@ -46,6 +46,7 @@ export default {
         const width = 500 - margin.left - margin.right;
         const height = 300 - margin.top - margin.bottom;
 
+        // create canvas for chart
         const svg = d3
             .select(this.$refs.chart)
             .append("svg")
@@ -54,55 +55,57 @@ export default {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
+        // create x axis
         const x = d3
-            .scaleBand()
+            .scaleLinear()
             .range([0, width])
             .domain(niceJson.results.bindings.map((d) => d.date.value))
             .padding(0.1);
-            
 
-        const y = d3.scaleLinear().range([height, 0]);
+        // create y axis
+        const y = d3.scaleLinear()
+            .range([height, 0])
+            .domain([0, d3.max(niceJson.results.bindings, (d) => d.temp_avg.value)]);
 
-        y.domain([0, d3.max(this.data, (d) => d.y)]);
+        // draw x axis
+        svg.append("g")
+            .call(d3.axisBottom(x))
+            .attr("transform", "translate(0," + height + ")");
 
-        svg
-            .append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
-        svg
-            .append("g")
+        // draw y axis
+        svg.append("g")
             .call(d3.axisLeft(y))
-            .append("text")
-            .attr("fill", "#000")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", "0.71em")
-            .attr("text-anchor", "end")
-            .text("Value");
 
-        svg
-            .selectAll(".bar")
-            .data(this.data)
-            .enter()
-            .append("rect")
-            .attr("class", "bar")
-            .attr("x", (d) => x(d.x))
-            .attr("y", (d) => y(d.y))
-            .attr("width", x.bandwidth())
-            .attr("height", (d) => height - y(d.y));
-
-        const line = d3
-            .line()
-            .x((d) => x(d.x) + x.bandwidth() / 2)
-            .y((d) => y(d.y));
-
-        svg
-            .append("path")
-            .datum(this.lineData)
+        // Add the line
+        svg.append("path")
+            .datum(niceJson.results.bindings)
             .attr("fill", "none")
             .attr("stroke", "steelblue")
             .attr("stroke-width", 1.5)
-            .attr("d", line);
+            .attr("d", d3.line()
+                .x(function (d) { return x(d.date.value) })
+                .y(function (d) { return y(d.temp_min.value) })
+            )
+
+        // set the parameters for the histogram
+        var histogram = d3.histogram()
+            .value(function (d) { return d.temp_max.value; })   // I need to give the vector of value
+            .domain(x.domain())  // then the domain of the graphic
+            .thresholds(x.ticks(70)); // then the numbers of bins
+
+        // And apply this function to data to get the bins
+        var bins = histogram(niceJson.results.bindings);
+
+        // Add the rectangle
+        svg.append("rect")
+            .data(bins)
+            .enter()
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 1.5)
+            .attr("width", function (d) { return x(d.date.value) })
+            .attr("height", function (d) { return y(d.temp_max.value) })
     },
 }
 </script>

@@ -18,7 +18,7 @@
               TODO
             </v-window-item>
             <v-window-item value="pie-chart">
-              <ChartResult></ChartResult>
+              <D3Chart></D3Chart>
             </v-window-item>
             <v-window-item value="line-chart">
               <ChartResult></ChartResult>
@@ -38,6 +38,7 @@ import LeafletMap from "@/components/LeafletMap.vue";
 import MeteorologicalParameter from "@/components/MeteorologicalParameter.vue";
 import PeriodParameter from "@/components/PeriodParameter.vue";
 import ExportResult from "@/components/ExportResult.vue";
+import D3Chart from "./D3Chart.vue";
 
 export default {
   name: "TabsBar",
@@ -50,7 +51,8 @@ export default {
     MeteorologicalParameter,
     PeriodParameter,
     ExportResult,
-  },
+    D3Chart
+},
 }
 </script>
 
