@@ -31,7 +31,6 @@ export default {
 
 <template>
     <div id="period">
-        <h2 id="period-select">Select a period</h2>
         <div id="dateStart">
 
             <label id="date-start" style="font-size: 1.5em;">Start date:</label>
@@ -63,9 +62,7 @@ export default {
 <style scoped>
 
 div#period {
-    border: black solid 1px;
     margin-top: 20px;
-    border-radius: 15px;
 }
 
 div#dateStart {
@@ -103,14 +100,5 @@ input.date {
     height: 30px;
     font-size: 22px;
     text-align: center;
-}
-
-h2 {
-    text-align: center;
-    padding: 25px;
-    margin-bottom: 0;
-    background-color: lightblue;
-    border-radius: 15px;
-    margin-top: 0;
 }
 </style>
