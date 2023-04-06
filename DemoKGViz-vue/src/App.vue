@@ -1,21 +1,13 @@
 <script>
 import MeteorologicalParameter from "@/components/MeteorologicalParameter.vue";
-import PeriodParameter from "@/components/PeriodParameter.vue";
-import ExportResult from "@/components/ExportResult.vue";
-
-
-import LeafletMap from "@/components/LeafletMap.vue";
-import ChartResult from "@/components/ChartResult.vue";
+import TabsBar from "@/components/TabsBar.vue";
 
 export default {
-    name: "App",
-    components: {
-      ChartResult,
-        LeafletMap,
-        MeteorologicalParameter,
-        PeriodParameter,
-        ExportResult,
-    },
+  name: "App",
+  components: {
+    TabsBar,
+    MeteorologicalParameter,
+  },
   created() {
     this.$store.dispatch("setStationsApi");
   },
@@ -24,14 +16,17 @@ export default {
 
 <template>
   <div class="app">
-    <h1 class="app-title">
-      WeKG-MF-based Agrometeorological Parameters Computing and Visualisation
-    </h1>
-    <LeafletMap></LeafletMap>
-    <MeteorologicalParameter></MeteorologicalParameter>
-    <PeriodParameter></PeriodParameter>
-    <ExportResult></ExportResult>
-    <ChartResult></ChartResult>
+    <v-card>
+      <v-layout>
+        <v-app-bar title="WeKG-MF-based Agrometeorological Parameters Computing and Visualisation"></v-app-bar>
+        <v-navigation-drawer>
+          <!--TODO-->
+        </v-navigation-drawer>
+        <v-main style="min-height: 300px;">
+          <TabsBar></TabsBar>
+        </v-main>
+      </v-layout>
+    </v-card>
   </div>
 </template>
 
@@ -48,13 +43,5 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0 30px 30px 30px;
-}
-
-.app-title {
-  text-align: center;
-  background-color: rgb(75, 125, 190);
-  border-radius: 15px;
-  padding: 20px ;
-  color: white;
 }
 </style>
