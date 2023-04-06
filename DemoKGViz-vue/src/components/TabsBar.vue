@@ -17,7 +17,10 @@
               TODO
             </v-window-item>
             <v-window-item value="pie-chart">
-              <D3Chart></D3Chart>
+              <D3Chart :data="[{ x: 1, y: 10 },{ x: 2, y: 20 },{ x: 3, y: 30 },{ x: 4, y: 15 }]"
+                      :line2Data="[{ x: 1, y: 10 },{ x: 2, y: 20 },{ x: 3, y: 30 },{ x: 4, y: 20 }]"
+                      :line1Data="[{ x: 1, y: 10 },{ x: 2, y: 20 },{ x: 3, y: 30 },{ x: 4, y: 15 }]"
+              ></D3Chart>
             </v-window-item>
             <v-window-item value="line-chart">
               <ChartResult></ChartResult>
