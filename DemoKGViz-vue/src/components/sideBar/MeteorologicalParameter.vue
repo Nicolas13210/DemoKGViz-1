@@ -1,5 +1,5 @@
 <script>
-import MeteorologicalParameterItem from "@/components/MeteorologicalParameterItem.vue";
+import MeteorologicalParameterItem from "@/components/sideBar/MeteorologicalParameterItem.vue";
 
 export default {
     name: "MeteorologicalParameter",

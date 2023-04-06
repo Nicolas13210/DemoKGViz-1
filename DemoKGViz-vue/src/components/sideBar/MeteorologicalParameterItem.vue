@@ -1,5 +1,4 @@
 <script>
-import 'floating-vue/dist/style.css';
 
 export default {
     name: "MeteorologicalParameterItem",
@@ -16,7 +15,6 @@ export default {
             } else {
                 this.$store.dispatch('cleanParameters', param);
             }
-            document.getElementById("parameters-choose").innerHTML = "Parameters selected : " + this.$store.state.parameters;
 
             // TODO: call the right component for updateData and updateGraph.
             // updateData(type).then(() => updateGraph(type));
@@ -26,16 +24,23 @@ export default {
 </script>
 
 <template>
-    <input type="checkbox" :name="param" :id="param"
-           v-on:click="checkParameters([this.type,this.param])">
-    <label :for="param" v-html="title"></label>
-    <button v-tooltip="tooltip">?</button>
+    <v-checkbox
+                :name="param"
+                :id="param"
+                @click="checkParameters([this.type,this.param])">
+    <template v-slot:label>
+        <span v-html="title"></span>
+        <v-tooltip>
+            <template v-slot:activator="{ props }">
+                <v-btn density="compact" icon="mdi-question-mark-circle-outline" variant="tonal" v-bind="props">?</v-btn>
+            </template>
+            <span v-html="tooltip"></span>
+        </v-tooltip>
+    </template>
+    </v-checkbox>
+
 </template>
 
 <style scoped>
-
-input {
-    cursor: pointer;
-}
 
 </style>

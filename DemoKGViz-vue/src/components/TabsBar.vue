@@ -35,8 +35,8 @@
 <script>
 import ChartResult from "@/components/Tabs/ChartResult.vue";
 import LeafletMap from "@/components/LeafletMap.vue";
-import MeteorologicalParameter from "@/components/MeteorologicalParameter.vue";
-import PeriodParameter from "@/components/PeriodParameter.vue";
+import MeteorologicalParameter from "@/components/sideBar/MeteorologicalParameter.vue";
+import PeriodParameter from "@/components/sideBar/PeriodParameter.vue";
 import ExportResult from "@/components/ExportResult.vue";
 
 export default {

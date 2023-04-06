@@ -1,16 +1,13 @@
 import {createApp} from 'vue'
 import App from './App.vue'
-import FloatingVue from 'floating-vue'
 import {store} from "@/store"
 import 'vuetify/styles'
 import {createVuetify} from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import {aliases, mdi} from 'vuetify/iconsets/mdi'
-
-/* floating-vue configuration */
-// Display the tooltip quickly (50ms instead of 200ms)
-FloatingVue.options.themes.tooltip.delay.show = 50;
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const vuetify = createVuetify({
     components,
@@ -26,6 +23,6 @@ const vuetify = createVuetify({
 
 const app = createApp(App)
 app.use(store)
-app.use(FloatingVue)
 app.use(vuetify)
+app.component('VueDatePicker', VueDatePicker)
 app.mount('#app')
