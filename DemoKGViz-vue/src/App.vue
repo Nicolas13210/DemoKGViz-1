@@ -6,6 +6,7 @@ import ExportResult from "@/components/ExportResult.vue";
 
 import LeafletMap from "@/components/LeafletMap.vue";
 import ChartResult from "@/components/ChartResult.vue";
+import D3Chart from "@/components/D3Chart.vue";
 
 export default {
     name: "App",
@@ -15,6 +16,7 @@ export default {
         MeteorologicalParameter,
         PeriodParameter,
         ExportResult,
+        D3Chart
     },
   created() {
     this.$store.dispatch("setStationsApi");
@@ -27,6 +29,8 @@ export default {
     <h1 class="app-title">
       WeKG-MF-based Agrometeorological Parameters Computing and Visualisation
     </h1>
+
+    <D3Chart></D3Chart>
     <LeafletMap></LeafletMap>
     <MeteorologicalParameter></MeteorologicalParameter>
     <PeriodParameter></PeriodParameter>

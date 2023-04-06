@@ -1,0 +1,431 @@
+{
+    "head": {
+      "link": [],
+      "vars": [
+        "stationName",
+        "date",
+        "temp_avg",
+        "temp_min",
+        "temp_max",
+        "tdiff",
+        "rainfall",
+        "gdd"
+      ]
+    },
+    "results": {
+      "distinct": false,
+      "ordered": true,
+      "bindings": [
+        {
+          "stationName": {
+            "type": "literal",
+            "value": "NICE"
+          },
+          "date": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#date",
+            "value": "2021-09-30"
+          },
+          "temp_avg": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "21.7"
+          },
+          "temp_min": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "18.3"
+          },
+          "temp_max": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "25.1"
+          },
+          "tdiff": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "6.8"
+          },
+          "rainfall": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "0.0"
+          },
+          "gdd": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+            "value": "11.70000076293945"
+          }
+        },
+        {
+          "stationName": {
+            "type": "literal",
+            "value": "NICE"
+          },
+          "date": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#date",
+            "value": "2021-10-01"
+          },
+          "temp_avg": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "21.1"
+          },
+          "temp_min": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "17.9"
+          },
+          "temp_max": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "24.3"
+          },
+          "tdiff": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "6.4"
+          },
+          "rainfall": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "0.0"
+          },
+          "gdd": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+            "value": "11.10000038146973"
+          }
+        },
+        {
+          "stationName": {
+            "type": "literal",
+            "value": "NICE"
+          },
+          "date": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#date",
+            "value": "2021-10-02"
+          },
+          "temp_avg": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "21.25"
+          },
+          "temp_min": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "18.6"
+          },
+          "temp_max": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "23.9"
+          },
+          "tdiff": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "5.3"
+          },
+          "rainfall": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "0.0"
+          },
+          "gdd": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+            "value": "11.25"
+          }
+        },
+        {
+          "stationName": {
+            "type": "literal",
+            "value": "NICE"
+          },
+          "date": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#date",
+            "value": "2021-10-03"
+          },
+          "temp_avg": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "20.0"
+          },
+          "temp_min": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "17.7"
+          },
+          "temp_max": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "22.3"
+          },
+          "tdiff": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "4.6"
+          },
+          "rainfall": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "5.5"
+          },
+          "gdd": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+            "value": "10"
+          }
+        },
+        {
+          "stationName": {
+            "type": "literal",
+            "value": "NICE"
+          },
+          "date": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#date",
+            "value": "2021-10-04"
+          },
+          "temp_avg": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "21.05"
+          },
+          "temp_min": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "18.3"
+          },
+          "temp_max": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "23.8"
+          },
+          "tdiff": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "5.5"
+          },
+          "rainfall": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "10.4"
+          },
+          "gdd": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+            "value": "11.04999923706055"
+          }
+        },
+        {
+          "stationName": {
+            "type": "literal",
+            "value": "NICE"
+          },
+          "date": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#date",
+            "value": "2021-10-05"
+          },
+          "temp_avg": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "19.05"
+          },
+          "temp_min": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "16.6"
+          },
+          "temp_max": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "21.5"
+          },
+          "tdiff": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "4.9"
+          },
+          "rainfall": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "0.0"
+          },
+          "gdd": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+            "value": "9.04999923706055"
+          }
+        },
+        {
+          "stationName": {
+            "type": "literal",
+            "value": "NICE"
+          },
+          "date": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#date",
+            "value": "2021-10-06"
+          },
+          "temp_avg": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "18.0"
+          },
+          "temp_min": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "14.0"
+          },
+          "temp_max": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "22.0"
+          },
+          "tdiff": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "8.0"
+          },
+          "rainfall": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "0.0"
+          },
+          "gdd": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+            "value": "8"
+          }
+        },
+        {
+          "stationName": {
+            "type": "literal",
+            "value": "NICE"
+          },
+          "date": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#date",
+            "value": "2021-10-07"
+          },
+          "temp_avg": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "17.7"
+          },
+          "temp_min": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "13.4"
+          },
+          "temp_max": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "22.0"
+          },
+          "tdiff": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "8.6"
+          },
+          "rainfall": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "0.0"
+          },
+          "gdd": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+            "value": "7.70000076293945"
+          }
+        },
+        {
+          "stationName": {
+            "type": "literal",
+            "value": "NICE"
+          },
+          "date": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#date",
+            "value": "2021-10-08"
+          },
+          "temp_avg": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "18.85"
+          },
+          "temp_min": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "15.0"
+          },
+          "temp_max": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "22.7"
+          },
+          "tdiff": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "7.7"
+          },
+          "rainfall": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "0.0"
+          },
+          "gdd": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+            "value": "8.85000038146973"
+          }
+        },
+        {
+          "stationName": {
+            "type": "literal",
+            "value": "NICE"
+          },
+          "date": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#date",
+            "value": "2021-10-09"
+          },
+          "temp_avg": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "17.8"
+          },
+          "temp_min": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "14.3"
+          },
+          "temp_max": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "21.3"
+          },
+          "tdiff": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "7.0"
+          },
+          "rainfall": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "value": "6.9"
+          },
+          "gdd": {
+            "type": "typed-literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+            "value": "7.79999923706055"
+          }
+        }
+      ]
+    }
+  }

@@ -113,7 +113,7 @@ export default {
 .map {
   display: flex;
   flex-direction: column;
-  height: 1000px;
+  height: 800px;
   border: 1px solid black;
   border-radius: 15px;
 }
