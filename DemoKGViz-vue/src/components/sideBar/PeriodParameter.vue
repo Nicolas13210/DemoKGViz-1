@@ -53,8 +53,10 @@ export default {
 </script>
 
 <template>
-    <div>
-        <VueDatePicker
+    <div class="period-parameter">
+        <div class="text-subtitle-2 font-weight-bold">Période de temps</div>
+        <div class="date-pickers">
+            <VueDatePicker
                 auto-apply
                 prevent-min-max-navigation
                 ignore-time-validation
@@ -78,9 +80,19 @@ export default {
                        :format="this.getDateFormat(this.endDate, false)"
                        placeholder="Select an end date"
                        @update:model-value="this.dateChanged"/>
+        </div>
     </div>
 </template>
 
 <style scoped>
-
+.period-parameter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+.date-pickers {
+    display: flex;
+    flex-direction: column;
+    gap: 4px
+}
 </style>

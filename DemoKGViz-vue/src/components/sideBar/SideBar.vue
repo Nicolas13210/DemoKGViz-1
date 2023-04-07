@@ -4,25 +4,25 @@ import PeriodParameter from "@/components/sideBar/PeriodParameter.vue";
 
 export default {
     name: "SideBar",
-    components: {PeriodParameter, MeteorologicalParameter}
+    components: { 
+        PeriodParameter, 
+        MeteorologicalParameter 
+    }
 }
 </script>
 
 <template>
-    <v-list>
-        <v-list-subheader>Period</v-list-subheader>
-        <v-list-item-action start end>
-            <PeriodParameter></PeriodParameter>
-        </v-list-item-action>
-
-        <br>
-
-        <v-list-subheader>Parameters</v-list-subheader>
-        <v-list-item-action>
-            <MeteorologicalParameter></MeteorologicalParameter>
-        </v-list-item-action>
-    </v-list>
+    <div class="sidebar">
+        <PeriodParameter></PeriodParameter>
+        <MeteorologicalParameter></MeteorologicalParameter>
+    </div>
 </template>
 
 <style scoped>
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
 </style>

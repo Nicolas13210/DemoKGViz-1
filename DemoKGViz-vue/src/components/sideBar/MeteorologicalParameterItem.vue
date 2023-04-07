@@ -6,12 +6,12 @@ export default {
         title: String,
         tooltip: String,
         type: String,
-        param: String
+        param: String,
     },
     methods: {
         checkParameters([type, param]) {
             if (document.getElementById(param).checked) {
-                this.$store.dispatch('pushParameter', {parameters: param, type: type});
+                this.$store.dispatch('pushParameter', { parameters: param, type: type });
             } else {
                 this.$store.dispatch('cleanParameters', param);
             }
@@ -24,23 +24,20 @@ export default {
 </script>
 
 <template>
-    <v-checkbox
-                :name="param"
-                :id="param"
-                @click="checkParameters([this.type,this.param])">
-    <template v-slot:label>
-        <span v-html="title"></span>
-        <v-tooltip>
-            <template v-slot:activator="{ props }">
-                <v-btn density="compact" icon="mdi-question-mark-circle-outline" variant="tonal" v-bind="props">?</v-btn>
+    <div>
+        <v-checkbox density="compact" :hide-details="true">
+            <template v-slot:label>
+                <div class="text-body-2 font-weight-regular">{{ title }}</div>   
+                <v-tooltip location="bottom">
+                    <template v-slot:activator="{ props }">
+                        <v-btn density="compact" icon="mdi-help-circle-outline" variant="text" v-bind="props"></v-btn>
+                    </template>
+                    {{ tooltip }}
+                </v-tooltip>
             </template>
-            <span v-html="tooltip"></span>
-        </v-tooltip>
-    </template>
-    </v-checkbox>
-
+        </v-checkbox>
+    </div>
 </template>
 
 <style scoped>
-
 </style>
