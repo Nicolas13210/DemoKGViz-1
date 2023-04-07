@@ -1,12 +1,26 @@
 <script>
-import {buildQuery_extractRDF, buildQuery_extractData} from '@/queries/queries';
+import {buildQuery_extractData, buildQuery_extractRDF} from '@/queries/queries';
 
 export default {
     name: "ExportResult",
     methods: {
-        createFileRDF(stationName, startDate, endDate) {
+        getDateFormat(date) {
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            return year + "-" + this.numberFormatString(month) + "-" + this.numberFormatString(day);
+        },
+        numberFormatString(number) {
+            if (number >= 1 && number <= 9) {
+                return '0' + number;
+            }
+            return number;
+        },
+        createFileRDF(stationName) {
+            const startDate = this.getDateFormat(this.$store.getters.getStartDate);
+            const endDate = this.getDateFormat(this.$store.getters.getEndDate);
             console.log("stationName: " + stationName + " startDate: " + startDate + " endDate: " + endDate)
-            this.$store.state.endpoint.queryTurtle(buildQuery_extractRDF(stationName, startDate, endDate)).done((turtle) => {
+            this.$store.getters.getEndpoint.queryTurtle(buildQuery_extractRDF(stationName, startDate, endDate)).then((turtle) => {
                 this.downloadFileRDF(turtle);
             });
         },
@@ -22,9 +36,11 @@ export default {
 
             document.body.removeChild(element);
         },
-        createFileJSON(stationName, startDate, endDate) {
+        createFileJSON(stationName) {
+            const startDate = this.getDateFormat(this.$store.getters.getStartDate);
+            const endDate = this.getDateFormat(this.$store.getters.getEndDate);
             console.log("stationName: " + stationName + " startDate: " + startDate + " endDate: " + endDate)
-            this.$store.state.endpoint.query(buildQuery_extractData(stationName, startDate, endDate)).done((json) => {
+            this.$store.getters.getEndpoint.query(buildQuery_extractData(stationName, startDate, endDate)).then((json) => {
                 json = JSON.stringify(json, null, 2);
                 this.downloadFileJSON(json);
             });
@@ -41,9 +57,11 @@ export default {
 
             document.body.removeChild(element);
         },
-        createFileCSV(stationName, startDate, endDate) {
+        createFileCSV(stationName) {
+            const startDate = this.getDateFormat(this.$store.getters.getStartDate);
+            const endDate = this.getDateFormat(this.$store.getters.getEndDate);
             console.log("stationName: " + stationName + " startDate: " + startDate + " endDate: " + endDate)
-            this.$store.state.endpoint.queryCSV(buildQuery_extractData(stationName, startDate, endDate)).done((csv) => {
+            this.$store.getters.getEndpoint.queryCSV(buildQuery_extractData(stationName, startDate, endDate)).then((csv) => {
                 console.log(csv);
                 this.downloadFileCSV(csv);
             });
@@ -68,15 +86,15 @@ export default {
 <template>
     <div id="export">
         <div class="groupExport">
-            <v-btn class="export" variant="outlined" id="RDF" v-on:click="createFileRDF(textStation, startDate, endDate)">
+            <v-btn class="export" variant="outlined" id="RDF" @click="createFileRDF(textStation)">
                 <img class="export" src="../img/rdf_logo.png" alt="export">
             </v-btn>
 
-            <v-btn class="export" variant="outlined" id="JSON" v-on:click="createFileJSON(textStation, startDate, endDate)">
+            <v-btn class="export" variant="outlined" id="JSON" @click="createFileJSON(textStation)">
                 <img class="export" src="../img/json_logo.png" alt="export">
             </v-btn>
 
-            <v-btn class="export" variant="outlined" id="CSV" v-on:click="createFileCSV(textStation, startDate, endDate)">
+            <v-btn class="export" variant="outlined" id="CSV" @click="createFileCSV(textStation)">
                 <img class="export" src="../img/csv_logo.png" alt="export">
             </v-btn>
         </div>
