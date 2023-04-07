@@ -54,7 +54,7 @@ export default {
 
 <template>
     <div class="period-parameter">
-        <div class="text-subtitle-2 font-weight-bold">Période de temps</div>
+        <div class="text-subtitle-2 font-weight-bold">Period</div>
         <div class="date-pickers">
             <VueDatePicker
                 auto-apply

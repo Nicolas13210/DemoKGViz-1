@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="text-subtitle-2 font-weight-bold">Paramètres</div>
+        <div class="text-subtitle-2 font-weight-bold">Parameters</div>
         <v-expansion-panels v-model="panel" multiple>
             <v-expansion-panel v-for="(parameter, i) in parameters" :key="i">
                 <v-expansion-panel-title disable-icon-rotate>
