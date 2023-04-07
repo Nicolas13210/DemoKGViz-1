@@ -100,26 +100,4 @@ export default {
   flex-direction: column;
   height: 80vh;
 }
-
-.map-options {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.map-options h3 {
-  margin: 0;
-}
-
-.map-options-list {
-  display: flex;
-  gap: 10px
-}
-
-button {
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
 </style>
