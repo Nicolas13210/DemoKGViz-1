@@ -13,7 +13,6 @@ export default {
             maxDate: new Date(2021, 11, 31)
         }
     },
-    computed: {},
     methods: {
         getDateFormat(date) {
             const day = date.getDate();
@@ -27,21 +26,25 @@ export default {
             }
             return number;
         },
-        dateChanged(date) {
+        dateChanged(date, isStartDate) {
+            this.$store.dispatch((isStartDate ? 'setStartDate' : 'setEndDate'), date);
+
             // Clear all data
-            this.$store.commit('clearDataCalc');
+            this.$store.dispatch('clearDataCalc');
 
             // Clear all graphs
-            this.$store.state.weatherTypes.forEach(async (value, key) => {
-                const canvasElement = document.getElementById(key);
-                const ctx = canvasElement.getContext('2d');
-                ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-                if (this.$store.state.graphLoaded.has(key)) {
-                    this.$store.commit('destroyGraphLoaded', key)
-                    // TODO: call the right component for updateData and updateGraph.
-                    // await updateData(key);
-                    // updateGraph(key);
-                }
+            console.log(this.$store.getters.getWeatherTypes);
+            this.$store.getters.getWeatherTypes.forEach(async (value, key) => {
+                // TODO: clear in the right component the graphs
+                // const canvasElement = document.getElementById(key);
+                // const ctx = canvasElement.getContext('2d');
+                // ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+                // if (this.$store.state.graphLoaded.has(key)) {
+                //     this.$store.dispatch('destroyGraphLoaded', key)
+                //     TODO: call the right component for updateData and updateGraph.
+                //     await updateData(key);
+                //     updateGraph(key);
+                // }
             });
         }
     }
@@ -60,7 +63,7 @@ export default {
                 v-model="this.startDate"
                 :min-date="this.minDate"
                 :max-date="this.maxDate"
-                :format="this.getDateFormat(this.startDate)"
+                :format="this.getDateFormat(this.startDate, true)"
                 placeholder="Select a start date"
                 @update:model-value="this.dateChanged"/>
         <br>
@@ -72,7 +75,7 @@ export default {
                        v-model="this.endDate"
                        :min-date="this.minDate"
                        :max-date="this.maxDate"
-                       :format="this.getDateFormat(this.endDate)"
+                       :format="this.getDateFormat(this.endDate, false)"
                        placeholder="Select an end date"
                        @update:model-value="this.dateChanged"/>
     </div>
