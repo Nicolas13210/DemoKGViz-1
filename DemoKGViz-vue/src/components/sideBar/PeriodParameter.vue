@@ -4,17 +4,30 @@ export default {
     name: "PeriodParameter",
     data() {
         return {
-            date: new Date()
+            // Values selected by the user.
+            startDate: new Date(2016, 0, 1),
+            endDate: new Date(2021, 11, 31),
+
+            // Configuration to prevent the selection of dates outside [minDate ; maxDate]
+            minDate: new Date(2016, 0, 1),
+            maxDate: new Date(2021, 11, 31)
         }
     },
+    computed: {},
     methods: {
-        dateChanged() {
-            const startDate = document.getElementById("start").value;
-            const endDate = document.getElementById("end").value;
-            document.getElementById("start").max = endDate;
-            document.getElementById("end").min = startDate;
-            document.getElementById("date-choose").innerHTML = "Start: " + startDate + "<br>End: " + endDate;
-
+        getDateFormat(date) {
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            return this.numberFormatString(day) + "/" + this.numberFormatString(month) + "/" + year;
+        },
+        numberFormatString(number) {
+            if (number >= 1 && number <= 9) {
+                return '0' + number;
+            }
+            return number;
+        },
+        dateChanged(date) {
             // Clear all data
             this.$store.commit('clearDataCalc');
 
@@ -37,41 +50,32 @@ export default {
 </script>
 
 <template>
-    <div class="period-date">
-        <VueDatePicker placeholder="Select a start date"/>
-        <VueDatePicker placeholder="Select an end date"/>
+    <div>
+        <VueDatePicker
+                auto-apply
+                prevent-min-max-navigation
+                ignore-time-validation
+                hide-offset-dates
+                :enable-time-picker="false"
+                v-model="this.startDate"
+                :min-date="this.minDate"
+                :max-date="this.maxDate"
+                :format="this.getDateFormat(this.startDate)"
+                placeholder="Select a start date"
+                @update:model-value="this.dateChanged"/>
+        <br>
+        <VueDatePicker auto-apply
+                       prevent-min-max-navigation
+                       ignore-time-validation
+                       hide-offset-dates
+                       :enable-time-picker="false"
+                       v-model="this.endDate"
+                       :min-date="this.minDate"
+                       :max-date="this.maxDate"
+                       :format="this.getDateFormat(this.endDate)"
+                       placeholder="Select an end date"
+                       @update:model-value="this.dateChanged"/>
     </div>
-
-  <!--
-  <div id="period">
-      <h2 id="period-select">Select a period</h2>
-      <div id="dateStart">
-
-          <label id="date-start" style="font-size: 1.5em;">Start date:</label>
-
-          <br>
-
-          <input type="date" class="date" id="start" name="start"
-                 value="2016-01-01"
-                 min="2016-01-01" max="2021-12-31"
-                 @input="dateChanged()">
-      </div>
-
-      <div id="dateEnd">
-
-          <label id="date-end" style="font-size: 1.5em;">End date:</label>
-
-          <br>
-
-          <input type="date" class="date" id="end" name="end"
-                 value="2021-12-31"
-                 min="2016-01-01" max="2021-12-31"
-                 @input="dateChanged()">
-      </div>
-
-      <p id="date-choose">Start: 2016-01-01<br>End: 2021-12-31</p>
-  </div>
-  -->
 </template>
 
 <style scoped>

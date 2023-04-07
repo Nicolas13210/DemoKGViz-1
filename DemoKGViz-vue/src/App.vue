@@ -21,7 +21,8 @@ export default {
     <div class="app">
         <v-card>
             <v-layout>
-                <v-app-bar title="WeKG-MF-based Agrometeorological Parameters Computing and Visualisation" color="primary"></v-app-bar>
+                <v-app-bar title="WeKG-MF-based Agrometeorological Parameters Computing and Visualisation"
+                           color="primary"></v-app-bar>
                 <v-navigation-drawer>
                     <SideBar></SideBar>
                 </v-navigation-drawer>

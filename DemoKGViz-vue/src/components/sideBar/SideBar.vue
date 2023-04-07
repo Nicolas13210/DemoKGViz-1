@@ -9,13 +9,18 @@ export default {
 </script>
 
 <template>
-    <v-list-item title="Period">
-        <PeriodParameter></PeriodParameter>
-    </v-list-item>
     <v-list>
-        <v-list-item title="Parameters">
+        <v-list-subheader>Period</v-list-subheader>
+        <v-list-item-action start end>
+            <PeriodParameter></PeriodParameter>
+        </v-list-item-action>
+
+        <br>
+
+        <v-list-subheader>Parameters</v-list-subheader>
+        <v-list-item-action>
             <MeteorologicalParameter></MeteorologicalParameter>
-        </v-list-item>
+        </v-list-item-action>
     </v-list>
 </template>
 
