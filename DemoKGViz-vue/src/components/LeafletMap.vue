@@ -1,16 +1,5 @@
 <template>
   <div class="map">
-    <div class="map-options">
-      <h3>Options</h3>
-      <div class="map-options-list">
-        <v-select label="      -- Please choose an option --">
-          <option v-for="station in stations.bindings" :value="station.stationName.value">{{ station.stationName.value }}
-          </option>
-        </v-select>
-        <v-btn variant="outlined" v-for="option in options" @click="changeLocation(option.coordinates)">{{ option.name }}</v-btn>
-      </div>
-    </div>
-
     <l-map ref="map" v-model:zoom="zoom" :center="center" :use-global-leaflet="false">
       <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base"
         name="OpenStreetMap"></l-tile-layer>
@@ -57,7 +46,7 @@ export default {
         { name: "Metropolis", coordinates: [47, 2] },
         { name: "Réunion/Mayotte", coordinates: [47, 3] },
         { name: "Guyanne", coordinates: [47, 4] },
-        { name: "Saint-Pierre-Et-Miquelon", coordinates: [46.766333,-56.179167] },
+        { name: "Saint-Pierre-Et-Miquelon", coordinates: [46.766333, -56.179167] },
         { name: "Guadeloupe/Martinique", coordinates: [47, 5] },
       ],
       geoJsonOptions: {
