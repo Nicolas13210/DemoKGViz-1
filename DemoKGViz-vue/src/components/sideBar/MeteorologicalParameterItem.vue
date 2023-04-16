@@ -27,12 +27,12 @@ export default {
     <div>
         <v-checkbox density="compact" :hide-details="true">
             <template v-slot:label>
-                <div class="text-body-2 font-weight-regular">{{ title }}</div>   
+                <div class="text-body-2 font-weight-regular" v-html="title"></div>
                 <v-tooltip location="bottom">
                     <template v-slot:activator="{ props }">
                         <v-btn density="compact" icon="mdi-help-circle-outline" variant="text" v-bind="props"></v-btn>
                     </template>
-                    {{ tooltip }}
+                    <span v-html="tooltip"></span>
                 </v-tooltip>
             </template>
         </v-checkbox>

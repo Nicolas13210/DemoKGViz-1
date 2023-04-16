@@ -4,13 +4,18 @@ export default {
     name: "PeriodParameter",
     data() {
         return {
+            // Date picker
             // Values selected by the user.
             startDate: new Date(2016, 0, 1),
             endDate: new Date(2021, 11, 31),
 
             // Configuration to prevent the selection of dates outside [minDate ; maxDate]
             minDate: new Date(2016, 0, 1),
-            maxDate: new Date(2021, 11, 31)
+            maxDate: new Date(2021, 11, 31),
+
+            // Range slider
+            yearsTicks: [2016, 2017, 2018, 2019, 2020, 2021],
+            yearsBound: [2016, 2021]
         }
     },
     methods: {
@@ -54,33 +59,45 @@ export default {
 
 <template>
     <div class="period-parameter">
-        <div class="text-subtitle-2 font-weight-bold">Period</div>
+        <div class="text-subtitle-2 font-weight-bold">Temporal period</div>
         <div class="date-pickers">
             <VueDatePicker
-                auto-apply
-                prevent-min-max-navigation
-                ignore-time-validation
-                hide-offset-dates
-                :enable-time-picker="false"
-                v-model="this.startDate"
-                :min-date="this.minDate"
-                :max-date="this.maxDate"
-                :format="this.getDateFormat(this.startDate, true)"
-                placeholder="Select a start date"
-                @update:model-value="this.dateChanged"/>
-        <br>
-        <VueDatePicker auto-apply
-                       prevent-min-max-navigation
-                       ignore-time-validation
-                       hide-offset-dates
-                       :enable-time-picker="false"
-                       v-model="this.endDate"
-                       :min-date="this.minDate"
-                       :max-date="this.maxDate"
-                       :format="this.getDateFormat(this.endDate, false)"
-                       placeholder="Select an end date"
-                       @update:model-value="this.dateChanged"/>
+                    auto-apply
+                    prevent-min-max-navigation
+                    ignore-time-validation
+                    hide-offset-dates
+                    :enable-time-picker="false"
+                    v-model="this.startDate"
+                    :min-date="this.minDate"
+                    :max-date="this.maxDate"
+                    :format="this.getDateFormat(this.startDate, true)"
+                    placeholder="Select a start date"
+                    @update:model-value="this.dateChanged"/>
+            <br>
+            <VueDatePicker auto-apply
+                           prevent-min-max-navigation
+                           ignore-time-validation
+                           hide-offset-dates
+                           :enable-time-picker="false"
+                           v-model="this.endDate"
+                           :min-date="this.minDate"
+                           :max-date="this.maxDate"
+                           :format="this.getDateFormat(this.endDate, false)"
+                           placeholder="Select an end date"
+                           @update:model-value="this.dateChanged"/>
         </div>
+
+        <br>
+
+        <div class="text-subtitle-2 font-weight-bold">Comparaison slider (soon)</div>
+        <v-range-slider
+                :ticks="this.yearsTicks"
+                :model-value="this.yearsBound"
+                :min="this.yearsBound[0]"
+                :max="this.yearsBound[1]"
+                :step="1"
+                show-ticks="always"
+                tick-size="4"/>
     </div>
 </template>
 
@@ -90,6 +107,7 @@ export default {
     flex-direction: column;
     gap: 10px
 }
+
 .date-pickers {
     display: flex;
     flex-direction: column;
