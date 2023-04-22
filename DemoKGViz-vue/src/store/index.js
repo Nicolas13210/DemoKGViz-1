@@ -5,18 +5,16 @@ import {buildQuery_station} from "@/queries/queries";
 
 function callSparql(url, query, key, type) {
     try {
-        const response = axios.post(url, {
-            query: query,
-            apikey: key,
+        return axios.post(url, {
+            query: query
         }, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             responseType: type
         });
-        return response;
     } catch (error) {
-        console.log("error", error);
+        console.error(error);
     }
 }
 
@@ -25,15 +23,15 @@ function callSparql(url, query, key, type) {
  */
 let SPARQL = function (o) {
     this.query = function (q) {
-        return callSparql(o.endpoint, q, o.apikey, 'json')
+        return callSparql(o.endpoint, q, 'json')
     };
 
     this.queryTurtle = function (q) {
-        return callSparql(o.endpoint, q, o.apikey, 'text/turtle')
+        return callSparql(o.endpoint, q, 'text/turtle')
     }
 
     this.queryCSV = function (q) {
-        return callSparql(o.endpoint, q, o.apikey, 'text/csv')
+        return callSparql(o.endpoint, q, 'text/csv')
     }
 };
 
@@ -52,7 +50,6 @@ const mainModule = {
 
         // Endpoint to call the back-end.
         endpoint: new SPARQL({
-            apikey: "YOUR-API-KEY-HERE",
             endpoint: "/sparql"
         })
     },
@@ -138,7 +135,15 @@ const stationModule = {
     },
     mutations: {
         setStations(state, payload) {
-            state.stations = payload.stations.results
+            for (const element of payload.stations.results.bindings) {
+                element['selected'] = false;
+            }
+            state.stations = payload.stations.results;
+        },
+        setSelectedStations(state, payload) {
+            for (const element of state.stations.bindings) {
+                element['selected'] = (payload.stationNames).includes(element['stationName']['value']);
+            }
         },
     },
     getters: {
@@ -148,13 +153,15 @@ const stationModule = {
         getAll(state) {
             return state.stations;
         },
+        getSelectedStations(state) {
+            return (state.stations.bindings).filter(station => station['selected'] === true);
+        }
     },
     actions: {
         async setStationsApi(context) {
             try {
                 const response = await axios.post("/sparql", {
-                    query: buildQuery_station(),
-                    apikey: "YOUR-API-KEY-HERE",
+                    query: buildQuery_station()
                 }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -163,9 +170,12 @@ const stationModule = {
                 });
                 context.commit("setStations", {stations: response.data});
             } catch (error) {
-                console.log("error", error);
+                console.error(error);
             }
         },
+        async updateSelectedStations(context, payload) {
+            context.commit("setSelectedStations", {stationNames: payload});
+        }
     },
 };
 

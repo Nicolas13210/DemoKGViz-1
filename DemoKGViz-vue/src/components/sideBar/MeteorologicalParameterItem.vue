@@ -9,11 +9,13 @@ export default {
         param: String,
     },
     methods: {
-        checkParameters([type, param]) {
-            if (document.getElementById(param).checked) {
-                this.$store.dispatch('pushParameter', { parameters: param, type: type });
+        checkParameters(event) {
+            const isChecked = event.target.checked;
+
+            if (isChecked) {
+                this.$store.dispatch('pushParameter', { parameters: this.param, type: this.type });
             } else {
-                this.$store.dispatch('cleanParameters', param);
+                this.$store.dispatch('cleanParameters', this.param);
             }
 
             // TODO: call the right component for updateData and updateGraph.
@@ -25,7 +27,7 @@ export default {
 
 <template>
     <div>
-        <v-checkbox density="compact" :hide-details="true">
+        <v-checkbox density="compact" :hide-details="true" @click="checkParameters($event)">
             <template v-slot:label>
                 <div class="text-body-2 font-weight-regular" v-html="title"></div>
                 <v-tooltip location="bottom">

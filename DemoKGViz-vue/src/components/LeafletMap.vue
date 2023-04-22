@@ -1,103 +1,123 @@
 <template>
-  <div class="map">
-    <l-map ref="map" v-model:zoom="zoom" :center="center" :use-global-leaflet="false">
-      <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base"
-        name="OpenStreetMap"></l-tile-layer>
+    <div class="map">
+        <l-map ref="map" v-model:zoom="zoom" :center="center" :use-global-leaflet="false">
+            <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base"
+                          name="OpenStreetMap"></l-tile-layer>
 
-      <l-geo-json :geojson="geoJson" :options="geoJsonOptions" :optionsStyle="() => geoJsonStyle"></l-geo-json>
+            <l-geo-json :geojson="geoJson" :options="geoJsonOptions" :optionsStyle="() => geoJsonStyle"></l-geo-json>
 
-      <l-marker v-for="(marker, i) in stations.bindings"
-        :lat-lng="[parseFloat(marker.lat.value), parseFloat(marker.long.value)]" :name="marker.name" :draggable="false"
-        :ref="marker.stationName.value">
-        <l-popup :ref="'marker' + i" :content="marker.stationName.value"></l-popup>
-      </l-marker>
-    </l-map>
-  </div>
+            <l-marker v-for="(marker, i) in stations.bindings"
+                      :lat-lng="[parseFloat(marker.lat.value), parseFloat(marker.long.value)]" :name="marker.name"
+                      :draggable="false"
+                      :ref="marker.stationName.value" @click="this.selectStation(marker)">
+                <l-popup :ref="'marker' + i" :content="marker.stationName.value"></l-popup>
+            </l-marker>
+        </l-map>
+    </div>
 </template>
 
 <script>
 import "leaflet/dist/leaflet.css";
 import regionsJson from "../assets/regions.json"
-import { LMap, LTileLayer, LGeoJson, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
+import {LMap, LTileLayer, LGeoJson, LMarker, LPopup} from "@vue-leaflet/vue-leaflet";
 
 export default {
-  name: 'LeafletMap',
-  components: {
-    LMap,
-    LTileLayer,
-    LGeoJson,
-    LMarker,
-    LPopup
-  },
-  computed: {
-    stations() {
-      return this.$store.getters.getAll
+    name: 'LeafletMap',
+    components: {
+        LMap,
+        LTileLayer,
+        LGeoJson,
+        LMarker,
+        LPopup
+    },
+    computed: {
+        stations() {
+            return this.$store.getters.getAll
+        }
+    },
+    data() {
+        return {
+            // Map
+            zoom: 6,
+            center: [47.41322, 2],
+
+            // GeoJSON
+            geoJson: regionsJson,
+            options: [
+                {name: "Metropolis", coordinates: [47, 2]},
+                {name: "Réunion/Mayotte", coordinates: [47, 3]},
+                {name: "Guyanne", coordinates: [47, 4]},
+                {name: "Saint-Pierre-Et-Miquelon", coordinates: [46.766333, -56.179167]},
+                {name: "Guadeloupe/Martinique", coordinates: [47, 5]},
+            ],
+            geoJsonOptions: {
+                onEachFeature: this.onEachFeature,
+            },
+            geoJsonStyle: {
+                fillColor: 'gray',
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                fillOpacity: 0.4
+            },
+        }
+    },
+    methods: {
+        changeLocation(coordinates) {
+            this.center = coordinates;
+        },
+
+        onEachFeature(feature, layer) {
+            this.setRegionListeners(layer);
+        },
+
+        setRegionListeners(layer) {
+            layer.on({
+                mouseover: this.setRegionHoverStyle,
+                mouseout: this.unsetRegionHoverStyle
+            });
+        },
+        setRegionHoverStyle(layer) {
+            layer.target.setStyle({
+                fillColor: 'red',
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                fillOpacity: 0.1
+            })
+        },
+        unsetRegionHoverStyle(layer) {
+            layer.target.setStyle({
+                ...this.geoJsonStyle
+            })
+        },
+        selectStation(marker) {
+            marker['selected'] = !marker['selected'];
+
+            let selectedStations = this.$store.getters.getSelectedStations;
+            // TODO: fix duplication.
+            console.log(selectedStations);
+            if (marker['selected'] === true) {
+                // The marker has been selected.
+                selectedStations.push(marker);
+                console.log("in if : " + selectedStations);
+            } else {
+                // The marker has been unselected.
+                selectedStations = selectedStations.filter(station => station['stationName']['value'] !== marker['stationName']['value']);
+            }
+
+            selectedStations = selectedStations.map(station => station['stationName']['value']);
+            console.log(selectedStations);
+            this.$store.dispatch('updateSelectedStations', selectedStations);
+        }
     }
-  },
-  data() {
-    return {
-      // Map
-      zoom: 6,
-      center: [47.41322, 2],
-
-      // GeoJSON
-      geoJson: regionsJson,
-      options: [
-        { name: "Metropolis", coordinates: [47, 2] },
-        { name: "Réunion/Mayotte", coordinates: [47, 3] },
-        { name: "Guyanne", coordinates: [47, 4] },
-        { name: "Saint-Pierre-Et-Miquelon", coordinates: [46.766333, -56.179167] },
-        { name: "Guadeloupe/Martinique", coordinates: [47, 5] },
-      ],
-      geoJsonOptions: {
-        onEachFeature: this.onEachFeature,
-      },
-      geoJsonStyle: {
-        fillColor: 'gray',
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        fillOpacity: 0.4
-      },
-    }
-  },
-  methods: {
-    changeLocation(coordinates) {
-      this.center = coordinates;
-    },
-
-    onEachFeature(feature, layer) {
-      this.setRegionListeners(layer);
-    },
-
-    setRegionListeners(layer) {
-      layer.on({
-        mouseover: this.setRegionHoverStyle,
-        mouseout: this.unsetRegionHoverStyle
-      });
-    },
-    setRegionHoverStyle(layer) {
-      layer.target.setStyle({
-        fillColor: 'red',
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        fillOpacity: 0.1
-      })
-    },
-    unsetRegionHoverStyle(layer) {
-      layer.target.setStyle({
-        ...this.geoJsonStyle
-      })
-    },
-  }
 }
 </script>
 
 <style scoped>
 .map {
-  display: flex;
-  flex-direction: column;
-  height: 80vh;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
 }
 </style>
