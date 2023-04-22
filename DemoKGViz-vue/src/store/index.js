@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import axios from "axios";
 import {buildQuery_station} from "@/queries/queries";
-
+import {transformData} from "../utils/dataTransformation";
 
 function callSparql(url, query, key, type) {
     try {
@@ -96,22 +96,6 @@ const mainModule = {
         setEndDate(context, date) {
             context.commit('setEndDate', date)
         },
-        async setApi(context,) {
-            try {
-                const response = await axios.post("/sparql", {
-                    query: buildQuery_station(),
-                    apikey: "YOUR-API-KEY-HERE",
-                }, {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    responseType: 'json'
-                });
-                context.commit("setStations", {stations: response.data});
-            } catch (error) {
-                console.log("error", error);
-            }
-        }
     },
     getters: {
         getWeatherTypes(state) {
@@ -179,9 +163,53 @@ const stationModule = {
     },
 };
 
+
+
+
+const weatherModule = {
+    state: {
+        queryResult: [],
+    },
+    mutations: {
+        setQueryResult(state, payload) {
+            state.queryResult.push(payload);
+        }
+    },
+    getters: {
+        getAllData(state) {
+            console.log("state")
+            console.log(state.queryResult)
+
+            return state.queryResult;
+        }
+    },
+    actions: {
+        async fetchWeatherData(context, payload) {
+            console.log("fetchWeatherData")
+            try {
+                const response = await axios.post("/sparql", {
+                    query: payload
+                }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    responseType: 'json'
+                });
+                //Apply transformation
+                const transformedData = transformData(response.data);
+                context.commit("setQueryResult", {query: payload.toString(), result: transformedData});
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    },
+};
+
+
 export const store = createStore({
     modules: {
         stationModule,
-        mainModule
+        mainModule,
+        weatherModule
     },
 });

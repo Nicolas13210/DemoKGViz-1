@@ -111,6 +111,7 @@ export function buildQuery_station() {
 
 
 export function buildQuery_tmpRainStation(stationName,startDate,endDate){
+    console.log("fetch" + stationName + " " +startDate+ " " +endDate)
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
  PREFIX weo: <http://ns.inria.fr/meteo/ontology/>

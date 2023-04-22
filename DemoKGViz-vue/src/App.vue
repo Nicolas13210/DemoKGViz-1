@@ -2,6 +2,7 @@
 import MeteorologicalParameter from "@/components/sideBar/MeteorologicalParameter.vue";
 import TabsBar from "@/components/TabsBar.vue";
 import SideBar from "@/components/sideBar/SideBar.vue";
+import {buildQuery_tmpRainStation} from "@/queries/queries";
 
 
 export default {
@@ -13,6 +14,7 @@ export default {
     },
     created() {
         this.$store.dispatch("setStationsApi");
+      this.$store.dispatch("fetchWeatherData", buildQuery_tmpRainStation("NICE", "2021-12-01", "2021-12-31"));
     },
 }
 </script>
