@@ -17,12 +17,12 @@
         <v-icon class="mr-2">mdi-chart-line</v-icon>
         Line chart
       </v-tab>
-      <v-tab value="export"> 
+      <v-tab value="export">
         <v-icon class="mr-2">mdi-export</v-icon>
         Export
       </v-tab>
     </v-tabs>
-    <v-card-text>
+    <v-card>
       <v-window v-model="tab">
         <v-window-item value="map">
           <LeafletMap></LeafletMap>
@@ -42,7 +42,7 @@
           <ExportResult></ExportResult>
         </v-window-item>
       </v-window>
-    </v-card-text>
+    </v-card>
   </div>
 </template>
 

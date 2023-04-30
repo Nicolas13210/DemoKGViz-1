@@ -9,7 +9,8 @@
             <l-marker v-for="(marker, i) in stations.bindings"
                       :lat-lng="[parseFloat(marker.lat.value), parseFloat(marker.long.value)]" :name="marker.name"
                       :draggable="false"
-                      :ref="marker.stationName.value" @click="this.selectStation(marker)">
+                      :ref="marker.stationName.value"
+                      @click="this.selectStation(marker)">
                 <l-popup :ref="'marker' + i" :content="marker.stationName.value"></l-popup>
             </l-marker>
         </l-map>
@@ -92,22 +93,12 @@ export default {
             })
         },
         selectStation(marker) {
+            // Switch the state of the marker. It will update the state in Vue X.
             marker['selected'] = !marker['selected'];
-
             let selectedStations = this.$store.getters.getSelectedStations;
-            // TODO: fix duplication.
-            console.log(selectedStations);
-            if (marker['selected'] === true) {
-                // The marker has been selected.
-                selectedStations.push(marker);
-                console.log("in if : " + selectedStations);
-            } else {
-                // The marker has been unselected.
-                selectedStations = selectedStations.filter(station => station['stationName']['value'] !== marker['stationName']['value']);
-            }
 
+            // Update manually the state in Vue X to notify other components.
             selectedStations = selectedStations.map(station => station['stationName']['value']);
-            console.log(selectedStations);
             this.$store.dispatch('updateSelectedStations', selectedStations);
         }
     }
