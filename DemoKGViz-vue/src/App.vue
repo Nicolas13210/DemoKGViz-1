@@ -13,9 +13,49 @@ export default {
         MeteorologicalParameter,
     },
     created() {
+        // Retrieve the stations.
         this.$store.dispatch("setStationsApi");
-      this.$store.dispatch("fetchWeatherData", buildQuery_tmpRainStation("NICE", "2021-12-01", "2021-12-31"));
+
+        // Retrieve any relevant changes to update the data tab and charts tab.
+        this.$store.subscribe((mutation, state) => {
+            if (mutation.type === 'setSelectedStations') {
+                // Subscribe to any change on the stations selected.
+                this.drawCharts();
+            } else if (mutation.type === 'pushParameter' && this.$store.getters.getSelectedStations.length > 0) {
+                // Subscribe to any change on the parameters selected.
+                // TODO: maybe this is not the right method because we can maybe received already all the data from the backend when we select a station.
+                this.drawCharts();
+            } else if (mutation.type === 'cleanParameters') {
+                // TODO: maybe clear the charts.
+            } else if (mutation.type === 'setStartDate' || mutation.type === 'setEndDate') {
+                // Subscribe to any change on the period parameter.
+                this.drawCharts();
+            }
+        });
     },
+    methods: {
+        convertDateToYearMonthDay(date) {
+            const year = date.getFullYear();
+            const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        },
+        drawCharts() {
+            const selectedStations = (this.$store.getters.getSelectedStations).map(station => station.stationName.value);
+
+            // FIXME: The following "IF" is temporarily used to not stress the back-end server during our tests. So the for-loop will always loop on one station.
+            if (selectedStations.length === 1) {
+                // Draw charts according to the removed/added stations.
+                const startDate = this.convertDateToYearMonthDay(this.$store.getters.getStartDate);
+                const endDate = this.convertDateToYearMonthDay(this.$store.getters.getEndDate);
+
+                for (const selectedStation of selectedStations) {
+                    this.$store.dispatch("fetchWeatherData", buildQuery_tmpRainStation(selectedStation, startDate, endDate));
+                }
+            }
+        }
+    }
+
 }
 </script>
 

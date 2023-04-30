@@ -33,24 +33,6 @@ export default {
         },
         dateChanged(date, isStartDate) {
             this.$store.dispatch((isStartDate ? 'setStartDate' : 'setEndDate'), date);
-
-            // Clear all data
-            this.$store.dispatch('clearDataCalc');
-
-            // Clear all graphs
-            console.log(this.$store.getters.getWeatherTypes);
-            this.$store.getters.getWeatherTypes.forEach(async (value, key) => {
-                // TODO: clear in the right component the graphs
-                // const canvasElement = document.getElementById(key);
-                // const ctx = canvasElement.getContext('2d');
-                // ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-                // if (this.$store.state.graphLoaded.has(key)) {
-                //     this.$store.dispatch('destroyGraphLoaded', key)
-                //     TODO: call the right component for updateData and updateGraph.
-                //     await updateData(key);
-                //     updateGraph(key);
-                // }
-            });
         }
     }
 }

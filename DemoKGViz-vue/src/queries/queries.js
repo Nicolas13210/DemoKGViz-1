@@ -110,8 +110,8 @@ export function buildQuery_station() {
 }
 
 
-export function buildQuery_tmpRainStation(stationName,startDate,endDate){
-    console.log("fetch" + stationName + " " +startDate+ " " +endDate)
+export function buildQuery_tmpRainStation(stationName, startDate, endDate) {
+    console.log("Fetching " + stationName + " between " + startDate + " and " + endDate)
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
  PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
@@ -124,7 +124,7 @@ export function buildQuery_tmpRainStation(stationName,startDate,endDate){
     SELECT distinct ?stationName ?date  ?temp_avg ?temp_min  ?temp_max (?temp_max -  ?temp_min) as ?temp_diff ?rainfall
    WHERE
     {
-        VALUES ?stationName {"`+ stationName +`"}
+        VALUES ?stationName {"` + stationName + `"}
         ?s  a qb:Slice ;
         wes-dimension:station ?station  ;
     
@@ -139,8 +139,8 @@ export function buildQuery_tmpRainStation(stationName,startDate,endDate){
         wes-measure:rainfall24h ?r]  .
         ?station a weo:WeatherStation ; rdfs:label ?stationName.
         BIND( IF( ?r > 0 , ?r, 0)  as ?rainfall)
-        FILTER (?date >=xsd:date("`+ startDate +`"))
-        FILTER (?date <=xsd:date("`+ endDate +`"))
+        FILTER (?date >=xsd:date("` + startDate + `"))
+        FILTER (?date <=xsd:date("` + endDate + `"))
            }
         ORDER BY ?date
     `

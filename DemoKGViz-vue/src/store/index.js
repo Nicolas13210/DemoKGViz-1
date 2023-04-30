@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import axios from "axios";
 import {buildQuery_station} from "@/queries/queries";
-import {transformData} from "../utils/dataTransformation";
+import {transformData} from "@/utils/dataTransformation";
 
 function callSparql(url, query, key, type) {
     try {
@@ -37,9 +37,6 @@ let SPARQL = function (o) {
 
 const mainModule = {
     state: {
-        dataCalc: new Map(),
-        graphLoaded: new Map(),
-
         // Used mainly by the MeteorologicalParameter component.
         parameters: [],
         weatherTypes: new Map(Object.entries({TmpRain: [], GddRain: [], Numb: []})),
@@ -54,9 +51,6 @@ const mainModule = {
         })
     },
     mutations: {
-        clearDataCalc(state) {
-            state.dataCalc.clear()
-        },
         pushParameter(state, payload) {
             state.parameters.push(payload['parameter'])
             state.weatherTypes.get(payload['type']).push(payload['parameter'])
@@ -66,10 +60,6 @@ const mainModule = {
                 return item !== parameter
             })
         },
-        destroyGraphLoaded(state, key) {
-            state.graphLoaded.get(key).destroy()
-            state.graphLoaded.delete(key)
-        },
         setStartDate(state, date) {
             state.startDate = date
         },
@@ -78,17 +68,11 @@ const mainModule = {
         }
     },
     actions: {
-        clearDataCalc(context) {
-            context.commit('clearDataCalc')
-        },
         pushParameter(context, payload) {
             context.commit('pushParameter', payload)
         },
         cleanParameters(context, parameter) {
             context.commit('cleanParameters', parameter)
-        },
-        destroyGraphLoaded(context, key) {
-            context.commit('destroyGraphLoaded', key)
         },
         setStartDate(context, date) {
             context.commit('setStartDate', date)
@@ -164,8 +148,6 @@ const stationModule = {
 };
 
 
-
-
 const weatherModule = {
     state: {
         queryResult: [],
@@ -177,15 +159,12 @@ const weatherModule = {
     },
     getters: {
         getAllData(state) {
-            console.log("state")
-            console.log(state.queryResult)
-
+            console.log("queryResult: " + state.queryResult);
             return state.queryResult;
         }
     },
     actions: {
         async fetchWeatherData(context, payload) {
-            console.log("fetchWeatherData")
             try {
                 const response = await axios.post("/sparql", {
                     query: payload
