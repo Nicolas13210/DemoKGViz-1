@@ -52,9 +52,9 @@ export default {
                     v-model="this.startDate"
                     :min-date="this.minDate"
                     :max-date="this.maxDate"
-                    :format="this.getDateFormat(this.startDate, true)"
+                    :format="this.getDateFormat(this.startDate)"
                     placeholder="Select a start date"
-                    @update:model-value="this.dateChanged"/>
+                    @update:model-value="this.dateChanged(this.startDate, true)"/>
             <br>
             <VueDatePicker auto-apply
                            prevent-min-max-navigation
@@ -64,9 +64,9 @@ export default {
                            v-model="this.endDate"
                            :min-date="this.minDate"
                            :max-date="this.maxDate"
-                           :format="this.getDateFormat(this.endDate, false)"
+                           :format="this.getDateFormat(this.endDate)"
                            placeholder="Select an end date"
-                           @update:model-value="this.dateChanged"/>
+                           @update:model-value="this.dateChanged(this.endDate, false)"/>
         </div>
 
         <br>

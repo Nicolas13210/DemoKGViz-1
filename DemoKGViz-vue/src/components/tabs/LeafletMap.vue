@@ -19,7 +19,7 @@
 
 <script>
 import "leaflet/dist/leaflet.css";
-import regionsJson from "../assets/regions.json"
+import regionsJson from "../../assets/regions.json"
 import {LMap, LTileLayer, LGeoJson, LMarker, LPopup} from "@vue-leaflet/vue-leaflet";
 
 export default {

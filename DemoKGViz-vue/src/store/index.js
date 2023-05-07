@@ -154,12 +154,11 @@ const weatherModule = {
     },
     mutations: {
         setQueryResult(state, payload) {
-            state.queryResult.push(payload);
+            state.queryResult = payload;
         }
     },
     getters: {
         getAllData(state) {
-            console.log("queryResult: " + state.queryResult);
             return state.queryResult;
         }
     },

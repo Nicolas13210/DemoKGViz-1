@@ -31,6 +31,6 @@ export function transformData(inputData) {
         });
         outputData.values.push(outputBinding);
     });
-   console.log(outputData)
+    console.log("outputData:", outputData);
     return outputData;
 }

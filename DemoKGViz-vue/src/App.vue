@@ -23,7 +23,7 @@ export default {
                 this.drawCharts();
             } else if (mutation.type === 'pushParameter' && this.$store.getters.getSelectedStations.length > 0) {
                 // Subscribe to any change on the parameters selected.
-                // TODO: maybe this is not the right method because we can maybe received already all the data from the backend when we select a station.
+                // TODO: maybe this is not the right method because we can maybe receive already all the data from the backend when we select a station.
                 this.drawCharts();
             } else if (mutation.type === 'cleanParameters') {
                 // TODO: maybe clear the charts.

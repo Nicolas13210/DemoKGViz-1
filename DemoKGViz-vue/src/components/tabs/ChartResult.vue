@@ -1,34 +1,32 @@
 <template>
-  <div id="visualisation">
-    <div class="groupVisualisation">
-      <DefaultBarChart></DefaultBarChart>
+    <div id="visualisation">
+        <div class="groupVisualisation">
+            <LineChart></LineChart>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-
-
-import DefaultBarChart from "@/components/charts/DefaultBarChart.vue";
+import LineChart from "@/components/tabs/charts/LineChart.vue";
 
 export default {
-  name: "ChartResult",
-  components: {
-    DefaultBarChart
-  }
+    name: "ChartResult",
+    components: {
+        LineChart,
+    }
 }
 </script>
 
 <style scoped>
 div#visualisation {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 div.groupVisualisation {
-  /* Centrer les boutons au center de la page */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 25px;
+    /* Centrer les boutons au center de la page */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
 }
 </style>

@@ -87,15 +87,15 @@ export default {
     <div id="export">
         <div class="groupExport">
             <v-btn class="export" variant="outlined" id="RDF" @click="createFileRDF(textStation)">
-                <img class="export" src="../img/rdf_logo.png" alt="export">
+                <img class="export" src="../../img/rdf_logo.png" alt="export">
             </v-btn>
 
             <v-btn class="export" variant="outlined" id="JSON" @click="createFileJSON(textStation)">
-                <img class="export" src="../img/json_logo.png" alt="export">
+                <img class="export" src="../../img/json_logo.png" alt="export">
             </v-btn>
 
             <v-btn class="export" variant="outlined" id="CSV" @click="createFileCSV(textStation)">
-                <img class="export" src="../img/csv_logo.png" alt="export">
+                <img class="export" src="../../img/csv_logo.png" alt="export">
             </v-btn>
         </div>
     </div>
