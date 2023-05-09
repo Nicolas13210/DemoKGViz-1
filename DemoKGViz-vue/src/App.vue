@@ -16,6 +16,8 @@ export default {
         // Retrieve the stations.
         this.$store.dispatch("setStationsApi");
 
+/*
+TODO: TO REMOVE
         // Retrieve any relevant changes to update the data tab and charts tab.
         this.$store.subscribe((mutation, state) => {
             if (mutation.type === 'setSelectedStations') {
@@ -32,30 +34,9 @@ export default {
                 this.drawCharts();
             }
         });
-    },
-    methods: {
-        convertDateToYearMonthDay(date) {
-            const year = date.getFullYear();
-            const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        },
-        drawCharts() {
-            const selectedStations = (this.$store.getters.getSelectedStations).map(station => station.stationName.value);
+ */
 
-            // FIXME: The following "IF" is temporarily used to not stress the back-end server during our tests. So the for-loop will always loop on one station.
-            if (selectedStations.length === 1) {
-                // Draw charts according to the removed/added stations.
-                const startDate = this.convertDateToYearMonthDay(this.$store.getters.getStartDate);
-                const endDate = this.convertDateToYearMonthDay(this.$store.getters.getEndDate);
-
-                for (const selectedStation of selectedStations) {
-                    this.$store.dispatch("fetchWeatherData", buildQuery_tmpRainStation(selectedStation, startDate, endDate));
-                }
-            }
-        }
     }
-
 }
 </script>
 

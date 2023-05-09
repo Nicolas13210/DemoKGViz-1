@@ -13,13 +13,11 @@ export default {
             const isChecked = event.target.checked;
 
             if (isChecked) {
-                this.$store.dispatch('pushParameter', { parameters: this.param, type: this.type });
+                this.$store.dispatch('pushParameter', { parameter: this.param, type: this.type });
             } else {
                 this.$store.dispatch('cleanParameters', this.param);
             }
-
-            // TODO: call the right component for updateData and updateGraph.
-            // updateData(type).then(() => updateGraph(type));
+          
         }
     }
 }

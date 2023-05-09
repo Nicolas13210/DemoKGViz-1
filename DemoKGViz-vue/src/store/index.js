@@ -82,6 +82,9 @@ const mainModule = {
         },
     },
     getters: {
+        getParameters(state) {
+            return state.parameters;
+        },
         getWeatherTypes(state) {
             return state.weatherTypes;
         },
