@@ -13,29 +13,8 @@ export default {
         MeteorologicalParameter,
     },
     created() {
-        // Retrieve the stations.
-        this.$store.dispatch("setStationsApi");
-
-/*
-TODO: TO REMOVE
-        // Retrieve any relevant changes to update the data tab and charts tab.
-        this.$store.subscribe((mutation, state) => {
-            if (mutation.type === 'setSelectedStations') {
-                // Subscribe to any change on the stations selected.
-                this.drawCharts();
-            } else if (mutation.type === 'pushParameter' && this.$store.getters.getSelectedStations.length > 0) {
-                // Subscribe to any change on the parameters selected.
-                // TODO: maybe this is not the right method because we can maybe receive already all the data from the backend when we select a station.
-                this.drawCharts();
-            } else if (mutation.type === 'cleanParameters') {
-                // TODO: maybe clear the charts.
-            } else if (mutation.type === 'setStartDate' || mutation.type === 'setEndDate') {
-                // Subscribe to any change on the period parameter.
-                this.drawCharts();
-            }
-        });
- */
-
+        // Retrieve the stations at app start.
+        this.$store.dispatch("setStationsFromAPI");
     }
 }
 </script>

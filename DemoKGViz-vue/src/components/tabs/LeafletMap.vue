@@ -1,6 +1,6 @@
 <template>
     <div class="map">
-        <l-map ref="map" v-model:zoom="zoom" :center="center" :use-global-leaflet="false">
+        <!-- <l-map ref="map" v-model:zoom="zoom" :center="center" :use-global-leaflet="false">
             <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base"
                           name="OpenStreetMap"></l-tile-layer>
 
@@ -13,7 +13,7 @@
                       @click="this.selectStation(marker)">
                 <l-popup :ref="'marker' + i" :content="marker.stationName.value"></l-popup>
             </l-marker>
-        </l-map>
+        </l-map> -->
     </div>
 </template>
 
@@ -32,9 +32,9 @@ export default {
         LPopup
     },
     computed: {
-        stations() {
-            return this.$store.getters.getAll
-        }
+        // stations() {
+        //     return this.$store.getters.getAll
+        // }
     },
     data() {
         return {
@@ -92,15 +92,15 @@ export default {
                 ...this.geoJsonStyle
             })
         },
-        selectStation(marker) {
-            // Switch the state of the marker. It will update the state in Vue X.
-            marker['selected'] = !marker['selected'];
-            let selectedStations = this.$store.getters.getSelectedStations;
+        // selectStation(marker) {
+        //     // Switch the state of the marker. It will update the state in Vue X.
+        //     marker['selected'] = !marker['selected'];
+        //     let selectedStations = this.$store.getters.getSelectedStations;
 
-            // Update manually the state in Vue X to notify other components.
-            selectedStations = selectedStations.map(station => station['stationName']['value']);
-            this.$store.dispatch('updateSelectedStations', selectedStations);
-        }
+        //     // Update manually the state in Vue X to notify other components.
+        //     selectedStations = selectedStations.map(station => station['stationName']['value']);
+        //     this.$store.dispatch('updateSelectedStations', selectedStations);
+        // }
     }
 }
 </script>

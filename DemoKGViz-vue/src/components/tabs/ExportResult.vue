@@ -17,12 +17,12 @@ export default {
             return number;
         },
         createFileRDF(stationName) {
-            const startDate = this.getDateFormat(this.$store.getters.getStartDate);
-            const endDate = this.getDateFormat(this.$store.getters.getEndDate);
-            console.log("stationName: " + stationName + " startDate: " + startDate + " endDate: " + endDate)
-            this.$store.getters.getEndpoint.queryTurtle(buildQuery_extractRDF(stationName, startDate, endDate)).then((turtle) => {
-                this.downloadFileRDF(turtle);
-            });
+            // const startDate = this.getDateFormat(this.$store.getters.getStartDate);
+            // const endDate = this.getDateFormat(this.$store.getters.getEndDate);
+            // console.log("stationName: " + stationName + " startDate: " + startDate + " endDate: " + endDate)
+            // this.$store.getters.getEndpoint.queryTurtle(buildQuery_extractRDF(stationName, startDate, endDate)).then((turtle) => {
+            //     this.downloadFileRDF(turtle);
+            // });
         },
         downloadFileRDF(text) {
             const element = document.createElement('a');
@@ -37,13 +37,13 @@ export default {
             document.body.removeChild(element);
         },
         createFileJSON(stationName) {
-            const startDate = this.getDateFormat(this.$store.getters.getStartDate);
-            const endDate = this.getDateFormat(this.$store.getters.getEndDate);
-            console.log("stationName: " + stationName + " startDate: " + startDate + " endDate: " + endDate)
-            this.$store.getters.getEndpoint.query(buildQuery_extractData(stationName, startDate, endDate)).then((json) => {
-                json = JSON.stringify(json, null, 2);
-                this.downloadFileJSON(json);
-            });
+            // const startDate = this.getDateFormat(this.$store.getters.getStartDate);
+            // const endDate = this.getDateFormat(this.$store.getters.getEndDate);
+            // console.log("stationName: " + stationName + " startDate: " + startDate + " endDate: " + endDate)
+            // this.$store.getters.getEndpoint.query(buildQuery_extractData(stationName, startDate, endDate)).then((json) => {
+            //     json = JSON.stringify(json, null, 2);
+            //     this.downloadFileJSON(json);
+            // });
         },
         downloadFileJSON(text) {
             const element = document.createElement('a');
@@ -58,13 +58,13 @@ export default {
             document.body.removeChild(element);
         },
         createFileCSV(stationName) {
-            const startDate = this.getDateFormat(this.$store.getters.getStartDate);
-            const endDate = this.getDateFormat(this.$store.getters.getEndDate);
-            console.log("stationName: " + stationName + " startDate: " + startDate + " endDate: " + endDate)
-            this.$store.getters.getEndpoint.queryCSV(buildQuery_extractData(stationName, startDate, endDate)).then((csv) => {
-                console.log(csv);
-                this.downloadFileCSV(csv);
-            });
+            // const startDate = this.getDateFormat(this.$store.getters.getStartDate);
+            // const endDate = this.getDateFormat(this.$store.getters.getEndDate);
+            // console.log("stationName: " + stationName + " startDate: " + startDate + " endDate: " + endDate)
+            // this.$store.getters.getEndpoint.queryCSV(buildQuery_extractData(stationName, startDate, endDate)).then((csv) => {
+            //     console.log(csv);
+            //     this.downloadFileCSV(csv);
+            // });
         },
         downloadFileCSV(text) {
             const element = document.createElement('a');

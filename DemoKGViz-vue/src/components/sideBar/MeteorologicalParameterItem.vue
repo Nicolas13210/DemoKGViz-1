@@ -1,31 +1,7 @@
-<script>
-
-export default {
-    name: "MeteorologicalParameterItem",
-    props: {
-        title: String,
-        tooltip: String,
-        type: String,
-        param: String,
-    },
-    methods: {
-        checkParameters(event) {
-            const isChecked = event.target.checked;
-
-            if (isChecked) {
-                this.$store.dispatch('pushParameter', { parameter: this.param, type: this.type });
-            } else {
-                this.$store.dispatch('cleanParameters', this.param);
-            }
-          
-        }
-    }
-}
-</script>
 
 <template>
     <div>
-        <v-checkbox density="compact" :hide-details="true" @click="checkParameters($event)">
+        <v-checkbox density="compact" :hide-details="true" @click="checkParameter($event)">
             <template v-slot:label>
                 <div class="text-body-2 font-weight-regular" v-html="title"></div>
                 <v-tooltip location="bottom">
@@ -38,6 +14,31 @@ export default {
         </v-checkbox>
     </div>
 </template>
+
+<script>
+
+export default {
+    name: "MeteorologicalParameterItem",
+    props: {
+        title: String,
+        tooltip: String,
+        type: String,
+        param: String,
+    },
+    methods: {
+        checkParameter(event) {
+            const isChecked = event.target.checked;
+
+            if (isChecked) {
+                this.$store.dispatch('addParameter', this.param);
+            } else {
+                this.$store.dispatch('removeParameter', this.param);
+            }
+          
+        }
+    }
+}
+</script>
 
 <style scoped>
 </style>

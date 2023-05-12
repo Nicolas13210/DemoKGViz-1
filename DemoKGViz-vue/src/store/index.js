@@ -187,7 +187,7 @@ const weatherModule = {
 };
 
 
-export const store = createStore({
+export const index = createStore({
     modules: {
         stationModule,
         mainModule,
