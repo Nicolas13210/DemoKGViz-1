@@ -6,7 +6,6 @@
                 :enable-time-picker="false" v-model="this.startDate" 
                 :min-date="this.minDate" 
                 :max-date="this.maxDate"
-                :format="this.getDateFormat(this.startDate)" 
                 placeholder="Select a start date"
                 @update:model-value="this.updateStartDate" />
             <br>
@@ -15,7 +14,6 @@
                 v-model="this.endDate" 
                 :min-date="this.minDate" 
                 :max-date="this.maxDate"
-                :format="this.getDateFormat(this.endDate)" 
                 placeholder="Select an end date"
                 @update:model-value="this.updateEndDate" />
         </div>
@@ -50,7 +48,8 @@ export default {
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
-            return this.numberFormatString(day) + "/" + this.numberFormatString(month) + "/" + year;
+            
+            return year + "-" + this.numberFormatString(month) + "-" + this.numberFormatString(day);
         },
         numberFormatString(number) {
             if (number >= 1 && number <= 9) {
@@ -59,10 +58,11 @@ export default {
             return number;
         },
         updateStartDate(date) {
-            this.$store.dispatch('setStartDate', date);
+            console.log("picker date", date)
+            this.$store.dispatch('setStartDate', this.getDateFormat(date));
         },
         updateEndDate(date) {
-            this.$store.dispatch('setEndDate', date);
+            this.$store.dispatch('setEndDate', this.getDateFormat(date));
         }
     },
     computed: {

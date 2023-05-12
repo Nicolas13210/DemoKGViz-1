@@ -1,5 +1,5 @@
 import axios from "axios";
-import { buildQuery_station } from "../queries/queries"
+import { buildQuery_station, buildQuery_tmpRainStation } from "../queries/queries"
 
 export const stationsModule = {
     namespace: false,
@@ -19,7 +19,6 @@ export const stationsModule = {
     },
     getters: {
         getStations(state) {
-            console.log(state.stations.sort())
             return state.stations.sort(function (a, b) {
                 if (a.stationName.value < b.stationName.value) {
                     return -1;
@@ -55,6 +54,9 @@ export const stationsModule = {
         },
         setSelectedStations(context, payload) {
             context.commit("setSelectedStations", { selectedStations: payload });
+
+            // reload chart data
+            context.dispatch("setWeather", buildQuery_tmpRainStation(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate));
         }
     }
 }

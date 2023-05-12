@@ -89,20 +89,6 @@ export default {
       }
     },
   },
-  // watch: {
-  //   getSelectedStation(newCount, oldCount) {
-  //     this.fetchData();
-  //     console.log("call update getSelectedStation")
-  //   },
-  //   getStartDate(newCount, oldCount) {
-  //     this.fetchData();
-  //     console.log("call update getStartDate")
-  //   },
-  //   getEndDate(newCount, oldCount) {
-  //     this.fetchData();
-  //     console.log("call update getEndDate")
-  //   }
-  // }
 }
 </script>
 
