@@ -25,7 +25,7 @@ export default {
   created() {
    // this.fetchData();
   },
-  computed: {
+/*   computed: {
     getSelectedStation() {
       return (this.$store.getters.getSelectedStations).map(station => station.stationName.value);
     },
@@ -41,7 +41,7 @@ export default {
     getAllData() {
       return this.$store.getters.getAllData.result;
     },
-  },
+  }, */
   methods: {
     // SI PARAMETER DE LA CHECKBOX COCHEE EST LINE, ALORS ON AJOUTE LES DATA EN PLUS AUX CHARTLINE DEJA PRESENT
     isParameterAvailable(parameters) {

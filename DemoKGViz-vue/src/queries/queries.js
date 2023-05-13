@@ -109,7 +109,6 @@ export function buildQuery_station() {
     `
 }
 
-
 export function buildQuery_tmpRainStation(stationName, startDate, endDate) {
     console.log("Fetching " + stationName + " between " + startDate + " and " + endDate)
     return `

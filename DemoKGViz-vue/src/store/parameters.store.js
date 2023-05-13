@@ -7,10 +7,10 @@ export const parametersModule = {
     },
     mutations: {
         addParameter(state, payload) {
-            state.parameters.push(payload.parameter)
+            state.parameters.push(payload.param)
         },
         removeParameter(state, payload) {
-            const parameterIndex = state.parameters.indexOf(payload.parameter);
+            const parameterIndex = state.parameters.indexOf(payload.param);
 
             if(parameterIndex === -1) {
                 return
@@ -24,10 +24,11 @@ export const parametersModule = {
     },
     actions: {
         addParameter(context, payload) {
-            context.commit("addParameter", {parameter: payload})
+            context.commit("addParameter", payload)
+            context.dispatch("setWeather", payload.request(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate))
         },
         removeParameter(context, payload) {
-            context.commit("removeParameter", {parameter: payload})
+            context.commit("removeParameter", payload)
         }
     }
 }
