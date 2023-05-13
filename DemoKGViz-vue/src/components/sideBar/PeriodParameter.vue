@@ -8,7 +8,6 @@
                 :max-date="this.maxDate"
                 placeholder="Select a start date"
                 @update:model-value="this.updateStartDate" />
-            <br>
             <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
                 :enable-time-picker="false" 
                 v-model="this.endDate" 
@@ -17,8 +16,6 @@
                 placeholder="Select an end date"
                 @update:model-value="this.updateEndDate" />
         </div>
-
-        <br>
 
         <div class="text-subtitle-2 font-weight-bold">Comparaison slider (soon)</div>
         <v-range-slider :ticks="this.yearsTicks" :model-value="this.yearsBound" :min="this.yearsBound[0]"
@@ -86,6 +83,7 @@ export default {
 .date-pickers {
     display: flex;
     flex-direction: column;
-    gap: 4px
+    gap: 10px;
+    padding-bottom: 10px;
 }
 </style>
