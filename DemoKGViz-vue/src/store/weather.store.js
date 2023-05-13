@@ -29,9 +29,7 @@ export const weatherModule = {
                     },
                     responseType: 'json'
                 });
-                //Apply transformation
 
-                console.log("fetching data from server")
                 const transformedData = transformData(response.data);
                 context.commit("setWeather", { query: payload.toString(), result: transformedData });
             } catch (error) {

@@ -14,7 +14,8 @@
  *
  * @param inputData
  * @returns {{values: []}}
- */
+*/
+
 export function transformData(inputData) {
     const outputData = {
         "values": []

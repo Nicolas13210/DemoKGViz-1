@@ -16,6 +16,15 @@ export const stationsModule = {
         setSelectedStations(state, payload) {
             state.selectedStations = payload.selectedStations
         },
+        updateSelectedStations(state, payload) {
+            const indexStation = state.selectedStations.indexOf(payload.selectedStation);
+
+            if(indexStation === -1) {
+                state.selectedStations.push(payload.selectedStation)
+            } else {
+                state.selectedStations.splice(indexStation, 1);
+            }
+        },
     },
     getters: {
         getStations(state) {
@@ -54,6 +63,12 @@ export const stationsModule = {
         },
         setSelectedStations(context, payload) {
             context.commit("setSelectedStations", { selectedStations: payload });
+
+            // reload chart data
+            context.dispatch("setWeather", buildQuery_tmpRainStation(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate));
+        },
+        updateSelectedStations(context, payload) {
+            context.commit("updateSelectedStations", { selectedStation: payload });
 
             // reload chart data
             context.dispatch("setWeather", buildQuery_tmpRainStation(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate));

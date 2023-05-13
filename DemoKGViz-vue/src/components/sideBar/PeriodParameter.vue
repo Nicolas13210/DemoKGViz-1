@@ -58,7 +58,6 @@ export default {
             return number;
         },
         updateStartDate(date) {
-            console.log("picker date", date)
             this.$store.dispatch('setStartDate', this.getDateFormat(date));
         },
         updateEndDate(date) {
