@@ -11,9 +11,8 @@ export const metricsConfig = [
                 "param": "TMin",
                 "jsonPath": "temp_min",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
-                    "LINE"
-                ]
+                "availableChart": "line"
+
             },
             {
                 "title": "Maximum temperature (T<sub>max</sub>)",
@@ -22,9 +21,7 @@ export const metricsConfig = [
                 "param": "TMax",
                 "jsonPath": "temp_max",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
-                    "LINE"
-                ]
+                "availableChart": "line"
             },
             {
                 "title": "Mean temperature (T<sub>avg</sub>)",
@@ -33,19 +30,16 @@ export const metricsConfig = [
                 "param": "TMean",
                 "jsonPath": "temp_avg",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
-                    "LINE"
-                ]
+                "availableChart": "line"
             },
             {
                 "title": "Thermal amplitude (T<sub>Diff</sub>)",
                 "tooltip": "The daily thermal amplitude represents the difference between the maximum and the minimum temperature for each days",
                 "type": "TmpRain",
                 "param": "TDiff",
+                "jsonPath": "temp_diff",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
-                    "LINE"
-                ]
+                "availableChart": "line"
             }
         ]
     },
@@ -57,30 +51,27 @@ export const metricsConfig = [
                 "tooltip": "Daily cumulative precipitation R<sub>d</sub> recorded from 6:00 UTC day d till 6:00 UTC day d+1",
                 "type": "TmpRain",
                 "param": "rainDay",
+                "jsonPath": "rainfall",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
-                    "BAR"
-                ]
+                "availableChart": "bar"
             },
             {
                 "title": "Number of rainy days (nbRainDay)",
                 "tooltip": "Number of rainy days represents the number of days during which R<sub>d</sub> > 1mm",
                 "type": "Numb",
                 "param": "nbRainDay",
+                "jsonPath": "rainfall",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
-                    "BAR"
-                ]
+                "availableChart": "bar"
             },
             {
                 "title": "Cumulative precipitation (sumRain)",
                 "tooltip": "Sum of daily cumulative precipitation recorded during a period",
                 "type": "GddRain",
                 "param": "sumRain",
+                "jsonPath": "rainfall",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
-                    "BAR"
-                ]
+                "availableChart": "line"
             }
         ]
     },
@@ -93,9 +84,7 @@ export const metricsConfig = [
                 "type": "Numb",
                 "param": "nbWetDays",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
-                    "POLAR"
-                ]
+                "availableChart": "POLAR"
             }
         ]
     },
@@ -108,9 +97,8 @@ export const metricsConfig = [
                 "type": "Numb",
                 "param": "highWind",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
-                    "POLAR"
-                ]
+                "availableChart": "POLAR"
+
             }
         ]
     },
@@ -123,9 +111,9 @@ export const metricsConfig = [
                 "type": "Numb",
                 "param": "frostDays",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
+                "availableChart":
                     "POLAR"
-                ]
+
             },
             {
                 "title": "Number of ice days (iceDays)",
@@ -133,9 +121,9 @@ export const metricsConfig = [
                 "type": "Numb",
                 "param": "iceDays",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
+                "availableChart":
                     "POLAR"
-                ]
+
             }
         ]
     },
@@ -148,9 +136,9 @@ export const metricsConfig = [
                 "type": "Numb",
                 "param": "summerDays",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
+                "availableChart":
                     "POLAR"
-                ]
+
             },
             {
                 "title": "Number of heat days (heatDays)",
@@ -158,9 +146,9 @@ export const metricsConfig = [
                 "type": "Numb",
                 "param": "heatDays",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
+                "availableChart":
                     "POLAR"
-                ]
+
             }
         ]
     },
@@ -173,9 +161,9 @@ export const metricsConfig = [
                 "type": "GddRain",
                 "param": "Gdd",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
+                "availableChart":
                     "BAR"
-                ]
+
             },
             {
                 "title": "Accumulated growing degree days (sumGDD)",
@@ -183,9 +171,9 @@ export const metricsConfig = [
                 "type": "GddRain",
                 "param": "sumGdd",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
+                "availableChart":
                     "LINE"
-                ]
+
             },
             {
                 "title": "Growing Season T<sub>max</sub> (GST<sub>max</sub>)",
@@ -193,9 +181,9 @@ export const metricsConfig = [
                 "type": "GddRain",
                 "param": "GSTmax",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
+                "availableChart":
                     "LINE"
-                ]
+
             },
             {
                 "title": "Growing Season T<sub>min</sub> (GST<sub>min</sub>)",
@@ -203,9 +191,9 @@ export const metricsConfig = [
                 "type": "GddRain",
                 "param": "GSTmin",
                 "request": buildQuery_tmpRainStation,
-                "availableChart": [
+                "availableChart":
                     "LINE"
-                ]
+
             }
         ]
     }

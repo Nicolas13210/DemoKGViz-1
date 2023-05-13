@@ -16,7 +16,9 @@ export const parametersModule = {
         }
     },
     getters: {
-
+        getParameters(state){
+            return state.parameters
+        }
     },
     actions: {
         addParameter(context, payload) {

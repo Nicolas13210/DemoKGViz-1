@@ -25,14 +25,15 @@ export default {
         type: String,
         param: String,
         request: Function,
-        jsonPath: String
+        jsonPath: String,
+        availableChart: String
     },
     methods: {
         checkParameter(event) {
             const isChecked = event.target.checked;
 
             if (isChecked) {
-                this.$store.dispatch('addParameter', {param: this.param, request: this.request, jsonPath: this.jsonPath});
+                this.$store.dispatch('addParameter', {param: this.param, request: this.request, jsonPath: this.jsonPath, availableChart: this.availableChart});
             } else {
                 this.$store.dispatch('removeParameter', {param: this.param});
             }
