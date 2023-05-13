@@ -24,14 +24,15 @@ export default {
         tooltip: String,
         type: String,
         param: String,
-        request: Function
+        request: Function,
+        jsonPath: String
     },
     methods: {
         checkParameter(event) {
             const isChecked = event.target.checked;
 
             if (isChecked) {
-                this.$store.dispatch('addParameter', {param: this.param, request: this.request});
+                this.$store.dispatch('addParameter', {param: this.param, request: this.request, jsonPath: this.jsonPath});
             } else {
                 this.$store.dispatch('removeParameter', {param: this.param});
             }

@@ -1,3 +1,5 @@
+
+
 export const parametersModule = {
     namespace: false,
     state() {
@@ -7,16 +9,10 @@ export const parametersModule = {
     },
     mutations: {
         addParameter(state, payload) {
-            state.parameters.push(payload.param)
+            state.parameters.push(payload)
         },
         removeParameter(state, payload) {
-            const parameterIndex = state.parameters.indexOf(payload.param);
-
-            if(parameterIndex === -1) {
-                return
-            }
-
-            state.parameters.splice(parameterIndex, 1)
+            state.parameters = state.parameters.filter(parameter => parameter.param !== payload.param) 
         }
     },
     getters: {
