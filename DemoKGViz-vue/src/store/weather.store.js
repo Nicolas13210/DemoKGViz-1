@@ -1,24 +1,23 @@
 import axios from "axios";
-import { transformData } from '../utils/dataTransformation'
+import {transformData} from '../utils/dataTransformation'
 
 export const weatherModule = {
-    namespace: false,
-    state() {
+    namespace: false, state() {
         return {
             weather: [],
         }
-    },
-    mutations: {
+    }, mutations: {
         setWeather(state, payload) {
-            state.weather = payload;
+            if (!state.weather.some(e => payload.query === e.query)) {
+                state.weather.push(payload);
+            }
         }
-    },
-    getters: {
+    }, getters: {
+        //TODO remove index 0
         getWeather(state) {
-            return state.weather;
+            return state.weather[0];
         }
-    },
-    actions: {
+    }, actions: {
         async setWeather(context, payload) {
             try {
                 const response = await axios.post("/sparql", {
@@ -26,12 +25,12 @@ export const weatherModule = {
                 }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    responseType: 'json'
+                    }, responseType: 'json'
                 });
-
+                console.log("payload")
+                console.log(context)
                 const transformedData = transformData(response.data);
-                context.commit("setWeather", { query: payload.toString(), result: transformedData });
+                context.commit("setWeather", {query: payload.toString(), result: transformedData});
             } catch (error) {
                 console.error(error);
             }
