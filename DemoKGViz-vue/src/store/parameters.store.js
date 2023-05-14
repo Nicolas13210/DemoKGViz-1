@@ -23,11 +23,11 @@ export const parametersModule = {
     },
     actions: {
         addParameter(context, payload) {
-            context.commit("addParameter", payload);
-
             if(!isParameterTypeDataAlreadyFetch(context.getters.getParameters, payload)) {
                 context.dispatch("setWeather", payload.request(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate))
             }
+
+            context.commit("addParameter", payload);
         },
         removeParameter(context, payload) {
             context.commit("removeParameter", payload)
