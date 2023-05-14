@@ -9,7 +9,7 @@
         <v-expansion-panel-text>
           <MeteorologicalParameterItem v-for="item in parameter.items" :title="item.title"
                                        :tooltip="item.tooltip"
-                                       :type="item.type" :param="item.param">
+                                       :type="item.type" :param="item.param" :request="item.request" :json-path="item.jsonPath" :available-chart="item.availableChart">
           </MeteorologicalParameterItem>
         </v-expansion-panel-text>
       </v-expansion-panel>
@@ -19,8 +19,7 @@
 
 <script>
 import MeteorologicalParameterItem from "@/components/sideBar/MeteorologicalParameterItem.vue";
-import Charts from "../../enums/charts"
-import metricsConfig from "../../config/metricsConfig.json"
+import {metricsConfig} from "../../config/metricsConfig.js"
 
 export default {
   name: "MeteorologicalParameter",

@@ -14,12 +14,12 @@
  *
  * @param inputData
  * @returns {{values: []}}
- */
+*/
+
 export function transformData(inputData) {
     const outputData = {
         "values": []
     };
-
     const inputBindings = inputData.results.bindings;
     inputBindings.forEach((inputBinding) => {
         const outputBinding = {};
@@ -31,6 +31,6 @@ export function transformData(inputData) {
         });
         outputData.values.push(outputBinding);
     });
-    console.log("outputData:", outputData);
+
     return outputData;
 }

@@ -2,15 +2,13 @@
     <div class="map">
         <l-map ref="map" v-model:zoom="zoom" :center="center" :use-global-leaflet="false">
             <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base"
-                          name="OpenStreetMap"></l-tile-layer>
+                name="OpenStreetMap"></l-tile-layer>
 
             <l-geo-json :geojson="geoJson" :options="geoJsonOptions" :optionsStyle="() => geoJsonStyle"></l-geo-json>
 
-            <l-marker v-for="(marker, i) in stations.bindings"
-                      :lat-lng="[parseFloat(marker.lat.value), parseFloat(marker.long.value)]" :name="marker.name"
-                      :draggable="false"
-                      :ref="marker.stationName.value"
-                      @click="this.selectStation(marker)">
+            <l-marker v-for="(marker, i) in stations"
+                :lat-lng="[parseFloat(marker.lat.value), parseFloat(marker.long.value)]" :name="marker.name"
+                :draggable="false" :ref="marker.stationName.value" @click="this.selectStation(marker)">
                 <l-popup :ref="'marker' + i" :content="marker.stationName.value"></l-popup>
             </l-marker>
         </l-map>
@@ -20,7 +18,7 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import regionsJson from "../../assets/regions.json"
-import {LMap, LTileLayer, LGeoJson, LMarker, LPopup} from "@vue-leaflet/vue-leaflet";
+import { LMap, LTileLayer, LGeoJson, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
 
 export default {
     name: 'LeafletMap',
@@ -33,7 +31,7 @@ export default {
     },
     computed: {
         stations() {
-            return this.$store.getters.getAll
+            return this.$store.getters.getStations
         }
     },
     data() {
@@ -45,11 +43,11 @@ export default {
             // GeoJSON
             geoJson: regionsJson,
             options: [
-                {name: "Metropolis", coordinates: [47, 2]},
-                {name: "Réunion/Mayotte", coordinates: [47, 3]},
-                {name: "Guyanne", coordinates: [47, 4]},
-                {name: "Saint-Pierre-Et-Miquelon", coordinates: [46.766333, -56.179167]},
-                {name: "Guadeloupe/Martinique", coordinates: [47, 5]},
+                { name: "Metropolis", coordinates: [47, 2] },
+                { name: "Réunion/Mayotte", coordinates: [47, 3] },
+                { name: "Guyanne", coordinates: [47, 4] },
+                { name: "Saint-Pierre-Et-Miquelon", coordinates: [46.766333, -56.179167] },
+                { name: "Guadeloupe/Martinique", coordinates: [47, 5] },
             ],
             geoJsonOptions: {
                 onEachFeature: this.onEachFeature,
@@ -93,13 +91,7 @@ export default {
             })
         },
         selectStation(marker) {
-            // Switch the state of the marker. It will update the state in Vue X.
-            marker['selected'] = !marker['selected'];
-            let selectedStations = this.$store.getters.getSelectedStations;
-
-            // Update manually the state in Vue X to notify other components.
-            selectedStations = selectedStations.map(station => station['stationName']['value']);
-            this.$store.dispatch('updateSelectedStations', selectedStations);
+            this.$store.dispatch('updateSelectedStations', marker.stationName.value);
         }
     }
 }

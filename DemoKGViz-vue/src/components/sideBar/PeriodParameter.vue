@@ -1,3 +1,28 @@
+<template>
+    <div class="period-parameter">
+        <div class="text-subtitle-2 font-weight-bold">Temporal period</div>
+        <div class="date-pickers">
+            <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
+                :enable-time-picker="false" v-model="this.startDate" 
+                :min-date="this.minDate" 
+                :max-date="this.maxDate"
+                placeholder="Select a start date"
+                @update:model-value="this.updateStartDate" />
+            <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
+                :enable-time-picker="false" 
+                v-model="this.endDate" 
+                :min-date="this.minDate" 
+                :max-date="this.maxDate"
+                placeholder="Select an end date"
+                @update:model-value="this.updateEndDate" />
+        </div>
+
+        <div class="text-subtitle-2 font-weight-bold">Comparaison slider (soon)</div>
+        <v-range-slider :ticks="this.yearsTicks" :model-value="this.yearsBound" :min="this.yearsBound[0]"
+            :max="this.yearsBound[1]" :step="1" show-ticks="always" tick-size="4" />
+    </div>
+</template>
+
 <script>
 
 export default {
@@ -5,9 +30,6 @@ export default {
     data() {
         return {
             // Date picker
-            // Values selected by the user.
-            startDate: new Date(2016, 0, 1),
-            endDate: new Date(2021, 11, 31),
 
             // Configuration to prevent the selection of dates outside [minDate ; maxDate]
             minDate: new Date(2016, 0, 1),
@@ -23,7 +45,8 @@ export default {
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
-            return this.numberFormatString(day) + "/" + this.numberFormatString(month) + "/" + year;
+            
+            return year + "-" + this.numberFormatString(month) + "-" + this.numberFormatString(day);
         },
         numberFormatString(number) {
             if (number >= 1 && number <= 9) {
@@ -31,57 +54,24 @@ export default {
             }
             return number;
         },
-        dateChanged(date, isStartDate) {
-            this.$store.dispatch((isStartDate ? 'setStartDate' : 'setEndDate'), date);
+        updateStartDate(date) {
+            this.$store.dispatch('setStartDate', this.getDateFormat(date));
+        },
+        updateEndDate(date) {
+            this.$store.dispatch('setEndDate', this.getDateFormat(date));
         }
+    },
+    computed: {
+        startDate() {
+            return this.$store.getters.getStartDate
+        },
+        endDate() {
+            return this.$store.getters.getEndDate
+        },
     }
 }
 
 </script>
-
-<template>
-    <div class="period-parameter">
-        <div class="text-subtitle-2 font-weight-bold">Temporal period</div>
-        <div class="date-pickers">
-            <VueDatePicker
-                    auto-apply
-                    prevent-min-max-navigation
-                    ignore-time-validation
-                    hide-offset-dates
-                    :enable-time-picker="false"
-                    v-model="this.startDate"
-                    :min-date="this.minDate"
-                    :max-date="this.maxDate"
-                    :format="this.getDateFormat(this.startDate)"
-                    placeholder="Select a start date"
-                    @update:model-value="this.dateChanged(this.startDate, true)"/>
-            <br>
-            <VueDatePicker auto-apply
-                           prevent-min-max-navigation
-                           ignore-time-validation
-                           hide-offset-dates
-                           :enable-time-picker="false"
-                           v-model="this.endDate"
-                           :min-date="this.minDate"
-                           :max-date="this.maxDate"
-                           :format="this.getDateFormat(this.endDate)"
-                           placeholder="Select an end date"
-                           @update:model-value="this.dateChanged(this.endDate, false)"/>
-        </div>
-
-        <br>
-
-        <div class="text-subtitle-2 font-weight-bold">Comparaison slider (soon)</div>
-        <v-range-slider
-                :ticks="this.yearsTicks"
-                :model-value="this.yearsBound"
-                :min="this.yearsBound[0]"
-                :max="this.yearsBound[1]"
-                :step="1"
-                show-ticks="always"
-                tick-size="4"/>
-    </div>
-</template>
 
 <style scoped>
 .period-parameter {
@@ -93,6 +83,7 @@ export default {
 .date-pickers {
     display: flex;
     flex-direction: column;
-    gap: 4px
+    gap: 10px;
+    padding-bottom: 10px;
 }
 </style>
