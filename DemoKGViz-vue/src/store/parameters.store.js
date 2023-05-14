@@ -1,3 +1,4 @@
+import { isParameterTypeDataAlreadyFetch } from "../utils/utils"
 
 
 export const parametersModule = {
@@ -22,8 +23,11 @@ export const parametersModule = {
     },
     actions: {
         addParameter(context, payload) {
-            context.commit("addParameter", payload)
-            context.dispatch("setWeather", payload.request(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate))
+            context.commit("addParameter", payload);
+
+            if(!isParameterTypeDataAlreadyFetch()) {
+                context.dispatch("setWeather", payload.request(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate))
+            }
         },
         removeParameter(context, payload) {
             context.commit("removeParameter", payload)
