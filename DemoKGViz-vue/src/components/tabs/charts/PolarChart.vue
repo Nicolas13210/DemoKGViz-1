@@ -46,7 +46,6 @@ export default {
       }
       const datasets = [];
       datasets.push({
-        label: "test",
         data: this.extractValues(this.chartData, this.$store.getters.getParameters),
       });
       const data2 = {
