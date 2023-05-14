@@ -1,5 +1,5 @@
 <template>
-  <PolarArea :data="processData" :options="chartOptions"/>
+  <PolarArea :data="processData" :options="chartOptions" class="chart"/>
 </template>
 
 <script>
@@ -66,5 +66,7 @@ export default {
 </script>
 
 <style scoped>
-
+.chart {
+  width: 50vw;
+}
 </style>

@@ -19,10 +19,10 @@ export default {
   },
   computed: {
     getWeather() {
-      return this.$store.getters.getWeather.result;
+      return this.$store.getters.getWeather?.result;
     },
     getWeatherNbDay() {
-      return this.$store.getters.getWeatherNbDay.result;
+      return this.$store.getters.getWeatherNbDay?.result;
     },
   }
 }

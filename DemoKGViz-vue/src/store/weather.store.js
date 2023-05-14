@@ -8,19 +8,20 @@ export const weatherModule = {
         }
     }, mutations: {
         setWeather(state, payload) {
-            if (!state.weather.some(e => payload.query === e.query)) {
-                let index = state.weather.findIndex(value => value.queryMethod === payload.queryMethod)
-                if(index !== -1) {
-                    state.weather[index] = payload;
-                }
+            let index = state.weather.findIndex(value => value.queryMethod === payload.queryMethod)
+            console.log("index")
+            console.log(index)
+            console.log(payload)
+            if (index !== -1) {
+                state.weather[index] = payload;
+            } else {
                 state.weather.push(payload);
             }
         }
     }, getters: {
         getWeather(state) {
             return state.weather.find(value => value.queryMethod === "buildQuery_tmpRainStation");
-        },
-        getWeatherNbDay(state) {
+        }, getWeatherNbDay(state) {
             return state.weather.find(value => value.queryMethod === "buildQuery_nbStatsDaysStation");
         }
     }, actions: {
@@ -34,7 +35,11 @@ export const weatherModule = {
                     }, responseType: 'json'
                 });
                 const transformedData = transformData(response.data);
-                    context.commit("setWeather", {query: payload.query.toString(), queryMethod: payload.queryMethod, result: transformedData});
+                context.commit("setWeather", {
+                    query: payload.query.toString(),
+                    queryMethod: payload.queryMethod,
+                    result: transformedData
+                });
             } catch (error) {
                 console.error(error);
             }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { buildQuery_station, buildQuery_tmpRainStation } from "../queries/queries"
+import {groupRequestsByParam} from "@/utils/utils";
 
 export const dateModule = {
     namespace: false,
@@ -30,30 +31,35 @@ export const dateModule = {
             context.commit('setStartDate', payload);
 
             // reload chart data
-            context.dispatch("setWeather", {query:
-                buildQuery_tmpRainStation(context
-                .getters.getSelectedStations,
-                context
-                .getters.getStartDate,
-                context
-                .getters.getEndDate),
-                queryMethod: buildQuery_tmpRainStation.name
-        });
+            for(let fonction of groupRequestsByParam(context.getters.getParameters)) {
+                console.log(fonction)
+                context.dispatch("setWeather", {query:
+                        fonction(context
+                                .getters.getSelectedStations,
+                            context
+                                .getters.getStartDate,
+                            context
+                                .getters.getEndDate),
+                    queryMethod: fonction.name
+                });
+            }
         },
         setEndDate(context, payload) {
             context.commit('setEndDate', payload);
 
             // reload chart data
-           //TODO change context.dispatch("setWeather", buildQuery_tmpRainStation(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate));
-           context.dispatch("setWeather", {query:
-               buildQuery_tmpRainStation(context
-               .getters.getSelectedStations,
-               context
-               .getters.getStartDate,
-               context
-               .getters.getEndDate),
-               queryMethod: buildQuery_tmpRainStation.name
-        });
+            for(let fonction of groupRequestsByParam(context.getters.getParameters)) {
+                console.log(fonction)
+                context.dispatch("setWeather", {query:
+                        fonction(context
+                                .getters.getSelectedStations,
+                            context
+                                .getters.getStartDate,
+                            context
+                                .getters.getEndDate),
+                    queryMethod: fonction.name
+                });
+            }
         },
     }
 }

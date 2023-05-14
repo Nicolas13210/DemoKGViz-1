@@ -31,13 +31,11 @@ export default {
     methods: {
         checkParameter(event) {
             const isChecked = event.target.checked;
-
             if (isChecked) {
                 this.$store.dispatch('addParameter', {type: this.type, param: this.param, request: this.request, jsonPath: this.jsonPath, availableChart: this.availableChart});
             } else {
                 this.$store.dispatch('removeParameter', {param: this.param});
             }
-          
         }
     }
 }

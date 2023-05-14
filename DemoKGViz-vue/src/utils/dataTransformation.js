@@ -20,7 +20,6 @@ export function transformData(inputData) {
     const outputData = {
         "values": []
     };
-
     const inputBindings = inputData.results.bindings;
     inputBindings.forEach((inputBinding) => {
         const outputBinding = {};
