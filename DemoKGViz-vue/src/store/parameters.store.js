@@ -25,7 +25,7 @@ export const parametersModule = {
         addParameter(context, payload) {
             context.commit("addParameter", payload);
 
-            if(!isParameterTypeDataAlreadyFetch()) {
+            if(!isParameterTypeDataAlreadyFetch(context.getters.getParameters, payload)) {
                 context.dispatch("setWeather", payload.request(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate))
             }
         },
