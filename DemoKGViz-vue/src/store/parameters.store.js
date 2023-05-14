@@ -1,4 +1,5 @@
 import { isParameterTypeDataAlreadyFetch } from "../utils/utils"
+import {buildQuery_tmpRainStation} from "@/queries/queries";
 
 
 export const parametersModule = {
@@ -24,7 +25,16 @@ export const parametersModule = {
     actions: {
         addParameter(context, payload) {
             if(!isParameterTypeDataAlreadyFetch(context.getters.getParameters, payload)) {
-                context.dispatch("setWeather", payload.request(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate))
+               //context.dispatch("setWeather", payload.request(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate))
+                context.dispatch("setWeather", {query:
+                        payload.request(context
+                                .getters.getSelectedStations,
+                            context
+                                .getters.getStartDate,
+                            context
+                                .getters.getEndDate),
+                    queryMethod: payload.request.name
+                });
             }
 
             context.commit("addParameter", payload);

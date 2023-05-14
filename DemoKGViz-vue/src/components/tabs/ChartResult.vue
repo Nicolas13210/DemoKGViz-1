@@ -2,7 +2,7 @@
   <div id="visualisation">
     <div class="groupVisualisation">
       <ComboChart v-if="getWeather !== undefined" :chartData="getWeather"></ComboChart>
-      <PolarChart v-if="getWeather !== undefined" :chartData="getWeather"></PolarChart>
+      <PolarChart v-if="getWeatherNbDay !== undefined" :chartData="getWeatherNbDay"></PolarChart>
     </div>
   </div>
 </template>
@@ -20,6 +20,9 @@ export default {
   computed: {
     getWeather() {
       return this.$store.getters.getWeather.result;
+    },
+    getWeatherNbDay() {
+      return this.$store.getters.getWeatherNbDay.result;
     },
   }
 }

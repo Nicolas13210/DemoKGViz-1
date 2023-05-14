@@ -23,54 +23,34 @@ export default {
     }
   },
   methods: {
-    setProperties(parameters) {
-      let properties = [];
-      for (let parameter in parameters) {
-        properties.push({
-          title: parameters[parameter].param,
-          jsonPath: parameters[parameter].jsonPath,
-          color: "#ffa600",
-          type: parameters[parameter].availableChart
-        })
-      }
-      console.log(properties)
-      return properties;
+    extractValues(json1,json2) {
+      const params = json2.map(param => param.param);
+      const values = json1.values[0];
+
+      return Object.keys(values)
+          .filter(key => params.includes(key))
+          .map(key => parseInt(values[key]));
     },
-    selectAndConcatAttributes(json) {
-      let properties = this.setProperties(this.$store.getters.getParameters)
-      this.properties = properties;
-      const attributes = ["date"].concat(properties.map(element => element.jsonPath));
-      let result = [];
-      for (let attribute of attributes) {
-        let values = [];
-        for (let valueObj of json.values) {
-          let value = valueObj[attribute];
-          values.push(value);
-        }
-        result.push({"attribute": attribute, "values": values});
-      }
-      return result;
-    },
+    extractKeys(json1, json2) {
+      const params = json2.map(param => param.param);
+      const keys = Object.keys(json1.values[0]);
+
+      return keys.filter(key => params.includes(key));
+    }
   },
   computed: {
     processData() {
-      let computedData = this.selectAndConcatAttributes(this.chartData);
-
-      if (this.$store.getters.getWeather.length === 0) {
+      if (this.$store.getters.getWeatherNbDay.length === 0) {
         // No data loaded.
         return undefined;
       }
-      const labels = computedData.find(item => item.attribute === "date").values;
       const datasets = [];
-      for (let property of this.properties) {
-        datasets.push({
-          label: property.title,
-          backgroundColor: property.color,
-          data: [28, 48, 40, 19, 96, 27, 100],
-        });
-      }
+      datasets.push({
+        label: "test",
+        data: this.extractValues(this.chartData, this.$store.getters.getParameters),
+      });
       const data2 = {
-        labels: labels,
+        labels: this.extractKeys(this.chartData, this.$store.getters.getParameters),
         datasets: datasets
       }
       console.log("lineChart computed:", data2);

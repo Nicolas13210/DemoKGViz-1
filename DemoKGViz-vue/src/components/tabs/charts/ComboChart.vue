@@ -38,6 +38,7 @@ export default {
     setProperties(parameters) {
       let properties = [];
       for (let parameter in parameters) {
+        if(parameters[parameter].availableChart === "line" || parameters[parameter].availableChart === "bar")
         properties.push({
           title: parameters[parameter].param,
           jsonPath: parameters[parameter].jsonPath,
@@ -45,7 +46,6 @@ export default {
           type: parameters[parameter].availableChart
         })
       }
-      console.log(properties)
       return properties;
     },
     selectAndConcatAttributes(json) {

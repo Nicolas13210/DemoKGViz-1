@@ -9,28 +9,32 @@ export const weatherModule = {
     }, mutations: {
         setWeather(state, payload) {
             if (!state.weather.some(e => payload.query === e.query)) {
+                let index = state.weather.findIndex(value => value.queryMethod === payload.queryMethod)
+                if(index !== -1) {
+                    state.weather[index] = payload;
+                }
                 state.weather.push(payload);
             }
         }
     }, getters: {
-        //TODO remove index 0
         getWeather(state) {
-            return state.weather[0];
+            return state.weather.find(value => value.queryMethod === "buildQuery_tmpRainStation");
+        },
+        getWeatherNbDay(state) {
+            return state.weather.find(value => value.queryMethod === "buildQuery_nbStatsDaysStation");
         }
     }, actions: {
         async setWeather(context, payload) {
             try {
                 const response = await axios.post("/sparql", {
-                    query: payload
+                    query: payload.query
                 }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }, responseType: 'json'
                 });
-                console.log("payload")
-                console.log(context)
                 const transformedData = transformData(response.data);
-                context.commit("setWeather", {query: payload.toString(), result: transformedData});
+                    context.commit("setWeather", {query: payload.query.toString(), queryMethod: payload.queryMethod, result: transformedData});
             } catch (error) {
                 console.error(error);
             }

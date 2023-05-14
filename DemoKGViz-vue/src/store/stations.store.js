@@ -65,13 +65,31 @@ export const stationsModule = {
             context.commit("setSelectedStations", { selectedStations: payload });
 
             // reload chart data
-            context.dispatch("setWeather", buildQuery_tmpRainStation(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate));
+            //context.dispatch("setWeather", buildQuery_tmpRainStation(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate));
+            context.dispatch("setWeather", {query:
+                    buildQuery_tmpRainStation(context
+                            .getters.getSelectedStations,
+                        context
+                            .getters.getStartDate,
+                        context
+                            .getters.getEndDate),
+                queryMethod: buildQuery_tmpRainStation.name
+            });
         },
         updateSelectedStations(context, payload) {
             context.commit("updateSelectedStations", { selectedStation: payload });
 
             // reload chart data
-            context.dispatch("setWeather", buildQuery_tmpRainStation(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate));
+            //context.dispatch("setWeather", buildQuery_tmpRainStation(context.getters.getSelectedStations, context.getters.getStartDate, context.getters.getEndDate));
+            context.dispatch("setWeather", {query:
+                    buildQuery_tmpRainStation(context
+                            .getters.getSelectedStations,
+                        context
+                            .getters.getStartDate,
+                        context
+                            .getters.getEndDate),
+                queryMethod: buildQuery_tmpRainStation.name
+            });
         }
     }
 }

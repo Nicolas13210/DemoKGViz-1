@@ -49,10 +49,10 @@ export const metricsConfig = [{
         "title": "Number of rainy days (nbRainDay)",
         "tooltip": "Number of rainy days represents the number of days during which R<sub>d</sub> > 1mm",
         "type": "Numb",
-        "param": "nbRainDay",
+        "param": "nbRainyDays",
         "jsonPath": "rainfall",
         "request": buildQuery_nbStatsDaysStation,
-        "availableChart": "bar"
+        "availableChart": "POLAR"
     }, {
         "title": "Cumulative precipitation (sumRain)",
         "tooltip": "Sum of daily cumulative precipitation recorded during a period",
@@ -67,8 +67,9 @@ export const metricsConfig = [{
         "title": "Number of wet days (nbWetDays)",
         "tooltip": "Number of wet days represents the number of days during which the humidity is higher than 60% for a period",
         "type": "Numb",
-        "param": "nbWetDays",
-        "request": buildQuery_tmpRainStation,
+        "param": "nbwetDays",
+        "jsonPath": "nbwetDays",
+        "request": buildQuery_nbStatsDaysStation,
         "availableChart": "POLAR"
     }]
 }, {
@@ -77,7 +78,8 @@ export const metricsConfig = [{
         "tooltip": "Number of high wind days represents the number of days during the wind is higher than 5.28 m/s for a period",
         "type": "Numb",
         "param": "highWind",
-        "request": buildQuery_tmpRainStation,
+        "jsonPath": "nbWindyDays",
+        "request": buildQuery_nbStatsDaysStation,
         "availableChart": "POLAR"
 
     }]
@@ -86,8 +88,9 @@ export const metricsConfig = [{
         "title": "Number of frost days (frostDays)",
         "tooltip": "Number of frost days represents the number of days during which the minimum temperature is lower than 0°C for a period",
         "type": "Numb",
-        "param": "frostDays",
-        "request": buildQuery_tmpRainStation,
+        "param": "nbFrostDays",
+        "jsonPath": "nbFrostDays",
+        "request": buildQuery_nbStatsDaysStation,
         "availableChart": "POLAR"
 
     }, {
@@ -95,7 +98,8 @@ export const metricsConfig = [{
         "tooltip": "Number of ice days represents the number of days when the maximum temperature is lower than 0°C for a period",
         "type": "Numb",
         "param": "iceDays",
-        "request": buildQuery_tmpRainStation,
+        "jsonPath": "TODO",
+        "request": buildQuery_nbStatsDaysStation,
         "availableChart": "POLAR"
 
     }]
@@ -104,8 +108,9 @@ export const metricsConfig = [{
         "title": "Number of summer days (summerDays)",
         "tooltip": "Number of summer days represents the number of days during which the maximum temperature is higher than 25°C for a period",
         "type": "Numb",
-        "param": "summerDays",
-        "request": buildQuery_tmpRainStation,
+        "param": "nbSummerDays",
+        "jsonPath": "nbSummerDays",
+        "request": buildQuery_nbStatsDaysStation,
         "availableChart": "POLAR"
 
     }, {
@@ -113,7 +118,8 @@ export const metricsConfig = [{
         "tooltip": "Number of stress days represents the number of days during which the minimum temperature is higher than 20°C for a period",
         "type": "Numb",
         "param": "heatDays",
-        "request": buildQuery_tmpRainStation,
+        "jsonPath": "nbHeatDays",
+        "request": buildQuery_nbStatsDaysStation,
         "availableChart": "POLAR"
 
     }]
