@@ -1,5 +1,4 @@
-import { isParameterTypeDataAlreadyFetch } from "../utils/utils"
-import {buildQuery_tmpRainStation} from "@/queries/queries";
+import {isParameterTypeDataAlreadyFetch} from "@/utils/utils"
 
 
 export const parametersModule = {
@@ -14,18 +13,19 @@ export const parametersModule = {
             state.parameters.push(payload)
         },
         removeParameter(state, payload) {
-            state.parameters = state.parameters.filter(parameter => parameter.param !== payload.param) 
+            state.parameters = state.parameters.filter(parameter => parameter.param !== payload.param)
         }
     },
     getters: {
-        getParameters(state){
+        getParameters(state) {
             return state.parameters
         }
     },
     actions: {
         addParameter(context, payload) {
-            if(!isParameterTypeDataAlreadyFetch(context.getters.getParameters, payload)) {
-                context.dispatch("setWeather", {query:
+            if (!isParameterTypeDataAlreadyFetch(context.getters.getParameters, payload)) {
+                context.dispatch("setWeather", {
+                    query:
                         payload.request(context
                                 .getters.getSelectedStations,
                             context

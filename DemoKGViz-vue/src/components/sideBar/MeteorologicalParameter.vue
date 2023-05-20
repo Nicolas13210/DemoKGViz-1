@@ -19,7 +19,7 @@
 
 <script>
 import MeteorologicalParameterItem from "@/components/sideBar/MeteorologicalParameterItem.vue";
-import {metricsConfig} from "../../config/metricsConfig.js"
+import {metricsConfig} from "@/config/metricsConfig"
 
 export default {
   name: "MeteorologicalParameter",

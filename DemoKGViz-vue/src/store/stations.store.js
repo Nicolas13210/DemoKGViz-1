@@ -1,5 +1,5 @@
 import axios from "axios";
-import { buildQuery_station, buildQuery_tmpRainStation } from "../queries/queries"
+import {buildQuery_station} from "@/queries/queries"
 import {groupRequestsByParam} from "@/utils/utils";
 
 export const stationsModule = {
@@ -20,7 +20,7 @@ export const stationsModule = {
         updateSelectedStations(state, payload) {
             const indexStation = state.selectedStations.indexOf(payload.selectedStation);
 
-            if(indexStation === -1) {
+            if (indexStation === -1) {
                 state.selectedStations.push(payload.selectedStation)
             } else {
                 state.selectedStations.splice(indexStation, 1);
@@ -57,18 +57,19 @@ export const stationsModule = {
                         responseType: 'json'
                     });
 
-                context.commit("setStations", { stations: response.data.results.bindings });
+                context.commit("setStations", {stations: response.data.results.bindings});
             } catch (error) {
                 console.error(error);
             }
         },
         setSelectedStations(context, payload) {
-            context.commit("setSelectedStations", { selectedStations: payload });
+            context.commit("setSelectedStations", {selectedStations: payload});
 
             // reload chart data
-            for(let fonction of groupRequestsByParam(context.getters.getParameters)) {
+            for (let fonction of groupRequestsByParam(context.getters.getParameters)) {
                 console.log(fonction)
-                context.dispatch("setWeather", {query:
+                context.dispatch("setWeather", {
+                    query:
                         fonction(context
                                 .getters.getSelectedStations,
                             context
@@ -80,11 +81,12 @@ export const stationsModule = {
             }
         },
         updateSelectedStations(context, payload) {
-            context.commit("updateSelectedStations", { selectedStation: payload });
+            context.commit("updateSelectedStations", {selectedStation: payload});
             // reload chart data
-            for(let fonction of groupRequestsByParam(context.getters.getParameters)) {
+            for (let fonction of groupRequestsByParam(context.getters.getParameters)) {
                 console.log(fonction)
-                context.dispatch("setWeather", {query:
+                context.dispatch("setWeather", {
+                    query:
                         fonction(context
                                 .getters.getSelectedStations,
                             context

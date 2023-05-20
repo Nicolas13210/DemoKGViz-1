@@ -1,25 +1,36 @@
 <template>
     <div class="period-parameter">
-        <div class="text-subtitle-2 font-weight-bold">Temporal period</div>
+        <div>
+            <span class="text-subtitle-2 font-weight-bold">Temporal period</span>
+            <v-tooltip location="bottom">
+                <template v-slot:activator="{ props }">
+                    <v-btn density="compact" icon="mdi-help-circle-outline" variant="text" v-bind="props"></v-btn>
+                </template>
+                <span>Format: YYYY-MM-DD</span>
+            </v-tooltip>
+        </div>
         <div class="date-pickers">
             <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
-                :enable-time-picker="false" v-model="this.startDate" 
-                :min-date="this.minDate" 
-                :max-date="this.maxDate"
-                placeholder="Select a start date"
-                @update:model-value="this.updateStartDate" />
+                           :enable-time-picker="false"
+                           v-model="this.startDate"
+                           :min-date="this.minDate"
+                           :max-date="this.maxDate"
+                           :format="this.stringToStringFormatted(this.startDate)"
+                           placeholder="Select a start date"
+                           @update:model-value="this.updateStartDate"/>
             <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
-                :enable-time-picker="false" 
-                v-model="this.endDate" 
-                :min-date="this.minDate" 
-                :max-date="this.maxDate"
-                placeholder="Select an end date"
-                @update:model-value="this.updateEndDate" />
+                           :enable-time-picker="false"
+                           v-model="this.endDate"
+                           :min-date="this.minDate"
+                           :max-date="this.maxDate"
+                           :format="this.stringToStringFormatted(this.endDate)"
+                           placeholder="Select an end date"
+                           @update:model-value="this.updateEndDate"/>
         </div>
 
         <div class="text-subtitle-2 font-weight-bold">Comparaison slider (soon)</div>
         <v-range-slider :ticks="this.yearsTicks" :model-value="this.yearsBound" :min="this.yearsBound[0]"
-            :max="this.yearsBound[1]" :step="1" show-ticks="always" tick-size="4" />
+                        :max="this.yearsBound[1]" :step="1" show-ticks="always" tick-size="4"/>
     </div>
 </template>
 
@@ -41,12 +52,17 @@ export default {
         }
     },
     methods: {
-        getDateFormat(date) {
+        dateToStringFormatted(date) {
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
-            
+
             return year + "-" + this.numberFormatString(month) + "-" + this.numberFormatString(day);
+        },
+        stringToStringFormatted(strDate) {
+            const strDateSplit = strDate.split("-");
+            const date = new Date(strDateSplit[0], strDateSplit[1] - 1, strDateSplit[2]);
+            return this.dateToStringFormatted(date);
         },
         numberFormatString(number) {
             if (number >= 1 && number <= 9) {
@@ -55,10 +71,10 @@ export default {
             return number;
         },
         updateStartDate(date) {
-            this.$store.dispatch('setStartDate', this.getDateFormat(date));
+            this.$store.dispatch('setStartDate', this.dateToStringFormatted(date));
         },
         updateEndDate(date) {
-            this.$store.dispatch('setEndDate', this.getDateFormat(date));
+            this.$store.dispatch('setEndDate', this.dateToStringFormatted(date));
         }
     },
     computed: {

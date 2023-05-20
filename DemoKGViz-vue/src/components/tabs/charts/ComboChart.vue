@@ -5,13 +5,12 @@
 <script>
 import {Bar} from 'vue-chartjs';
 import {
-  Chart,
   BarElement,
-  LineController,
   CategoryScale,
-  Chart as ChartJS,
+  Chart,
   Legend,
   LinearScale,
+  LineController,
   LineElement,
   PointElement,
   Title,
@@ -38,13 +37,13 @@ export default {
     setProperties(parameters) {
       let properties = [];
       for (let parameter in parameters) {
-        if(parameters[parameter].availableChart === "line" || parameters[parameter].availableChart === "bar")
-        properties.push({
-          title: parameters[parameter].param,
-          jsonPath: parameters[parameter].jsonPath,
-          color: "#ffa600",
-          type: parameters[parameter].availableChart
-        })
+        if (parameters[parameter].availableChart === "line" || parameters[parameter].availableChart === "bar")
+          properties.push({
+            title: parameters[parameter].param,
+            jsonPath: parameters[parameter].jsonPath,
+            color: "#ffa600",
+            type: parameters[parameter].availableChart
+          })
       }
       return properties;
     },

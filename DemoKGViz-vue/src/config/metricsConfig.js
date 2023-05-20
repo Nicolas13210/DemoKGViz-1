@@ -1,5 +1,4 @@
-import {buildQuery_tmpRainStation} from "../queries/queries"
-import {buildQuery_nbStatsDaysStation} from "../queries/queries"
+import {buildQuery_tmpRainStation, buildQuery_nbStatsDaysStation} from "@/queries/queries"
 
 export const metricsConfig = [{
     "title": "Daily temperature", "items": [{

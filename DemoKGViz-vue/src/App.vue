@@ -2,7 +2,6 @@
 import MeteorologicalParameter from "@/components/sideBar/MeteorologicalParameter.vue";
 import TabsBar from "@/components/TabsBar.vue";
 import SideBar from "@/components/sideBar/SideBar.vue";
-import {buildQuery_tmpRainStation} from "@/queries/queries";
 
 
 export default {

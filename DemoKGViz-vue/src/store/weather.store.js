@@ -1,5 +1,5 @@
 import axios from "axios";
-import {transformData} from '../utils/dataTransformation'
+import {transformData} from '@/utils/dataTransformation'
 
 export const weatherModule = {
     namespace: false, state() {
