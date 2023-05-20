@@ -1,4 +1,3 @@
-
 <template>
     <div>
         <v-checkbox density="compact" :hide-details="true" @click="checkParameter($event)">
@@ -26,13 +25,21 @@ export default {
         param: String,
         request: Function,
         jsonPath: String,
-        availableChart: String
+        availableChart: String,
+        displayUnit: String
     },
     methods: {
         checkParameter(event) {
             const isChecked = event.target.checked;
             if (isChecked) {
-                this.$store.dispatch('addParameter', {type: this.type, param: this.param, request: this.request, jsonPath: this.jsonPath, availableChart: this.availableChart});
+                this.$store.dispatch('addParameter', {
+                    type: this.type,
+                    param: this.param,
+                    request: this.request,
+                    jsonPath: this.jsonPath,
+                    availableChart: this.availableChart,
+                    displayUnit: this.displayUnit
+                });
             } else {
                 this.$store.dispatch('removeParameter', {param: this.param});
             }

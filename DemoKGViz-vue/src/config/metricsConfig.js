@@ -8,8 +8,8 @@ export const metricsConfig = [{
         "param": "TMin",
         "jsonPath": "temp_min",
         "request": buildQuery_tmpRainStation,
-        "availableChart": "line"
-
+        "availableChart": "line",
+        "displayUnit": "°C"
     }, {
         "title": "Maximum temperature (T<sub>max</sub>)",
         "tooltip": "The daily maximum temperature represents the highest air temperature recorded from 6:00 UTC day d till 6:00 UTC day d+1",
@@ -17,7 +17,8 @@ export const metricsConfig = [{
         "param": "TMax",
         "jsonPath": "temp_max",
         "request": buildQuery_tmpRainStation,
-        "availableChart": "line"
+        "availableChart": "line",
+        "displayUnit": "°C"
     }, {
         "title": "Mean temperature (T<sub>avg</sub>)",
         "tooltip": "The daily mean temperature represents the average value of daily maximum and minimum temperatures",
@@ -25,7 +26,8 @@ export const metricsConfig = [{
         "param": "TMean",
         "jsonPath": "temp_avg",
         "request": buildQuery_tmpRainStation,
-        "availableChart": "line"
+        "availableChart": "line",
+        "displayUnit": "°C"
     }, {
         "title": "Thermal amplitude (T<sub>Diff</sub>)",
         "tooltip": "The daily thermal amplitude represents the difference between the maximum and the minimum temperature for each days",
@@ -33,7 +35,8 @@ export const metricsConfig = [{
         "param": "TDiff",
         "jsonPath": "temp_diff",
         "request": buildQuery_tmpRainStation,
-        "availableChart": "line"
+        "availableChart": "line",
+        "displayUnit": "°C"
     }]
 }, {
     "title": "Precipitation", "items": [{
@@ -43,7 +46,8 @@ export const metricsConfig = [{
         "param": "rainDay",
         "jsonPath": "rainfall",
         "request": buildQuery_tmpRainStation,
-        "availableChart": "bar"
+        "availableChart": "bar",
+        "displayUnit": "mm"
     }, {
         "title": "Number of rainy days (nbRainDay)",
         "tooltip": "Number of rainy days represents the number of days during which R<sub>d</sub> > 1mm",
@@ -51,7 +55,8 @@ export const metricsConfig = [{
         "param": "nbRainyDays",
         "jsonPath": "rainfall",
         "request": buildQuery_nbStatsDaysStation,
-        "availableChart": "POLAR"
+        "availableChart": "POLAR",
+        "displayUnit": " day(s)"
     }, {
         "title": "Cumulative precipitation (sumRain)",
         "tooltip": "Sum of daily cumulative precipitation recorded during a period",
@@ -59,7 +64,8 @@ export const metricsConfig = [{
         "param": "sumRain",
         "jsonPath": "rainfall",
         "request": buildQuery_tmpRainStation,
-        "availableChart": "line"
+        "availableChart": "line",
+        "displayUnit": " day(s)"
     }]
 }, {
     "title": "Humidity", "items": [{
@@ -69,7 +75,8 @@ export const metricsConfig = [{
         "param": "nbwetDays",
         "jsonPath": "nbwetDays",
         "request": buildQuery_nbStatsDaysStation,
-        "availableChart": "POLAR"
+        "availableChart": "POLAR",
+        "displayUnit": " day(s)"
     }]
 }, {
     "title": "Wind", "items": [{
@@ -79,8 +86,8 @@ export const metricsConfig = [{
         "param": "highWind",
         "jsonPath": "nbWindyDays",
         "request": buildQuery_nbStatsDaysStation,
-        "availableChart": "POLAR"
-
+        "availableChart": "POLAR",
+        "displayUnit": " day(s)"
     }]
 }, {
     "title": "Frost days and ice days", "items": [{
@@ -90,8 +97,8 @@ export const metricsConfig = [{
         "param": "nbFrostDays",
         "jsonPath": "nbFrostDays",
         "request": buildQuery_nbStatsDaysStation,
-        "availableChart": "POLAR"
-
+        "availableChart": "POLAR",
+        "displayUnit": " day(s)"
     }, {
         "title": "Number of ice days (iceDays)",
         "tooltip": "Number of ice days represents the number of days when the maximum temperature is lower than 0°C for a period",
@@ -99,8 +106,8 @@ export const metricsConfig = [{
         "param": "iceDays",
         "jsonPath": "TODO",
         "request": buildQuery_nbStatsDaysStation,
-        "availableChart": "POLAR"
-
+        "availableChart": "POLAR",
+        "displayUnit": " day(s)"
     }]
 }, {
     "title": "Summer days and heat days", "items": [{
@@ -110,8 +117,8 @@ export const metricsConfig = [{
         "param": "nbSummerDays",
         "jsonPath": "nbSummerDays",
         "request": buildQuery_nbStatsDaysStation,
-        "availableChart": "POLAR"
-
+        "availableChart": "POLAR",
+        "displayUnit": " day(s)"
     }, {
         "title": "Number of heat days (heatDays)",
         "tooltip": "Number of stress days represents the number of days during which the minimum temperature is higher than 20°C for a period",
@@ -119,8 +126,8 @@ export const metricsConfig = [{
         "param": "heatDays",
         "jsonPath": "nbHeatDays",
         "request": buildQuery_nbStatsDaysStation,
-        "availableChart": "POLAR"
-
+        "availableChart": "POLAR",
+        "displayUnit": " day(s)"
     }]
 }, {
     "title": "Growing degree days", "items": [{
@@ -129,31 +136,31 @@ export const metricsConfig = [{
         "type": "GddRain",
         "param": "Gdd",
         "request": buildQuery_tmpRainStation,
-        "availableChart": "BAR"
-
+        "availableChart": "BAR",
+        "displayUnit": "°C"
     }, {
         "title": "Accumulated growing degree days (sumGDD)",
         "tooltip": "Accumulated growing degree days represents the sum of Growing degree days (GDD) over a period of time",
         "type": "GddRain",
         "param": "sumGdd",
         "request": buildQuery_tmpRainStation,
-        "availableChart": "LINE"
-
+        "availableChart": "LINE",
+        "displayUnit": " day(s)"
     }, {
         "title": "Growing Season T<sub>max</sub> (GST<sub>max</sub>)",
         "tooltip": "Average of the daily maximum temperature (T<sub>max</sub>) during the growing season",
         "type": "GddRain",
         "param": "GSTmax",
         "request": buildQuery_tmpRainStation,
-        "availableChart": "LINE"
-
+        "availableChart": "LINE",
+        "displayUnit": "°C"
     }, {
         "title": "Growing Season T<sub>min</sub> (GST<sub>min</sub>)",
         "tooltip": "Average of the daily minimum temperature (T<sub>min</sub>) during the growing season",
         "type": "GddRain",
         "param": "GSTmin",
         "request": buildQuery_tmpRainStation,
-        "availableChart": "LINE"
-
+        "availableChart": "LINE",
+        "displayUnit": "°C"
     }]
 }]

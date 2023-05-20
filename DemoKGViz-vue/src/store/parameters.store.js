@@ -23,15 +23,11 @@ export const parametersModule = {
     },
     actions: {
         addParameter(context, payload) {
-            if (!isParameterTypeDataAlreadyFetch(context.getters.getParameters, payload)) {
+            const selectedStations = context.getters.getSelectedStations;
+
+            if (selectedStations.length > 0 && !isParameterTypeDataAlreadyFetch(context.getters.getParameters, payload)) {
                 context.dispatch("setWeather", {
-                    query:
-                        payload.request(context
-                                .getters.getSelectedStations,
-                            context
-                                .getters.getStartDate,
-                            context
-                                .getters.getEndDate),
+                    query: payload.request(selectedStations, context.getters.getStartDate, context.getters.getEndDate),
                     queryMethod: payload.request.name
                 });
             }
