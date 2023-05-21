@@ -4,7 +4,8 @@ export const dateModule = {
     namespace: false,
     state() {
         return {
-            startDate: "2016-01-01",
+            // TODO: for production, use "2016-01-01".
+            startDate: "2021-01-01",
             endDate: "2021-01-31",
         }
     },
@@ -28,16 +29,14 @@ export const dateModule = {
         setStartDate(context, payload) {
             context.commit('setStartDate', payload);
 
-            // reload chart data
-            for(let fonction of groupRequestsByParam(context.getters.getParameters)) {
-                console.log(fonction)
-                context.dispatch("setWeather", {query:
-                        fonction(context
-                                .getters.getSelectedStations,
-                            context
-                                .getters.getStartDate,
-                            context
-                                .getters.getEndDate),
+            // Reload chart data
+            for (let fonction of groupRequestsByParam(context.getters.getParameters)) {
+                console.log("setStartDate fonction", fonction)
+                context.dispatch("setWeather", {
+                    query:
+                        fonction(context.getters.getSelectedStations,
+                            context.getters.getStartDate,
+                            context.getters.getEndDate),
                     queryMethod: fonction.name
                 });
             }
@@ -46,15 +45,13 @@ export const dateModule = {
             context.commit('setEndDate', payload);
 
             // reload chart data
-            for(let fonction of groupRequestsByParam(context.getters.getParameters)) {
-                console.log(fonction)
-                context.dispatch("setWeather", {query:
-                        fonction(context
-                                .getters.getSelectedStations,
-                            context
-                                .getters.getStartDate,
-                            context
-                                .getters.getEndDate),
+            for (let fonction of groupRequestsByParam(context.getters.getParameters)) {
+                console.log("setEndDate function", fonction)
+                context.dispatch("setWeather", {
+                    query:
+                        fonction(context.getters.getSelectedStations,
+                            context.getters.getStartDate,
+                            context.getters.getEndDate),
                     queryMethod: fonction.name
                 });
             }

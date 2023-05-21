@@ -123,7 +123,7 @@ export function buildQuery_tmpRainStation(stationName, startDate, endDate) {
     SELECT distinct ?stationName ?date  ?temp_avg ?temp_min  ?temp_max (?temp_max -  ?temp_min) as ?temp_diff ?rainfall
    WHERE
     {
-        VALUES ?stationName {"` + stationName + `"}
+        VALUES ?stationName {` + stationName + `}
         ?s  a qb:Slice ;
         wes-dimension:station ?station  ;
     

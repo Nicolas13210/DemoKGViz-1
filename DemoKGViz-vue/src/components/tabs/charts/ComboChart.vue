@@ -42,8 +42,6 @@ export default {
                     properties.push({
                         title: parameters[parameter].param,
                         jsonPath: parameters[parameter].jsonPath,
-                        // TODO: change color here with the key "title" + "stationName".
-                        color: randomColor({seed: "myRandomSeed"}),
                         type: parameters[parameter].availableChart,
                         displayUnit: parameters[parameter].displayUnit
                     })
@@ -60,32 +58,50 @@ export default {
                 let values = [];
                 for (let valueObj of json.values) {
                     let value = valueObj[attribute];
-                    values.push(value);
+                    values.push({"station": valueObj['stationName'], "value": value});
                 }
-                result.push({"attribute": attribute, "values": values});
+
+                values.forEach(item => {
+                    const existingItem = result.find(outputItem => outputItem.station === item.station);
+
+                    if (existingItem) {
+                        existingItem.data.push({"attribute": attribute, "value": item.value});
+                    } else {
+                        result.push({station: item.station, data: [{"attribute": attribute, "value": item.value}]});
+                    }
+                });
             }
             return result;
         },
     },
     computed: {
         processData() {
-            let computedData = this.selectAndConcatAttributes(this.chartData);
-
             if (this.$store.getters.getWeather.length === 0) {
                 // No data loaded.
                 return undefined;
             }
-            const labels = computedData.find(item => item.attribute === "date").values;
+
+            let computedData = this.selectAndConcatAttributes(this.chartData);
+
+            // Optimization, we admit that all the stations have the same date rage.
+            const labels = [...new Set(computedData[0].data.filter(item => item.attribute === "date").map(item => item.value))];
+
             const datasets = [];
-            for (let property of this.properties) {
-                datasets.push({
-                    label: property.title,
-                    backgroundColor: property.color,
-                    data: computedData.find(item => item.attribute === property.jsonPath).values,
-                    type: property.type,
-                    displayUnit: property.displayUnit
-                });
+
+            for (let stationData of computedData) {
+                // For each station (station: XXX, data: [{attribute: XXX, value: XXX}]).
+                for (let property of this.properties) {
+                    const titleLabel = property.title + "(" + stationData.station + ")";
+                    datasets.push({
+                        label: titleLabel,
+                        backgroundColor: randomColor({seed: titleLabel}),
+                        data: stationData.data.filter(item => item.attribute === property.jsonPath).map(item => item.value),
+                        type: property.type,
+                        displayUnit: property.displayUnit
+                    });
+                }
             }
+
             const data = {
                 labels: labels,
                 datasets: datasets

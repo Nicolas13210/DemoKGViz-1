@@ -65,17 +65,14 @@ export const stationsModule = {
         setSelectedStations(context, payload) {
             context.commit("setSelectedStations", {selectedStations: payload});
 
-            // reload chart data
+            // Reload chart data
             for (let fonction of groupRequestsByParam(context.getters.getParameters)) {
-                console.log(fonction)
+                console.log("setSelectedStations fonction", fonction);
                 context.dispatch("setWeather", {
                     query:
-                        fonction(context
-                                .getters.getSelectedStations,
-                            context
-                                .getters.getStartDate,
-                            context
-                                .getters.getEndDate),
+                        fonction("\"" + (context.getters.getSelectedStations).join("\" \"") + "\"",
+                            context.getters.getStartDate,
+                            context.getters.getEndDate),
                     queryMethod: fonction.name
                 });
             }
@@ -84,15 +81,12 @@ export const stationsModule = {
             context.commit("updateSelectedStations", {selectedStation: payload});
             // reload chart data
             for (let fonction of groupRequestsByParam(context.getters.getParameters)) {
-                console.log(fonction)
+                console.log("updateSelectedStations fonction", fonction);
                 context.dispatch("setWeather", {
                     query:
-                        fonction(context
-                                .getters.getSelectedStations,
-                            context
-                                .getters.getStartDate,
-                            context
-                                .getters.getEndDate),
+                        fonction(context.getters.getSelectedStations,
+                            context.getters.getStartDate,
+                            context.getters.getEndDate),
                     queryMethod: fonction.name
                 });
             }
