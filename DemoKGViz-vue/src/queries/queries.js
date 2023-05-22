@@ -110,7 +110,7 @@ export function buildQuery_station() {
 }
 
 export function buildQuery_tmpRainStation(stationName, startDate, endDate) {
-    console.log("Fetching " + stationName + " between " + startDate + " and " + endDate)
+    console.log("Fetching tmpRainStation " + stationName + " between " + startDate + " and " + endDate)
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
  PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
@@ -147,6 +147,7 @@ export function buildQuery_tmpRainStation(stationName, startDate, endDate) {
 
 
 export function buildQuery_nbStatsDaysStation(stationName, startDate, endDate) {
+    console.log("Fetching nbStatsDaysStation " + stationName + " between " + startDate + " and " + endDate)
     return `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -220,4 +221,37 @@ export function buildQuery_nbStatsDaysStation(stationName, startDate, endDate) {
          } 
           }
         `
+}
+
+export function buildQuery_GddDaysStation(stationName, startDate, endDate) {
+    console.log("Fetching GddDaysStation " + stationName + " between " + startDate + " and " + endDate)
+    return `
+    PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
+    PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
+    PREFIX qb:  <http://purl.org/linked-data/cube#>
+    PREFIX wes-dimension: <http://ns.inria.fr/meteo/observationslice/dimension#>
+    PREFIX wes-measure: <http://ns.inria.fr/meteo/observationslice/measure#>
+    PREFIX wes-attribute: <http://ns.inria.fr/meteo/observationslice/attribute#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    
+    SELECT distinct  ?stationName ?date  ?gdd ?rainfall WHERE
+    {
+        VALUES ?stationName {"`+ stationName +`"}
+        ?s  a qb:Slice ;
+        wes-dimension:station ?station  ;
+    
+        wes-dimension:year ?year;
+        qb:observation [
+        a qb:Observation ;
+        wes-attribute:observationDate ?date ;
+        wes-measure:avgDailyTemperature ?temp_avg;
+        wes-measure:rainfall24h ?r] .
+        ?station a weo:WeatherStation ; rdfs:label ?stationName.
+        BIND( IF( ?r > 0 , ?r, 0)  as ?rainfall)
+        BIND( IF( ?temp_avg > 10 , ?temp_avg - 10, 0)  as ?gdd)
+        FILTER (?date >=xsd:date("`+ startDate +`"))
+        FILTER (?date <=xsd:date("`+ endDate +`"))
+    }
+    ORDER BY ?date
+    `
 }

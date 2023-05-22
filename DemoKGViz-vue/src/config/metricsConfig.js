@@ -1,4 +1,4 @@
-import {buildQuery_tmpRainStation, buildQuery_nbStatsDaysStation} from "@/queries/queries"
+import {buildQuery_tmpRainStation, buildQuery_nbStatsDaysStation, buildQuery_GddDaysStation} from "@/queries/queries"
 
 export const metricsConfig = [{
     "title": "Daily temperature", "items": [{
@@ -135,7 +135,7 @@ export const metricsConfig = [{
         "tooltip": "Growing degree days is equal to the average daily temperature minus base temperature",
         "type": "GddRain",
         "param": "Gdd",
-        "request": buildQuery_tmpRainStation,
+        "request": buildQuery_GddDaysStation,
         "availableChart": "BAR",
         "displayUnit": "°C"
     }, {
@@ -143,7 +143,7 @@ export const metricsConfig = [{
         "tooltip": "Accumulated growing degree days represents the sum of Growing degree days (GDD) over a period of time",
         "type": "GddRain",
         "param": "sumGdd",
-        "request": buildQuery_tmpRainStation,
+        "request": buildQuery_GddDaysStation,
         "availableChart": "LINE",
         "displayUnit": " day(s)"
     }, {
@@ -151,7 +151,7 @@ export const metricsConfig = [{
         "tooltip": "Average of the daily maximum temperature (T<sub>max</sub>) during the growing season",
         "type": "GddRain",
         "param": "GSTmax",
-        "request": buildQuery_tmpRainStation,
+        "request": buildQuery_GddDaysStation,
         "availableChart": "LINE",
         "displayUnit": "°C"
     }, {
@@ -159,7 +159,7 @@ export const metricsConfig = [{
         "tooltip": "Average of the daily minimum temperature (T<sub>min</sub>) during the growing season",
         "type": "GddRain",
         "param": "GSTmin",
-        "request": buildQuery_tmpRainStation,
+        "request": buildQuery_GddDaysStation,
         "availableChart": "LINE",
         "displayUnit": "°C"
     }]
