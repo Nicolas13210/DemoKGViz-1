@@ -34,7 +34,7 @@ export const dateModule = {
                 console.log("setStartDate fonction", fonction)
                 context.dispatch("setWeather", {
                     query:
-                        fonction(context.getters.getSelectedStations,
+                        fonction(context.getters.getSelectedStationsJoin,
                             context.getters.getStartDate,
                             context.getters.getEndDate),
                     queryMethod: fonction.name
@@ -49,7 +49,7 @@ export const dateModule = {
                 console.log("setEndDate function", fonction)
                 context.dispatch("setWeather", {
                     query:
-                        fonction(context.getters.getSelectedStations,
+                        fonction(context.getters.getSelectedStationsJoin,
                             context.getters.getStartDate,
                             context.getters.getEndDate),
                     queryMethod: fonction.name

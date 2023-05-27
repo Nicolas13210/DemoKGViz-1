@@ -41,6 +41,9 @@ export const stationsModule = {
         },
         getSelectedStations(state) {
             return state.selectedStations.sort();
+        },
+        getSelectedStationsJoin(state, getters) {
+            return "\"" + (getters.getSelectedStations).join("\" \"") + "\""
         }
     },
     actions: {
@@ -70,7 +73,7 @@ export const stationsModule = {
                 console.log("setSelectedStations fonction", fonction);
                 context.dispatch("setWeather", {
                     query:
-                        fonction("\"" + (context.getters.getSelectedStations).join("\" \"") + "\"",
+                        fonction(context.getters.getSelectedStationsJoin,
                             context.getters.getStartDate,
                             context.getters.getEndDate),
                     queryMethod: fonction.name
@@ -84,7 +87,7 @@ export const stationsModule = {
                 console.log("updateSelectedStations fonction", fonction);
                 context.dispatch("setWeather", {
                     query:
-                        fonction(context.getters.getSelectedStations,
+                        fonction(context.getters.getSelectedStationsJoin,
                             context.getters.getStartDate,
                             context.getters.getEndDate),
                     queryMethod: fonction.name
