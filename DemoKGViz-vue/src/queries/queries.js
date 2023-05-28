@@ -102,8 +102,6 @@ export function buildQuery_station() {
     PREFIX wdt: <http://www.wikidata.org/prop/direct/>
     PREFIX geosparql:  <http://www.opengis.net/ont/geosparql#> 
     SELECT distinct * WHERE {
-     
-        
         ?station rdfs:label ?stationName;  geo:lat ?lat; geo:long ?long .
     }
     `
@@ -148,6 +146,7 @@ export function buildQuery_tmpRainStation(stationName, startDate, endDate) {
 
 export function buildQuery_nbStatsDaysStation(stationName, startDate, endDate) {
     console.log("Fetching nbStatsDaysStation " + stationName + " between " + startDate + " and " + endDate)
+    const formattedStations = stationName.replace(/ /g, ",")
     return `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -163,7 +162,8 @@ export function buildQuery_nbStatsDaysStation(stationName, startDate, endDate) {
     PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
     PREFIX wevp: <http://ns.inria.fr/meteo/vocab/weatherproperty/> 
     
-        SELECT 
+       SELECT
+       ?stationName
        (sum(if(?temp_min<0.0, 1, 0)) as ?nbFrostDays) 
        (sum(if(?rainfall>0.0, 1, 0)) as ?nbRainyDays) 
        (sum(if(?temp_min>20.0, 1, 0)) as ?nbHeatDays) 
@@ -171,7 +171,6 @@ export function buildQuery_nbStatsDaysStation(stationName, startDate, endDate) {
        (sum(if(?humidity>60, 1, 0)) as ?nbwetDays)  
        (sum(if(?windSpeed>5.28, 1, 0)) as ?nbWindyDays)  WHERE
         {
-           
             {
             
             ?s  a qb:Slice ;
@@ -185,41 +184,46 @@ export function buildQuery_nbStatsDaysStation(stationName, startDate, endDate) {
             wes-measure:maxDailyTemperature ?temp_max; 
             wes-measure:avgDailyTemperature ?temp_avg; 
             wes-measure:rainfall24h ?rainfall] .
-            ?station a weo:WeatherStation ; rdfs:label "` + stationName + `".
-            FILTER (?date >=xsd:date("` + startDate + `" ))
-            FILTER (?date <=xsd:date("` + endDate + `" ))
+            ?station a weo:WeatherStation ; rdfs:label ?stationName.
+            FILTER (?stationName IN (` + formattedStations + `))
+            FILTER (?date >=xsd:date("2021-01-01" ))
+            FILTER (?date <=xsd:date("2021-01-31" ))
           }
           UNION 
         {
-          SELECT (AVG(?humidityR) as ?humidity) ?date WHERE {
+          SELECT (AVG(?humidityR) as ?humidity) ?date ?stationName WHERE {
            ?obs a weo:MeteorologicalObservation;
            sosa:observedProperty wevp:airRelativeHumidity;
            sosa:hasSimpleResult ?humidityR;
            sosa:resultTime ?datetime;
            wep:madeByStation ?station. 
-           ?station a weo:WeatherStation ; rdfs:label "` + stationName + `".
+           ?station a weo:WeatherStation ; rdfs:label ?stationName.
           BIND (xsd:date(SUBSTR(STR(?datetime), 1,10)) as ?date)
-          FILTER (?date >=xsd:date("` + startDate + `"))
-          FILTER (?date <=xsd:date("` + endDate + `"))
+          FILTER (?stationName IN (` + formattedStations + `))
+          FILTER (?date >=xsd:date("2021-01-01"))
+          FILTER (?date <=xsd:date("2021-01-31"))
          }
-         GROUP BY ?date
+         GROUP BY ?stationName ?date
          } 
        UNION 
         {
-          SELECT (AVG(?windSpeedD) as ?windSpeed) ?date WHERE {
+          SELECT (AVG(?windSpeedD) as ?windSpeed) ?date ?stationName WHERE {
            ?obs a weo:MeteorologicalObservation;
            sosa:observedProperty wevp:windAverageSpeed;
            sosa:hasSimpleResult ?windSpeedD;
            sosa:resultTime ?datetime;
            wep:madeByStation ?station. 
-           ?station a weo:WeatherStation ; rdfs:label "` + stationName + `" .
+           ?station a weo:WeatherStation ; rdfs:label ?stationName.
           BIND (xsd:date(SUBSTR(STR(?datetime), 1,10)) as ?date)
-          FILTER (?date >=xsd:date("` + startDate + `" ))
-          FILTER (?date <=xsd:date("` + endDate + `"))
+          FILTER (?stationName IN (` + formattedStations + `))
+          FILTER (?date >=xsd:date("2021-01-01" ))
+          FILTER (?date <=xsd:date("2021-01-31"))
          }
-         GROUP BY ?date
-         } 
-          }
+        GROUP BY ?stationName ?date
+        }
+       FILTER (?stationName IN (` + formattedStations + `))
+      }
+      GROUP BY ?stationName
         `
 }
 
