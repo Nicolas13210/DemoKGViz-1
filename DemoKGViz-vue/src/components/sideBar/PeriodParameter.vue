@@ -2,7 +2,7 @@
     <div class="period-parameter">
 
         <v-switch v-model="localComparison" @change="updateComparison(localComparison)" hide-details inset
-            label="Comparison"></v-switch>
+                  label="Comparison"></v-switch>
 
         <div class="date-pickers" v-if="comparison">
             <div>
@@ -95,11 +95,23 @@ export default {
         }
     },
     computed: {
-        startDate() {
-            return this.$store.getters.getStartDate
+        startDate: {
+            // Workaround in order to not get a warning in the console.
+            get() {
+                return this.$store.getters.getStartDate
+            },
+            set() {
+                return this.$store.getters.getStartDate
+            }
         },
-        endDate() {
-            return this.$store.getters.getEndDate
+        endDate: {
+            // Workaround in order to not get a warning in the console.
+            get() {
+                return this.$store.getters.getEndDate
+            },
+            set() {
+                return this.$store.getters.getEndDate
+            }
         },
         comparison() {
             return this.$store.getters.getComparison

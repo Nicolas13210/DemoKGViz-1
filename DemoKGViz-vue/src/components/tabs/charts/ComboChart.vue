@@ -91,7 +91,7 @@ export default {
             for (let stationData of computedData) {
                 // For each station (station: XXX, data: [{attribute: XXX, value: XXX}]).
                 for (let property of this.properties) {
-                    const titleLabel = property.title + "(" + stationData.station + ")";
+                    const titleLabel = property.title + " (" + stationData.station + ")";
                     datasets.push({
                         label: titleLabel,
                         backgroundColor: randomColor({seed: titleLabel}),
