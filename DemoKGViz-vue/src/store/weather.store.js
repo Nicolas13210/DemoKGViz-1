@@ -20,9 +20,10 @@ export const weatherModule = {
     }, getters: {
         getWeather(state) {
             return state.weather.find(value => value.queryMethod === "buildQuery_tmpRainStation");
-        }, getWeatherNbDay(state) {
+        }, 
+        getWeatherNbDay(state) {
             return state.weather.find(value => value.queryMethod === "buildQuery_nbStatsDaysStation");
-        }
+        },
     }, actions: {
         async setWeather(context, payload) {
             try {

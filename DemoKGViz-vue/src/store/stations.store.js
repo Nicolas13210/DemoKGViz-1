@@ -1,6 +1,7 @@
 import axios from "axios";
 import {buildQuery_station} from "@/queries/queries"
 import {groupRequestsByParam} from "@/utils/utils";
+import { reloadChart } from "../utils/utils";
 
 export const stationsModule = {
     namespace: false,
@@ -69,30 +70,11 @@ export const stationsModule = {
             context.commit("setSelectedStations", {selectedStations: payload});
 
             // Reload chart data
-            for (let fonction of groupRequestsByParam(context.getters.getParameters)) {
-                console.log("setSelectedStations fonction", fonction);
-                context.dispatch("setWeather", {
-                    query:
-                        fonction(context.getters.getSelectedStationsJoin,
-                            context.getters.getStartDate,
-                            context.getters.getEndDate),
-                    queryMethod: fonction.name
-                });
-            }
+            reloadChart(context)
         },
         updateSelectedStations(context, payload) {
             context.commit("updateSelectedStations", {selectedStation: payload});
-            // reload chart data
-            for (let fonction of groupRequestsByParam(context.getters.getParameters)) {
-                console.log("updateSelectedStations fonction", fonction);
-                context.dispatch("setWeather", {
-                    query:
-                        fonction(context.getters.getSelectedStationsJoin,
-                            context.getters.getStartDate,
-                            context.getters.getEndDate),
-                    queryMethod: fonction.name
-                });
-            }
+            reloadChart(context)
         }
     }
 }

@@ -9,11 +9,11 @@
                 <span class="text-subtitle-2 font-weight-bold">Comparison period</span>
             </div>
             <div class="date-pickers">
-                <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[0]"
-                    placeholder="Select a start date"
+                <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[0]" placeholder="Select a start date"
+                    :min-date="this.startDateBound" :max-date="this.endDateBound"
                     @update:model-value="this.updateComparisonDate" />
-                <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[1]"
-                     placeholder="Select an end date"
+                <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[1]" :min-date="this.startDateBound"
+                    :max-date="this.endDateBound" placeholder="Select an end date"
                     @update:model-value="this.updateComparisonDate" />
             </div>
 
@@ -30,13 +30,13 @@
             </div>
             <div class="date-pickers">
                 <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
-                    :enable-time-picker="false" v-model="this.startDate"
-                    :format="this.stringToStringFormatted(this.startDate)" placeholder="Select a start date"
-                    @update:model-value="this.updateStartDate" />
+                    :enable-time-picker="false" v-model="this.startDate" :min-date="this.startDateBound"
+                    :max-date="this.endDateBound" :format="this.stringToStringFormatted(this.startDate)"
+                    placeholder="Select a start date" @update:model-value="this.updateStartDate" />
                 <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
-                    :enable-time-picker="false" v-model="this.endDate"
-                    :format="this.stringToStringFormatted(this.endDate)" placeholder="Select an end date"
-                    @update:model-value="this.updateEndDate" />
+                    :enable-time-picker="false" v-model="this.endDate" :min-date="this.startDateBound"
+                    :max-date="this.endDateBound" :format="this.stringToStringFormatted(this.endDate)"
+                    placeholder="Select an end date" @update:model-value="this.updateEndDate" />
             </div>
         </div>
 
@@ -51,10 +51,11 @@ export default {
         return {
             localComparison: false,
 
+            startDateBound: new Date(2016, 1, 1),
+            endDateBound: new Date(2021, 11, 31),
+
             // Comparison range slider
             yearsSelected: [2016, 2017],
-            yearsTicks: [2016, 2017, 2018, 2019, 2020, 2021],
-            yearsBound: [2016, 2021]
         }
     },
     methods: {
