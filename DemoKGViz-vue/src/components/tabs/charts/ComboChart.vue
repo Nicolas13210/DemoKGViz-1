@@ -50,7 +50,6 @@ export default {
             return properties;
         },
         selectAndConcatAttributes(json) {
-          console.log("selectAndConcatAttributes")
             let properties = this.setProperties(this.$store.getters.getParameters)
             this.properties = properties;
             const attributes = ["date"].concat(properties.map(element => element.jsonPath));
@@ -75,7 +74,6 @@ export default {
             return result;
         },
       selectAndConcatAttributesDateComparaison(json) {
-        console.log("selectAndConcatAttributesDateComparaison")
         let properties = this.setProperties(this.$store.getters.getParameters)
         this.properties = properties;
         const attributes =  ["date"].concat(properties.map(element => element.jsonPath));
@@ -98,8 +96,6 @@ export default {
             }
           });
         }
-        console.log("result")
-        console.log(result)
         return result;
       },
 
@@ -126,7 +122,7 @@ export default {
             for (let stationData of computedData) {
               // For each station (station: XXX, data: [{attribute: XXX, value: XXX}]).
                 for (let property of this.properties) {
-                  const titleLabel = property.title + "(" + stationData.station + ")" + " - "+year;
+                  const titleLabel = property.title + "(" + stationData.station + ")" + ((this.$store.getters.getComparison) ? " - " + year : "");
                   let data;
                   if(this.$store.getters.getComparison) {
                      data = stationData.data.filter(item => item.attribute === property.jsonPath && item.year === year).map(item => item.value)
@@ -147,7 +143,6 @@ export default {
                 labels: labels,
                 datasets: datasets
             }
-            console.log("lineChart computed:", data);
             return data;
         },
         chartOptions() {
