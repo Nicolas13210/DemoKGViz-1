@@ -9,11 +9,11 @@
                 <span class="text-subtitle-2 font-weight-bold">Comparison period</span>
             </div>
             <div class="date-pickers">
-                <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[0]" :min-date="this.minDate"
-                    :max-date="this.maxDate" placeholder="Select a start date"
+                <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[0]"
+                    placeholder="Select a start date"
                     @update:model-value="this.updateComparisonDate" />
-                <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[1]" :min-date="this.minDate"
-                    :max-date="this.maxDate" placeholder="Select an end date"
+                <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[1]"
+                     placeholder="Select an end date"
                     @update:model-value="this.updateComparisonDate" />
             </div>
 
@@ -30,11 +30,11 @@
             </div>
             <div class="date-pickers">
                 <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
-                    :enable-time-picker="false" v-model="this.startDate" :min-date="this.minDate" :max-date="this.maxDate"
+                    :enable-time-picker="false" v-model="this.startDate"
                     :format="this.stringToStringFormatted(this.startDate)" placeholder="Select a start date"
                     @update:model-value="this.updateStartDate" />
                 <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
-                    :enable-time-picker="false" v-model="this.endDate" :min-date="this.minDate" :max-date="this.maxDate"
+                    :enable-time-picker="false" v-model="this.endDate"
                     :format="this.stringToStringFormatted(this.endDate)" placeholder="Select an end date"
                     @update:model-value="this.updateEndDate" />
             </div>
