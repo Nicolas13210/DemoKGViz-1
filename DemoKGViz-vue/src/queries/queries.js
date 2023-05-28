@@ -146,7 +146,8 @@ export function buildQuery_tmpRainStation(stationName, startDate, endDate) {
 
 export function buildQuery_nbStatsDaysStation(stationName, startDate, endDate) {
     console.log("Fetching nbStatsDaysStation " + stationName + " between " + startDate + " and " + endDate)
-    const formattedStations = stationName.replace(/ /g, ",")
+    // The end of this variable is a quickfix. The IN clause seems to not work if there is only one item in the list.
+    const formattedStations = stationName.replace(/ /g, ",") + ",\"\"";
     return `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>

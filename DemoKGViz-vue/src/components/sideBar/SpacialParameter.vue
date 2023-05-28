@@ -1,7 +1,7 @@
 <template>
     <div class="spacial-parameter">
         <div class="text-subtitle-2 font-weight-bold">Spacial parameter</div>
-        <v-select hide-details :items="this.stations"
+        <v-select hide-details :items="this.stations" v-model="this.selectedStations"
             label="Stations" @update:model-value="selectionUpdated($event)" multiple>
             <template v-slot:selection="{ item, index }">
                 <v-chip v-if="index < 3">
@@ -24,8 +24,14 @@ export default {
             const stations = this.$store.getters.getStations;
             return stations.map(station => station.stationName.value);
         },
-        selectedStations() {
-            return this.$store.getters.getSelectedStations;
+        selectedStations: {
+            // Workaround in order to not get a warning in the console.
+            set() {
+                return this.$store.getters.getSelectedStations;
+            },
+            get() {
+                return this.$store.getters.getSelectedStations;
+            }
         }
     },
     methods: {

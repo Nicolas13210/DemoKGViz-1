@@ -2,7 +2,7 @@
     <div class="period-parameter">
 
         <v-switch v-model="localComparison" @change="updateComparison(localComparison)" hide-details inset
-            label="Comparison"></v-switch>
+                  label="Comparison"></v-switch>
 
         <div class="date-pickers" v-if="comparison">
             <div>
@@ -10,11 +10,11 @@
             </div>
             <div class="date-pickers">
                 <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[0]"
-                    placeholder="Select a start date"
-                    @update:model-value="this.updateComparisonDate" />
+                               placeholder="Select a start date"
+                               @update:model-value="this.updateComparisonDate"/>
                 <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[1]"
-                     placeholder="Select an end date"
-                    @update:model-value="this.updateComparisonDate" />
+                               placeholder="Select an end date"
+                               @update:model-value="this.updateComparisonDate"/>
             </div>
 
         </div>
@@ -30,13 +30,13 @@
             </div>
             <div class="date-pickers">
                 <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
-                    :enable-time-picker="false" v-model="this.startDate"
-                    :format="this.stringToStringFormatted(this.startDate)" placeholder="Select a start date"
-                    @update:model-value="this.updateStartDate" />
+                               :enable-time-picker="false" v-model="this.startDate"
+                               :format="this.stringToStringFormatted(this.startDate)" placeholder="Select a start date"
+                               @update:model-value="this.updateStartDate"/>
                 <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
-                    :enable-time-picker="false" v-model="this.endDate"
-                    :format="this.stringToStringFormatted(this.endDate)" placeholder="Select an end date"
-                    @update:model-value="this.updateEndDate" />
+                               :enable-time-picker="false" v-model="this.endDate"
+                               :format="this.stringToStringFormatted(this.endDate)" placeholder="Select an end date"
+                               @update:model-value="this.updateEndDate"/>
             </div>
         </div>
 
@@ -94,11 +94,23 @@ export default {
         }
     },
     computed: {
-        startDate() {
-            return this.$store.getters.getStartDate
+        startDate: {
+            // Workaround in order to not get a warning in the console.
+            get() {
+                return this.$store.getters.getStartDate
+            },
+            set() {
+                return this.$store.getters.getStartDate
+            }
         },
-        endDate() {
-            return this.$store.getters.getEndDate
+        endDate: {
+            // Workaround in order to not get a warning in the console.
+            get() {
+                return this.$store.getters.getEndDate
+            },
+            set() {
+                return this.$store.getters.getEndDate
+            }
         },
         comparison() {
             return this.$store.getters.getComparison
