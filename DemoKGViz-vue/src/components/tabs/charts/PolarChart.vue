@@ -49,7 +49,6 @@ export default {
             let labels = [];
             let backgroundColors = [];
             let data = [];
-            let displayUnits = [];
 
             // For each station with data
             for (const stationData of this.chartData.values) {
@@ -59,17 +58,19 @@ export default {
                   .map(item => item + " (" + stationName + ")");
                 labels = labels.concat(titleLabels);
 
-                backgroundColors = backgroundColors.concat(titleLabels.map(item => randomColor({seed: item})));
+                backgroundColors = backgroundColors.concat(titleLabels.map(item => randomColor({
+                    seed: item,
+                    alpha: 0.6,
+                    format: "rgba"
+                })));
                 data = data.concat(this.extractValues(stationName, this.chartData, this.$store.getters.getParameters));
-                displayUnits = displayUnits.concat(" day(s)");
             }
 
             const polarChart = {
                 labels: labels,
                 datasets: [{
                     backgroundColor: backgroundColors,
-                    data: data,
-                    displayUnit: displayUnits
+                    data: data
                 }]
             }
 
@@ -78,7 +79,20 @@ export default {
         },
         chartOptions() {
             return {
-                responsive: true
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (chart) => {
+                                const value = chart.formattedValue;
+                                if (value !== '0' || value !== '1') {
+                                    return value + ' days';
+                                }
+                                return value + ' day';
+                            }
+                        }
+                    }
+                }
             };
         }
     }
