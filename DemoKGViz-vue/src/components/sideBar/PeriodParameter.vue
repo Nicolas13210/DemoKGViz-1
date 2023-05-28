@@ -1,36 +1,45 @@
 <template>
     <div class="period-parameter">
-        <div>
-            <span class="text-subtitle-2 font-weight-bold">Temporal period</span>
-            <v-tooltip location="bottom">
-                <template v-slot:activator="{ props }">
-                    <v-btn density="compact" icon="mdi-help-circle-outline" variant="text" v-bind="props"></v-btn>
-                </template>
-                <span>Format: YYYY-MM-DD</span>
-            </v-tooltip>
+
+        <v-switch v-model="localComparison" @change="updateComparison(localComparison)" hide-details inset
+            label="Comparison"></v-switch>
+
+        <div class="date-pickers" v-if="comparison">
+            <div>
+                <span class="text-subtitle-2 font-weight-bold">Comparison period</span>
+            </div>
+            <div class="date-pickers">
+                <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[0]" :min-date="this.minDate"
+                    :max-date="this.maxDate" placeholder="Select a start date"
+                    @update:model-value="this.updateComparisonDate" />
+                <VueDatePicker auto-apply year-picker v-model="this.yearsSelected[1]" :min-date="this.minDate"
+                    :max-date="this.maxDate" placeholder="Select an end date"
+                    @update:model-value="this.updateComparisonDate" />
+            </div>
+
         </div>
-        <div class="date-pickers">
-            <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
-                           :enable-time-picker="false"
-                           v-model="this.startDate"
-                           :min-date="this.minDate"
-                           :max-date="this.maxDate"
-                           :format="this.stringToStringFormatted(this.startDate)"
-                           placeholder="Select a start date"
-                           @update:model-value="this.updateStartDate"/>
-            <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
-                           :enable-time-picker="false"
-                           v-model="this.endDate"
-                           :min-date="this.minDate"
-                           :max-date="this.maxDate"
-                           :format="this.stringToStringFormatted(this.endDate)"
-                           placeholder="Select an end date"
-                           @update:model-value="this.updateEndDate"/>
+        <div class="date-pickers" v-else>
+            <div>
+                <span class="text-subtitle-2 font-weight-bold">Temporal period</span>
+                <v-tooltip location="bottom">
+                    <template v-slot:activator="{ props }">
+                        <v-btn density="compact" icon="mdi-help-circle-outline" variant="text" v-bind="props"></v-btn>
+                    </template>
+                    <span>Format: YYYY-MM-DD</span>
+                </v-tooltip>
+            </div>
+            <div class="date-pickers">
+                <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
+                    :enable-time-picker="false" v-model="this.startDate" :min-date="this.minDate" :max-date="this.maxDate"
+                    :format="this.stringToStringFormatted(this.startDate)" placeholder="Select a start date"
+                    @update:model-value="this.updateStartDate" />
+                <VueDatePicker auto-apply prevent-min-max-navigation ignore-time-validation hide-offset-dates
+                    :enable-time-picker="false" v-model="this.endDate" :min-date="this.minDate" :max-date="this.maxDate"
+                    :format="this.stringToStringFormatted(this.endDate)" placeholder="Select an end date"
+                    @update:model-value="this.updateEndDate" />
+            </div>
         </div>
 
-        <div class="text-subtitle-2 font-weight-bold">Comparaison slider (soon)</div>
-        <v-range-slider :ticks="this.yearsTicks" :model-value="this.yearsBound" :min="this.yearsBound[0]"
-                        :max="this.yearsBound[1]" :step="1" show-ticks="always" tick-size="4"/>
     </div>
 </template>
 
@@ -40,13 +49,10 @@ export default {
     name: "PeriodParameter",
     data() {
         return {
-            // Date picker
+            localComparison: false,
 
-            // Configuration to prevent the selection of dates outside [minDate ; maxDate]
-            minDate: new Date(2016, 0, 1),
-            maxDate: new Date(2021, 11, 31),
-
-            // Range slider
+            // Comparison range slider
+            yearsSelected: [2016, 2017],
             yearsTicks: [2016, 2017, 2018, 2019, 2020, 2021],
             yearsBound: [2016, 2021]
         }
@@ -75,6 +81,16 @@ export default {
         },
         updateEndDate(date) {
             this.$store.dispatch('setEndDate', this.dateToStringFormatted(date));
+        },
+        updateComparison(comparison) {
+            this.$store.dispatch('setComparison', comparison);
+        },
+        updateComparisonDate() {
+            this.$store.dispatch('setComparisonDate', this.parseComparisonDate(this.yearsSelected))
+        },
+        parseComparisonDate(comparisonDate) {
+            // transform [2016,2017] to [2016-01-01,2017-12-31]
+            return [comparisonDate[0].toString() + "-01-01", comparisonDate[1].toString() + "-12-31"]
         }
     },
     computed: {
@@ -83,6 +99,9 @@ export default {
         },
         endDate() {
             return this.$store.getters.getEndDate
+        },
+        comparison() {
+            return this.$store.getters.getComparison
         },
     }
 }
