@@ -1,5 +1,6 @@
 <script>
-import {buildQuery_extractData, buildQuery_extractRDF} from '@/queries/queries';
+import {buildQuery_exportAllData, buildQuery_extractData, buildQuery_extractRDF} from '@/queries/queries';
+import axios from "axios";
 
 export default {
     name: "ExportResult",
@@ -77,6 +78,17 @@ export default {
             element.click();
 
             document.body.removeChild(element);
+        },
+        async downloadData(extension) {
+            await axios.post("/sparql", {
+                format: "text/" + extension,
+                query: buildQuery_exportAllData(this.$store.getters.getSelectedStationsJoin, this.$store.getters.getStartDate, this.$store.getters.getEndDate)
+            }, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).catch(error => console.error(error));
+
         }
     }
 }
@@ -94,7 +106,7 @@ export default {
                 <img class="export" src="../../img/json_logo.png" alt="export">
             </v-btn>
 
-            <v-btn class="export" variant="outlined" id="CSV" @click="createFileCSV(textStation)">
+            <v-btn class="export" variant="outlined" id="CSV" @click="downloadData('csv')">
                 <img class="export" src="../../img/csv_logo.png" alt="export">
             </v-btn>
         </div>

@@ -1,7 +1,6 @@
 import axios from "axios";
 import {buildQuery_station} from "@/queries/queries"
-import {groupRequestsByParam} from "@/utils/utils";
-import { reloadChart } from "../utils/utils";
+import {reloadChart} from "@/utils/utils";
 
 export const stationsModule = {
     namespace: false,

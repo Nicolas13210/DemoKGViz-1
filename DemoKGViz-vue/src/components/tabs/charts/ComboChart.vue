@@ -142,11 +142,11 @@ export default {
                     }
                 }
             }
-            const data = {
+
+            return {
                 labels: labels,
                 datasets: datasets
-            }
-            return data;
+            };
         },
         chartOptions() {
             return {
