@@ -19,9 +19,8 @@ export const weatherModule = {
         }
     }, getters: {
         getWeather(state) {
-            return state.weather.find(value => value.queryMethod === "buildQuery_tmpRainStation");
-        }, 
-        getWeatherNbDay(state) {
+            return state.weather;
+        }, getWeatherNbDay(state) {
             return state.weather.find(value => value.queryMethod === "buildQuery_nbStatsDaysStation");
         },
     }, actions: {
@@ -36,9 +35,7 @@ export const weatherModule = {
                 });
                 const transformedData = transformData(response.data);
                 context.commit("setWeather", {
-                    query: payload.query.toString(),
-                    queryMethod: payload.queryMethod,
-                    result: transformedData
+                    query: payload.query.toString(), queryMethod: payload.queryMethod, result: transformedData
                 });
             } catch (error) {
                 console.error(error);

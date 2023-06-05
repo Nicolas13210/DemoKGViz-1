@@ -72,8 +72,8 @@ export const metricsConfig = [{
         "title": "Number of wet days (nbWetDays)",
         "tooltip": "Number of wet days represents the number of days during which the humidity is higher than 60% for a period",
         "type": "Numb",
-        "param": "nbwetDays",
-        "jsonPath": "nbwetDays",
+        "param": "nbWetDays",
+        "jsonPath": "nbWetDays",
         "request": buildQuery_nbStatsDaysStation,
         "availableChart": "POLAR",
         "displayUnit": " day(s)"
@@ -83,7 +83,7 @@ export const metricsConfig = [{
         "title": "Number of high wind days (wind)",
         "tooltip": "Number of high wind days represents the number of days during the wind is higher than 5.28 m/s for a period",
         "type": "Numb",
-        "param": "highWind",
+        "param": "nbWindyDays",
         "jsonPath": "nbWindyDays",
         "request": buildQuery_nbStatsDaysStation,
         "availableChart": "POLAR",
@@ -134,17 +134,19 @@ export const metricsConfig = [{
         "title": "Growing degree days (GDD)",
         "tooltip": "Growing degree days is equal to the average daily temperature minus base temperature",
         "type": "GddRain",
-        "param": "Gdd",
+        "param": "gdd",
+        "jsonPath": "gdd",
         "request": buildQuery_GddDaysStation,
-        "availableChart": "BAR",
+        "availableChart": "line",
         "displayUnit": "°C"
     }, {
         "title": "Accumulated growing degree days (sumGDD)",
         "tooltip": "Accumulated growing degree days represents the sum of Growing degree days (GDD) over a period of time",
         "type": "GddRain",
-        "param": "sumGdd",
+        "param": "rainfall",
+        "jsonPath": "rainfall",
         "request": buildQuery_GddDaysStation,
-        "availableChart": "LINE",
+        "availableChart": "line",
         "displayUnit": " day(s)"
     }, {
         "title": "Growing Season T<sub>max</sub> (GST<sub>max</sub>)",
@@ -152,7 +154,7 @@ export const metricsConfig = [{
         "type": "GddRain",
         "param": "GSTmax",
         "request": buildQuery_GddDaysStation,
-        "availableChart": "LINE",
+        "availableChart": "line",
         "displayUnit": "°C"
     }, {
         "title": "Growing Season T<sub>min</sub> (GST<sub>min</sub>)",
@@ -160,7 +162,7 @@ export const metricsConfig = [{
         "type": "GddRain",
         "param": "GSTmin",
         "request": buildQuery_GddDaysStation,
-        "availableChart": "LINE",
+        "availableChart": "line",
         "displayUnit": "°C"
     }]
 }]
