@@ -133,9 +133,21 @@ export default {
                         } else {
                             data = stationData.data.filter(item => item.attribute === property.jsonPath).map(item => item.value)
                         }
+
+                        // Low encryption method, just to randomize the String.
+                        const colorSha1 = CryptoJS.SHA256(titleLabel).toString();
                         datasets.push({
                             label: titleLabel,
-                            backgroundColor: randomColor({seed: CryptoJS.SHA1(titleLabel).toString()}),
+                            backgroundColor: randomColor({
+                                seed: colorSha1,
+                                alpha: 1,
+                                format: "rgba",
+                            }),
+                            borderColor: randomColor({
+                                seed: colorSha1,
+                                alpha: 0.4,
+                                format: "rgba"
+                            }),
                             data: data,
                             type: property.type,
                             displayUnit: property.displayUnit
