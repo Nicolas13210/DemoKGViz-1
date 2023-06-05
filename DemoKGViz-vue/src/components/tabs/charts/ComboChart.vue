@@ -43,7 +43,8 @@ export default {
                         title: parameters[parameter].param,
                         jsonPath: parameters[parameter].jsonPath,
                         type: parameters[parameter].availableChart,
-                        displayUnit: parameters[parameter].displayUnit
+                        displayUnit: parameters[parameter].displayUnit,
+                        queryMethod: parameters[parameter].request.name
                     })
                 }
             }
@@ -52,12 +53,24 @@ export default {
         selectAndConcatAttributes(json) {
             let properties = this.setProperties(this.$store.getters.getParameters)
             this.properties = properties;
-            const attributes = ["date"].concat(properties.map(element => element.jsonPath));
+
             let result = [];
-            for (let attribute of attributes) {
+            for (let attribute of properties.concat({
+                jsonPath: "date",
+            })) {
+
                 let values = [];
-                for (let valueObj of json.values) {
-                    let value = valueObj[attribute];
+                let attributes = [];
+
+                if (attribute.jsonPath === "date") {
+                    // Use the first query to obtain the dates
+                    attributes = json[0].result.values;
+                } else {
+                    attributes = json.find(value => value.queryMethod === attribute.queryMethod).result.values;
+                }
+
+                for (let valueObj of attributes) {
+                    let value = valueObj[attribute.jsonPath];
                     values.push({"station": valueObj['stationName'], "value": value});
                 }
 
@@ -65,9 +78,12 @@ export default {
                     const existingItem = result.find(outputItem => outputItem.station === item.station);
 
                     if (existingItem) {
-                        existingItem.data.push({"attribute": attribute, "value": item.value});
+                        existingItem.data.push({"attribute": attribute.jsonPath, "value": item.value});
                     } else {
-                        result.push({station: item.station, data: [{"attribute": attribute, "value": item.value}]});
+                        result.push({
+                            station: item.station,
+                            data: [{"attribute": attribute.jsonPath, "value": item.value}]
+                        });
                     }
                 });
             }
@@ -76,13 +92,25 @@ export default {
         selectAndConcatAttributesDateComparaison(json) {
             let properties = this.setProperties(this.$store.getters.getParameters)
             this.properties = properties;
-            const attributes = ["date"].concat(properties.map(element => element.jsonPath));
+
 
             let result = [];
-            for (let attribute of attributes) {
+            for (let attribute of properties.concat({
+                jsonPath: "date",
+            })) {
                 let values = [];
-                for (let valueObj of json.values) {
-                    let value = valueObj[attribute];
+                let attributes = [];
+
+                if (attribute.jsonPath === "date") {
+                    // Use the first query to obtain the dates
+                    attributes = json[0].result.values;
+                } else {
+                    attributes = json.find(value => value.queryMethod === attribute.queryMethod).result.values;
+                }
+
+
+                for (let valueObj of attributes) {
+                    let value = valueObj[attribute.jsonPath];
                     let date = valueObj["date"];
                     values.push({"station": valueObj['stationName'], "value": value, "year": date.substring(0, 4)});
                 }
@@ -90,11 +118,15 @@ export default {
                     const existingItem = result.find(outputItem => outputItem.station === item.station);
 
                     if (existingItem) {
-                        existingItem.data.push({"attribute": attribute, "value": item.value, "year": item.year});
+                        existingItem.data.push({
+                            "attribute": attribute.jsonPath,
+                            "value": item.value,
+                            "year": item.year
+                        });
                     } else {
                         result.push({
                             station: item.station,
-                            data: [{"attribute": attribute, "value": item.value, "year": item.year}]
+                            data: [{"attribute": attribute.jsonPath, "value": item.value, "year": item.year}]
                         });
                     }
                 });
@@ -107,8 +139,10 @@ export default {
         processData() {
             if (this.$store.getters.getWeather.length === 0) {
                 // No data loaded.
+                console.log("undefined")
                 return undefined;
             }
+
             let computedData, labels;
             if (this.$store.getters.getComparison) {
                 computedData = this.selectAndConcatAttributesDateComparaison(this.chartData);
@@ -125,13 +159,16 @@ export default {
                 for (let stationData of computedData) {
                     // For each station (station: XXX, data: [{attribute: XXX, value: XXX}]).
                     for (let property of this.properties) {
+
                         const titleLabel = property.title + "(" + stationData.station + ")" + ((this.$store.getters.getComparison) ? " - " + year : "");
                         let data;
                         if (this.$store.getters.getComparison) {
-                            data = stationData.data.filter(item => item.attribute === property.jsonPath && item.year === year).map(item => item.value)
+                            data = stationData.data.filter(item => item.attribute === property.jsonPath && item.year === year).map(item => parseFloat(item.value))
+
                         } else {
                             data = stationData.data.filter(item => item.attribute === property.jsonPath).map(item => item.value)
                         }
+
                         datasets.push({
                             label: titleLabel,
                             backgroundColor: randomColor({seed: titleLabel}),
@@ -146,7 +183,9 @@ export default {
             return {
                 labels: labels,
                 datasets: datasets
-            };
+            }
+            console.log(data)
+            return data;
         },
         chartOptions() {
             return {
