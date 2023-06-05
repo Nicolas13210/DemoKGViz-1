@@ -6,6 +6,7 @@
 import {PolarArea} from 'vue-chartjs';
 import {Chart as ChartJS, Title, Tooltip, Legend, ArcElement, RadialLinearScale} from 'chart.js'
 import {randomColor} from "randomcolor";
+import CryptoJS from "crypto-js";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, RadialLinearScale);
 
@@ -59,7 +60,7 @@ export default {
                 labels = labels.concat(titleLabels);
 
                 backgroundColors = backgroundColors.concat(titleLabels.map(item => randomColor({
-                    seed: item,
+                    seed: CryptoJS.SHA1(item).toString(),
                     alpha: 0.6,
                     format: "rgba"
                 })));

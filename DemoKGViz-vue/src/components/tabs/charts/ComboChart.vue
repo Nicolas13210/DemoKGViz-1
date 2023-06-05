@@ -5,6 +5,7 @@
 <script>
 import {Bar} from 'vue-chartjs';
 import {randomColor} from "randomcolor";
+import CryptoJS from 'crypto-js';
 import {
     BarElement,
     CategoryScale,
@@ -134,7 +135,7 @@ export default {
                         }
                         datasets.push({
                             label: titleLabel,
-                            backgroundColor: randomColor({seed: titleLabel}),
+                            backgroundColor: randomColor({seed: CryptoJS.SHA1(titleLabel).toString()}),
                             data: data,
                             type: property.type,
                             displayUnit: property.displayUnit
