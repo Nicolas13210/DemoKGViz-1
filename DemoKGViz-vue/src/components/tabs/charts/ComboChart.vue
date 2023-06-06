@@ -1,10 +1,10 @@
 <template>
-    <Bar :data="processData" :options="chartOptions"/>
+    <Bar ref="barChart" :data="processData" :options="chartOptions" @dblclick="resetZoom()" />
 </template>
 
 <script>
-import {Bar} from 'vue-chartjs';
-import {randomColor} from "randomcolor";
+import { Bar } from 'vue-chartjs';
+import { randomColor } from "randomcolor";
 import CryptoJS from 'crypto-js';
 import {
     BarElement,
@@ -18,8 +18,10 @@ import {
     Title,
     Tooltip
 } from 'chart.js'
+import zoomPlugin from 'chartjs-plugin-zoom';
 
-Chart.register(BarElement, LineController, CategoryScale, Title, Tooltip, Legend, PointElement, LinearScale, LineElement);
+
+Chart.register(BarElement, LineController, CategoryScale, Title, Tooltip, Legend, PointElement, LinearScale, LineElement, zoomPlugin);
 
 export default {
     name: "ComboChart",
@@ -72,18 +74,18 @@ export default {
 
                 for (let valueObj of attributes) {
                     let value = valueObj[attribute.jsonPath];
-                    values.push({"station": valueObj['stationName'], "value": value});
+                    values.push({ "station": valueObj['stationName'], "value": value });
                 }
 
                 values.forEach(item => {
                     const existingItem = result.find(outputItem => outputItem.station === item.station);
 
                     if (existingItem) {
-                        existingItem.data.push({"attribute": attribute.jsonPath, "value": item.value});
+                        existingItem.data.push({ "attribute": attribute.jsonPath, "value": item.value });
                     } else {
                         result.push({
                             station: item.station,
-                            data: [{"attribute": attribute.jsonPath, "value": item.value}]
+                            data: [{ "attribute": attribute.jsonPath, "value": item.value }]
                         });
                     }
                 });
@@ -113,7 +115,7 @@ export default {
                 for (let valueObj of attributes) {
                     let value = valueObj[attribute.jsonPath];
                     let date = valueObj["date"];
-                    values.push({"station": valueObj['stationName'], "value": value, "year": date.substring(0, 4)});
+                    values.push({ "station": valueObj['stationName'], "value": value, "year": date.substring(0, 4) });
                 }
                 values.forEach(item => {
                     const existingItem = result.find(outputItem => outputItem.station === item.station);
@@ -127,14 +129,16 @@ export default {
                     } else {
                         result.push({
                             station: item.station,
-                            data: [{"attribute": attribute.jsonPath, "value": item.value, "year": item.year}]
+                            data: [{ "attribute": attribute.jsonPath, "value": item.value, "year": item.year }]
                         });
                     }
                 });
             }
             return result;
         },
-
+        resetZoom() {
+            this.$refs.barChart.chart.resetZoom();
+        },
     },
     computed: {
         processData() {
@@ -185,7 +189,18 @@ export default {
                             }),
                             data: data,
                             type: property.type,
-                            displayUnit: property.displayUnit
+                            displayUnit: property.displayUnit,
+                            borderWidth: 3,
+                            hoverBorderWidth: 10,
+                            onClick: (evt, item) => {
+                                console.log("fgzeijoger")
+                            },
+                            /*                             actions: [{
+                                                            name: 'Reset zoom',
+                                                            handler(chart) {
+                                                                chart.resetZoom();
+                                                            }
+                                                        }] */
                         });
                     }
                 }
@@ -203,8 +218,21 @@ export default {
                     tooltip: {
                         callbacks: {
                             label: (chart) =>
-                              chart.dataset.label + ": " + chart.formattedValue + chart.dataset.displayUnit
+                                chart.dataset.label + ": " + chart.formattedValue + chart.dataset.displayUnit
                         }
+                    },
+                    zoom: {
+                        pan: {
+                            enabled: true,
+                            mode: 'x',
+                            modifierKey: 'ctrl',
+                        },
+                        zoom: {
+                            drag: {
+                                enabled: true
+                            },
+                            mode: 'x',
+                        },
                     }
                 }
             };
@@ -213,6 +241,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
