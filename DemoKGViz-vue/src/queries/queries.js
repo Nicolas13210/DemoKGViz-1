@@ -117,7 +117,60 @@ WHERE {
     `;
 }
 
-export function buildQuery_exportAllData(stationName, startDate, endDate) {
+export function buildQuery_exportDailyData(stationName, startDate, endDate) {
+    return `
+PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
+PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX wes-dimension: <http://ns.inria.fr/meteo/observationslice/dimension#>
+PREFIX wes-measure: <http://ns.inria.fr/meteo/observationslice/measure#>
+PREFIX wes-attribute: <http://ns.inria.fr/meteo/observationslice/attribute#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX wep: <http://ns.inria.fr/meteo/ontology/property/>
+PREFIX wevp: <http://ns.inria.fr/meteo/vocab/weatherproperty/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT distinct ?stationName ?date
+    (SAMPLE(?temp_min) as ?daily_temp_min)
+    (SAMPLE(?temp_max) as ?daily_temp_max)
+    (SAMPLE(?rainfall) as ?daily_rainfall)
+    (avg(?v)-273.15 as ?daily_tempAVG)
+    WHERE
+    {
+        VALUES ?stationName {` + stationName + `}
+        ?station a weo:WeatherStation ; rdfs:label ?stationName; weo:stationID ?stationID .
+    {
+        ?s a qb:Slice ;
+        wes-dimension:station ?station;
+        wes-dimension:year ?year;
+        qb:observation [
+        a qb:Observation ;
+        wes-attribute:observationDate ?date ;
+        wes-measure:minDailyTemperature ?temp_min;
+        wes-measure:maxDailyTemperature ?temp_max;
+        wes-measure:rainfall24h ?rainfall] .
+        BIND(IF(?r > 0.0, ?r, 0.0) AS ?rainfall)
+        FILTER (?date >=xsd:date("` + startDate + `"))
+        FILTER (?date <=xsd:date("` + endDate + `"))
+    }
+      UNION
+    {
+       ?obs a weo:MeteorologicalObservation;
+        sosa:observedProperty wevp:airTemperature;
+        sosa:hasSimpleResult ?v;
+        sosa:resultTime ?datetime;
+        wep:madeByStation ?station.
+        BIND (xsd:date(SUBSTR(STR(?datetime), 1,10)) as ?date)
+        FILTER (xsd:date(SUBSTR(STR(?datetime), 1,10))>=xsd:date("` + startDate + `"))
+        FILTER (xsd:date(SUBSTR(STR(?datetime), 1,10))<=xsd:date("` + endDate + `"))
+    }
+}
+GROUP BY ?stationName ?date
+ORDER BY ?date ?stationName
+    `;
+}
+
+export function buildQuery_exportPeriodData(stationName, startDate, endDate) {
     return `
 PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
 PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
@@ -131,7 +184,7 @@ PREFIX wep: <http://ns.inria.fr/meteo/ontology/property/>
 PREFIX wevp: <http://ns.inria.fr/meteo/vocab/weatherproperty/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT DISTINCT ?stationName ?date ?temp_avg ?temp_min ?temp_max (?temp_max - ?temp_min AS ?temp_diff) ?rainfall
+SELECT DISTINCT ?stationName
 (SUM(IF(?temp_min < 0.0, 1, 0)) AS ?nbFrostDays)
 (SUM(IF(?rainfall > 0.0, 1, 0)) AS ?nbRainyDays)
 (SUM(IF(?temp_min > 20.0, 1, 0)) AS ?nbHeatDays)
@@ -142,28 +195,6 @@ SELECT DISTINCT ?stationName ?date ?temp_avg ?temp_min ?temp_max (?temp_max - ?t
 WHERE
 {
 VALUES ?stationName {` + stationName + `}
-    {
-        ?s a qb:Slice ;
-           wes-dimension:station ?station ;
-           wes-dimension:year ?year ;
-           qb:observation [
-               a qb:Observation ;
-               wes-attribute:observationDate ?date ;
-               wes-measure:minDailyTemperature ?temp_min ;
-               wes-measure:maxDailyTemperature ?temp_max ;
-               wes-measure:avgDailyTemperature ?temp_avg ;
-               wes-measure:rainfall24h ?r
-           ] .
-        ?station a weo:WeatherStation ;
-                 rdfs:label ?stationName .
-        BIND(IF(?r > 0, ?r, 0) AS ?rainfall)
-        BIND(IF(?temp_avg > 10, ?temp_avg - 10, 0) AS ?gdd)
-        FILTER (?date >= xsd:date("` + startDate + `"))
-        FILTER (?date <= xsd:date("` + endDate + `"))
-    }
-
-    UNION
-
     {
         SELECT (AVG(?humidityR) AS ?humidity) ?date ?stationName
         WHERE {
@@ -200,8 +231,8 @@ VALUES ?stationName {` + stationName + `}
         GROUP BY ?stationName ?date
     }
 }
-GROUP BY ?stationName ?date ?temp_avg ?temp_min ?temp_max ?rainfall ?gdd
-ORDER BY ?date
+GROUP BY ?stationName ?temp_avg ?temp_min ?temp_max ?rainfall ?gdd
+ORDER BY ?stationName
     `;
 }
 
