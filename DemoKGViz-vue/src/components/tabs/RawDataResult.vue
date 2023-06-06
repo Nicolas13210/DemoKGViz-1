@@ -6,19 +6,19 @@
                 <th class="text-left">
                     Station Name
                 </th>
-
-                <th class="text-left" v-for="item in processData" :key="item.param">
-                    {{ item.param }}
+                <th class="text-left">
+                    Date
                 </th>
-
+                <th class="text-left" v-for="prop in properties" :key="prop.param">
+                    {{ prop.param }}
+                </th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="item in data" :key="item.name">
-                <td>{{ item.name }}</td>
+            <tr v-for="item in processData" :key="item.name">
+                <td>{{ item.stationName }}</td>
                 <td>{{ item.date }}</td>
-                <td>{{ item.tmin }}</td>
-                <td>{{ item.tmax }}</td>
+                <td v-for="prop in properties" :key="prop.param">{{ item[prop.jsonPath] }}</td>
             </tr>
             </tbody>
         </v-table>
@@ -34,33 +34,40 @@ export default {
         return {
             properties: [],
             data: [
-                {
-                    name: 'Nice',
-                    date: '2023-02-02',
-                    tmin: 5,
-                    tmax: 10,
-                },
             ],
         }
     },
     computed: {
         processData() {
-            console.log(this.$store.getters.getParameters)
-            console.log(this.selectAndConcatAttributes(this.$store.getters.getWeather))
+            console.log(this.mergeWeatherData(this.$store.getters.getWeather.map(el=> el.result.values)))
+            return this.mergeWeatherData(this.$store.getters.getWeather.map(el=> el.result.values))
+        },
+        properties() {
             return this.$store.getters.getParameters
         }
     },
     methods: {
-        selectAndConcatAttributes(json) {
-            let properties = this.$store.getters.getParameters
-            this.properties = properties;
-            console.log(this.properties)
+        mergeWeatherData(weatherArray) {
+            const mergedData = [];
 
-            let result = [];
+            weatherArray.forEach(weather => {
+                weather.forEach(item => {
+                    const existingItem = mergedData.find(mergedItem => mergedItem.date === item.date);
 
-            console.log(result)
-            return result;
-        }
+                    if (existingItem) {
+                        Object.keys(item).forEach(key => {
+                            if (key !== 'date' && !existingItem.hasOwnProperty(key)) {
+                                existingItem[key] = item[key];
+                            }
+                        });
+                    } else {
+                        mergedData.push({ ...item });
+                    }
+                });
+            });
+
+            return mergedData;
+        },
     }
 }
 </script>
