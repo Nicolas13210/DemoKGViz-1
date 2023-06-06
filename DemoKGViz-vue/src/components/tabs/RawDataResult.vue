@@ -52,11 +52,13 @@ export default {
 
             weatherArray.forEach(weather => {
                 weather.forEach(item => {
-                    const existingItem = mergedData.find(mergedItem => mergedItem.date === item.date);
+                    const existingItem = mergedData.find(
+                      mergedItem => mergedItem.date === item.date && mergedItem.stationName === item.stationName
+                    );
 
                     if (existingItem) {
                         Object.keys(item).forEach(key => {
-                            if (key !== 'date' && !existingItem.hasOwnProperty(key)) {
+                            if (key !== 'date' && key !== 'stationName' && !existingItem.hasOwnProperty(key)) {
                                 existingItem[key] = item[key];
                             }
                         });
