@@ -41,13 +41,15 @@ export default {
         setProperties(parameters) {
             let properties = [];
             for (let parameter in parameters) {
-                if (parameters[parameter].availableChart === "line" || parameters[parameter].availableChart === "bar") {
+                const chartType = parameters[parameter].availableChart;
+                if (chartType === "line" || chartType === "bar") {
                     properties.push({
                         title: parameters[parameter].param,
                         jsonPath: parameters[parameter].jsonPath,
                         type: parameters[parameter].availableChart,
                         displayUnit: parameters[parameter].displayUnit,
-                        queryMethod: parameters[parameter].request.name
+                        queryMethod: parameters[parameter].request.name,
+                        yAxisId: (chartType === 'line') ? 'yLeft' : 'yRight'
                     })
                 }
             }
@@ -185,6 +187,8 @@ export default {
                             displayUnit: property.displayUnit,
                             borderWidth: 3,
                             hoverBorderWidth: 10,
+                            yAxisID: property.yAxisId,
+                            order: (property.yAxisId === 'yLeft') ? 0 : 1
                         });
                     }
                 }
@@ -216,6 +220,31 @@ export default {
                                 enabled: true
                             },
                             mode: 'x',
+                        },
+                    }
+                },
+                scales: {
+                    yLeft: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Temperature (°C)'
+                        }
+                    },
+                    yRight: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Precipitation (mm)'
+                        },
+
+                        // grid line settings
+                        grid: {
+                            drawOnChartArea: false, // only want the grid lines for one axis to show up
                         },
                     }
                 }
