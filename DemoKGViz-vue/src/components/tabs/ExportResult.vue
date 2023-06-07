@@ -45,24 +45,33 @@ export default {
             }
 
         }
+    },
+    computed: {
+        getStationsLength() {
+            return this.$store.getters.getSelectedStations.length;
+        }
     }
 }
 
 </script>
 
 <template>
+    <div v-if="getStationsLength === 0">
+        <v-alert type="info" title="Information" text="Please select at least one station to export any data."
+                 variant="tonal"></v-alert>
+    </div>
     <div id="export">
         <div class="groupExport">
-            <v-btn class="export" variant="outlined">
+            <v-btn class="export" variant="outlined" :disabled="getStationsLength === 0">
                 <img class="export" src="../../img/rdf_logo.png" alt="export">
             </v-btn>
 
-            <v-btn class="export" variant="outlined"
+            <v-btn class="export" variant="outlined" :disabled="getStationsLength === 0"
                    @click="downloadData('application/sparql-results+json', 'json')">
                 <img class="export" src="../../img/json_logo.png" alt="export">
             </v-btn>
 
-            <v-btn class="export" variant="outlined" @click="downloadData('text/csv', 'csv')">
+            <v-btn class="export" variant="outlined" :disabled="getStationsLength === 0" @click="downloadData('text/csv', 'csv')">
                 <img class="export" src="../../img/csv_logo.png" alt="export">
             </v-btn>
         </div>
