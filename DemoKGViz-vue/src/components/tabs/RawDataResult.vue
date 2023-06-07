@@ -9,7 +9,7 @@
                 <th class="text-left">
                     Date
                 </th>
-                <th class="text-left" v-for="prop in properties" :key="prop.param">
+                <th class="text-left" v-for="prop in existingProperties" :key="prop.param">
                     {{ prop.param }}
                 </th>
             </tr>
@@ -18,7 +18,7 @@
             <tr v-for="item in processData" :key="item.name">
                 <td>{{ item.stationName }}</td>
                 <td>{{ item.date }}</td>
-                <td v-for="prop in properties" :key="prop.param">{{ item[prop.jsonPath] }}</td>
+                <td v-for="prop in existingProperties" :key="prop.param">{{ item[prop.jsonPath] }}</td>
             </tr>
             </tbody>
         </v-table>
@@ -39,35 +39,44 @@ export default {
     },
     computed: {
         processData() {
-            console.log(this.mergeWeatherData(this.$store.getters.getWeather.map(el=> el.result.values)))
             return this.mergeWeatherData(this.$store.getters.getWeather.map(el=> el.result.values))
         },
         properties() {
             return this.$store.getters.getParameters
-        }
+        },
+        existingProperties() {
+            // List of properties available in merged data (containing a date)
+            let properties = []
+            for(let prop of this.$store.getters.getParameters) {
+                if(prop.jsonPath in this.mergeWeatherData(this.$store.getters.getWeather.map(el=> el.result.values))[0]) {
+                    properties.push(prop)
+                }
+            }
+            return properties;
+        },
     },
     methods: {
         mergeWeatherData(weatherArray) {
             const mergedData = [];
-
             weatherArray.forEach(weather => {
                 weather.forEach(item => {
-                    const existingItem = mergedData.find(
-                      mergedItem => mergedItem.date === item.date && mergedItem.stationName === item.stationName
-                    );
-
-                    if (existingItem) {
-                        Object.keys(item).forEach(key => {
-                            if (key !== 'date' && key !== 'stationName' && !existingItem.hasOwnProperty(key)) {
-                                existingItem[key] = item[key];
-                            }
-                        });
-                    } else {
-                        mergedData.push({ ...item });
+                    if("date" in item) {
+                        const existingItem = mergedData.find(
+                          mergedItem => mergedItem.date === item.date && mergedItem.stationName === item.stationName
+                        );
+                        if (existingItem) {
+                            Object.keys(item).forEach(key => {
+                                if (key !== 'date' && key !== 'stationName' && !existingItem.hasOwnProperty(key)) {
+                                    existingItem[key] = item[key];
+                                }
+                            });
+                        } else {
+                            mergedData.push({ ...item });
+                        }
                     }
+
                 });
             });
-
             return mergedData;
         },
     }
