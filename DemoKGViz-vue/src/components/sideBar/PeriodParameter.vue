@@ -87,12 +87,8 @@ export default {
             this.$store.dispatch('setComparison', comparison);
         },
         updateComparisonDate() {
-            this.$store.dispatch('setComparisonDate', this.parseComparisonDate(this.yearsSelected))
+            this.$store.dispatch('setComparisonDate', this.yearsSelected)
         },
-        parseComparisonDate(comparisonDate) {
-            // transform [2016,2017] to [2016-01-01,2017-12-31]
-            return [comparisonDate[0].toString() + "-01-01", comparisonDate[1].toString() + "-12-31"]
-        }
     },
     computed: {
         startDate: {

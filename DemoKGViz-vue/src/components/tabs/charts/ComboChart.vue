@@ -192,15 +192,6 @@ export default {
                             displayUnit: property.displayUnit,
                             borderWidth: 3,
                             hoverBorderWidth: 10,
-                            onClick: (evt, item) => {
-                                console.log("fgzeijoger")
-                            },
-                            /*                             actions: [{
-                                                            name: 'Reset zoom',
-                                                            handler(chart) {
-                                                                chart.resetZoom();
-                                                            }
-                                                        }] */
                         });
                     }
                 }
