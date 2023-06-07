@@ -319,8 +319,8 @@ WHERE
         ?station a weo:WeatherStation ;
                  rdfs:label ?stationName .
         FILTER (?stationName IN (` + formattedStations + `))
-        FILTER (?date >= xsd:date("2021-01-01"))
-        FILTER (?date <= xsd:date("2021-01-31"))
+        FILTER (?date >= xsd:date("` + startDate + `"))
+        FILTER (?date <= xsd:date("` + endDate + `"))
     }
     UNION
     {
@@ -335,8 +335,8 @@ WHERE
                      rdfs:label ?stationName .
             BIND (xsd:date(SUBSTR(STR(?datetime), 1, 10)) AS ?date)
             FILTER (?stationName IN (` + formattedStations + `))
-            FILTER (?date >= xsd:date("2021-01-01"))
-            FILTER (?date <= xsd:date("2021-01-31"))
+            FILTER (?date >= xsd:date("` + startDate + `"))
+            FILTER (?date <= xsd:date("` + endDate + `"))
         }
         GROUP BY ?stationName ?date
     }
@@ -353,8 +353,8 @@ WHERE
                      rdfs:label ?stationName .
             BIND (xsd:date(SUBSTR(STR(?datetime), 1, 10)) AS ?date)
             FILTER (?stationName IN (` + formattedStations + `))
-            FILTER (?date >= xsd:date("2021-01-01"))
-            FILTER (?date <= xsd:date("2021-01-31"))
+            FILTER (?date >= xsd:date("` + startDate + `"))
+            FILTER (?date <= xsd:date("` + endDate + `"))
         }
         GROUP BY ?stationName ?date
     }
