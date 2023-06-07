@@ -228,11 +228,19 @@ export default {
                         type: 'linear',
                         display: true,
                         position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Temperature (°C)'
+                        }
                     },
                     yRight: {
                         type: 'linear',
                         display: true,
                         position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Precipitation (mm)'
+                        },
 
                         // grid line settings
                         grid: {
