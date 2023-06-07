@@ -1,4 +1,9 @@
-import {buildQuery_tmpRainStation, buildQuery_nbStatsDaysStation, buildQuery_GddDaysStation} from "@/queries/queries"
+import {
+    buildQuery_tmpRainStation,
+    buildQuery_nbStatsDaysStation,
+    buildQuery_GddDaysStation,
+    buildQuery_dailyCumulativePrecipitation
+} from "@/queries/queries"
 
 export const metricsConfig = [{
     "title": "Daily temperature", "items": [{
@@ -53,7 +58,7 @@ export const metricsConfig = [{
         "tooltip": "Number of rainy days represents the number of days during which R<sub>d</sub> > 1mm",
         "type": "Numb",
         "param": "nbRainyDays",
-        "jsonPath": "rainfall",
+        "jsonPath": "nbRainyDays",
         "request": buildQuery_nbStatsDaysStation,
         "availableChart": "POLAR",
         "displayUnit": " day(s)"
@@ -63,7 +68,7 @@ export const metricsConfig = [{
         "type": "GddRain",
         "param": "sumRain",
         "jsonPath": "rainfall",
-        "request": buildQuery_tmpRainStation,
+        "request": buildQuery_dailyCumulativePrecipitation,
         "availableChart": "line",
         "displayUnit": " day(s)"
     }]
