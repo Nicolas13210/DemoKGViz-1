@@ -32,7 +32,6 @@ export default {
     name: 'RawDataResult',
     data () {
         return {
-            properties: [],
             data: [
             ],
         }
