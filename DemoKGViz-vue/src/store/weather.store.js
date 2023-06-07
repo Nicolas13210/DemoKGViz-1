@@ -9,8 +9,6 @@ export const weatherModule = {
     }, mutations: {
         setWeather(state, payload) {
             let index = state.weather.findIndex(value => value.queryMethod === payload.queryMethod)
-            console.log("index", index)
-            console.log("payload", payload)
             if (index !== -1) {
                 state.weather[index] = payload;
             } else {

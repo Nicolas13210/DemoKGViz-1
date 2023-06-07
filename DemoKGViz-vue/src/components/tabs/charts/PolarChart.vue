@@ -4,9 +4,9 @@
 
 <script>
 import {PolarArea} from 'vue-chartjs';
-import {Chart as ChartJS, Title, Tooltip, Legend, ArcElement, RadialLinearScale} from 'chart.js'
-import {randomColor} from "randomcolor";
+import {ArcElement, Chart as ChartJS, Legend, RadialLinearScale, Title, Tooltip} from 'chart.js'
 import CryptoJS from "crypto-js";
+import uniqolor from "uniqolor";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, RadialLinearScale);
 
@@ -59,11 +59,9 @@ export default {
                   .map(item => item + " (" + stationName + ")");
                 labels = labels.concat(titleLabels);
 
-                backgroundColors = backgroundColors.concat(titleLabels.map(item => randomColor({
-                    seed: CryptoJS.SHA1(item).toString(),
-                    alpha: 0.6,
-                    format: "rgba"
-                })));
+                backgroundColors = backgroundColors.concat(titleLabels.map(item =>
+                  uniqolor(CryptoJS.SHA256(item).toString(), {saturation: [45, 90], lightness: [45, 75]}).color
+                ));
                 data = data.concat(this.extractValues(stationName, this.chartData, this.$store.getters.getParameters));
             }
 

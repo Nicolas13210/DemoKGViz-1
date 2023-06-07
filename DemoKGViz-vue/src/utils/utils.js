@@ -17,8 +17,8 @@ export function reloadChart(context) {
         context.dispatch("setWeather", {
             query: fonction(
                 context.getters.getSelectedStationsJoin, 
-                context.getters.getComparison ? context.getters.getComparisonDate[0] : context.getters.getStartDate,
-                context.getters.getComparison ? context.getters.getComparisonDate[1] : context.getters.getEndDate),
+                context.getters.getDate[0],
+                context.getters.getDate[1]),
             queryMethod: fonction.name
         });
     }
