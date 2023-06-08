@@ -44,7 +44,13 @@ export const stationsModule = {
         },
         getSelectedStationsJoin(state, getters) {
             return "\"" + (getters.getSelectedStations).join("\" \"") + "\""
+        },
+        /*
+        findStation(state) {
+            return state.stations.find(value => value.stationName.value === )
         }
+
+         */
     },
     actions: {
         async setStationsFromAPI(context) {

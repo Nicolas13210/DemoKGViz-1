@@ -9,14 +9,22 @@
                 <th class="text-left">
                     Date
                 </th>
+                <th class="text-left">
+                    Latitude
+                </th>
+                <th class="text-left">
+                    Longitude
+                </th>
                 <th class="text-left" v-for="prop in existingProperties" :key="prop.param">
-                    {{ prop.param }}
+                    {{ prop.param + " (" + prop.displayUnit + ")"}}
                 </th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="item in processData" :key="item.name">
-                <td>{{ item.stationName }}</td>
+                <td><a :href="this.findStationDetail(item.stationName).station.value">{{ item.stationName }}</a></td>
+                <td>{{ this.findStationDetail(item.stationName).lat.value }}</td>
+                <td>{{ this.findStationDetail(item.stationName).long.value }}</td>
                 <td>{{ item.date }}</td>
                 <td v-for="prop in existingProperties" :key="prop.param">{{ item[prop.jsonPath] }}</td>
             </tr>
@@ -78,6 +86,9 @@ export default {
             });
             return mergedData;
         },
+        findStationDetail(stationName) {
+            return this.$store.getters.getStations.find(value => value.stationName.value === stationName)
+        }
     }
 }
 </script>

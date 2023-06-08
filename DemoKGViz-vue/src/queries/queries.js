@@ -110,7 +110,7 @@ PREFIX geosparql: <http://www.opengis.net/ont/geosparql#>
 
 SELECT DISTINCT *
 WHERE {
-    ?station rdfs:label ?stationName ;
+    ?station rdfs:label ?stationName;
              geo:lat ?lat ;
              geo:long ?long .
 }
@@ -427,5 +427,20 @@ export function buildQuery_dailyCumulativePrecipitation(stationName, startDate, 
     }
     
     ORDER BY ?date
+    `;
+}
+
+export function buildQuery_stationInformation() {
+    return `
+    PREFIX geo:        <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+    PREFIX weo:        <http://ns.inria.fr/meteo/ontology/> 
+    PREFIX geosparql:  <http://www.opengis.net/ont/geosparql#> 
+    PREFIX geof:       <http://www.opengis.net/def/function/geosparql/>
+    PREFIX uom:        <http://www.opengis.net/def/uom/OGC/1.0/>
+    
+    SELECT ?uriStation  ?latitude ?longitude ?altitude WHERE {
+            ?uriStation a weo:WeatherStation; rdfs:label "NICE" ;
+               geo:lat ?latitude; geo:long ?longitude ; geo:altitude ?altitude . 
+    }
     `;
 }
