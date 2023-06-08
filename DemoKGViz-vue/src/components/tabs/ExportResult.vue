@@ -30,7 +30,7 @@ export default {
         },
         async downloadData(extension, extensionType) {
             try {
-                const dailyRequest = axios.post("/sparql", {
+                const dailyRequest = axios.post(VITE_API_URL, {
                     format: extension,
                     query: buildQuery_exportDailyData(this.$store.getters.getSelectedStationsJoin, this.$store.getters.getStartDate, this.$store.getters.getEndDate)
                 }, {

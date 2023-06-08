@@ -44,12 +44,12 @@ export const stationsModule = {
         },
         getSelectedStationsJoin(state, getters) {
             return "\"" + (getters.getSelectedStations).join("\" \"") + "\""
-        }
+        },
     },
     actions: {
         async setStationsFromAPI(context) {
             try {
-                const response = await axios.post("/sparql",
+                const response = await axios.post(VITE_API_URL,
                     {
                         query: buildQuery_station()
                     },

@@ -11,13 +11,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  base: './'
+  /* 
   server: {
     proxy: {
       '/sparql': {
         target: 'https://weakg.i3s.unice.fr/sparql',
         changeOrigin: true,
       }
-    }
-
-  },
+    },
+  }, */
 })
