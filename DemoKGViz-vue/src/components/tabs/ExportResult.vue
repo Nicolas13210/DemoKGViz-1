@@ -26,7 +26,7 @@ export default {
         async downloadData(extension, extensionType) {
             try {
                 // TODO: call the endpoint to get period data.
-                const dailyRequest = axios.post(VITE_API_URL, {
+                const dailyRequest = axios.post(import.meta.env.VITE_API_URL, {
                     format: extension,
                     query: buildQuery_exportDailyData(this.$store.getters.getSelectedStationsJoin, this.$store.getters.getStartDate, this.$store.getters.getEndDate)
                 }, {

@@ -24,7 +24,7 @@ export const weatherModule = {
     }, actions: {
         async setWeather(context, payload) {
             try {
-                const response = await axios.post(VITE_API_URL, {
+                const response = await axios.post(import.meta.env.VITE_API_URL, {
                     query: payload.query
                 }, {
                     headers: {
