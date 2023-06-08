@@ -15,7 +15,8 @@
                                                  :request="item.request"
                                                  :json-path="item.jsonPath"
                                                  :available-chart="item.availableChart"
-                                                 :displayUnit="item.displayUnit">
+                                                 :displayUnit="item.displayUnit"
+                                                 :enabled="item.enabled">
                     </MeteorologicalParameterItem>
                 </v-expansion-panel-text>
             </v-expansion-panel>

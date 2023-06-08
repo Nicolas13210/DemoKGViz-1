@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-checkbox density="compact" :hide-details="true" @click="checkParameter($event)">
+        <v-checkbox :disabled="!this.enabled" density="compact" :hide-details="true" @click="checkParameter($event)">
             <template v-slot:label>
                 <div class="text-body-2 font-weight-regular" v-html="title"></div>
                 <v-tooltip location="bottom">
@@ -26,7 +26,8 @@ export default {
         request: Function,
         jsonPath: String,
         availableChart: String,
-        displayUnit: String
+        displayUnit: String,
+        enabled: Boolean
     },
     methods: {
         checkParameter(event) {
