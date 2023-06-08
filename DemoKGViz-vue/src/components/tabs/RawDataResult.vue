@@ -9,14 +9,22 @@
                 <th class="text-left">
                     Date
                 </th>
-                <th class="text-left" v-for="prop in existingProperties" :key="prop.param">
-                    {{ prop.param }}
+                <th class="text-left">
+                    Latitude
+                </th>
+                <th class="text-left">
+                    Longitude
+                </th>
+                <th v-for="prop in existingProperties" :key="prop.param" class="text-left">
+                    {{ prop.param + " (" + prop.displayUnit + ")" }}
                 </th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="item in processData" :key="item.name">
-                <td>{{ item.stationName }}</td>
+                <td><a :href="this.findStationDetail(item.stationName).station.value">{{ item.stationName }}</a></td>
+                <td>{{ this.findStationDetail(item.stationName).lat.value }}</td>
+                <td>{{ this.findStationDetail(item.stationName).long.value }}</td>
                 <td>{{ item.date }}</td>
                 <td v-for="prop in existingProperties" :key="prop.param">{{ item[prop.jsonPath] }}</td>
             </tr>
@@ -30,15 +38,14 @@ import "leaflet/dist/leaflet.css";
 
 export default {
     name: 'RawDataResult',
-    data () {
+    data() {
         return {
-            data: [
-            ],
+            data: [],
         }
     },
     computed: {
         processData() {
-            return this.mergeWeatherData(this.$store.getters.getWeather.map(el=> el.result.values))
+            return this.mergeWeatherData(this.$store.getters.getWeather.map(el => el.result.values))
         },
         properties() {
             return this.$store.getters.getParameters
@@ -46,8 +53,8 @@ export default {
         existingProperties() {
             // List of properties available in merged data (containing a date)
             let properties = []
-            for(let prop of this.$store.getters.getParameters) {
-                if(prop.jsonPath in this.mergeWeatherData(this.$store.getters.getWeather.map(el=> el.result.values))[0]) {
+            for (let prop of this.$store.getters.getParameters) {
+                if (prop.jsonPath in this.mergeWeatherData(this.$store.getters.getWeather.map(el => el.result.values))[0]) {
                     properties.push(prop)
                 }
             }
@@ -59,7 +66,7 @@ export default {
             const mergedData = [];
             weatherArray.forEach(weather => {
                 weather.forEach(item => {
-                    if("date" in item) {
+                    if ("date" in item) {
                         const existingItem = mergedData.find(
                           mergedItem => mergedItem.date === item.date && mergedItem.stationName === item.stationName
                         );
@@ -70,7 +77,7 @@ export default {
                                 }
                             });
                         } else {
-                            mergedData.push({ ...item });
+                            mergedData.push({...item});
                         }
                     }
 
@@ -78,6 +85,9 @@ export default {
             });
             return mergedData;
         },
+        findStationDetail(stationName) {
+            return this.$store.getters.getStations.find(value => value.stationName.value === stationName)
+        }
     }
 }
 </script>

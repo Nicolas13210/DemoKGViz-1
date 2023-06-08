@@ -44,7 +44,7 @@ export const stationsModule = {
         },
         getSelectedStationsJoin(state, getters) {
             return "\"" + (getters.getSelectedStations).join("\" \"") + "\""
-        }
+        },
     },
     actions: {
         async setStationsFromAPI(context) {

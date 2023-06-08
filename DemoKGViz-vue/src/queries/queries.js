@@ -110,7 +110,7 @@ PREFIX geosparql: <http://www.opengis.net/ont/geosparql#>
 
 SELECT DISTINCT *
 WHERE {
-    ?station rdfs:label ?stationName ;
+    ?station rdfs:label ?stationName;
              geo:lat ?lat ;
              geo:long ?long .
 }
