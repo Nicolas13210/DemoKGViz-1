@@ -1,7 +1,7 @@
 export const isParameterTypeDataAlreadyFetch = (parameters, parameter) => {
     console.log(parameters, parameter)
     const foundTypeData = parameters.find(p => p.type === parameter.type);
-    return foundTypeData ? true : false
+    return !!foundTypeData
 }
 
 export function groupRequestsByParam(requests) {
@@ -16,7 +16,7 @@ export function reloadChart(context) {
     for (let fonction of groupRequestsByParam(context.getters.getParameters)) {
         context.dispatch("setWeather", {
             query: fonction(
-                context.getters.getSelectedStationsJoin, 
+                context.getters.getSelectedStationsJoin,
                 context.getters.getDate[0],
                 context.getters.getDate[1]),
             queryMethod: fonction.name

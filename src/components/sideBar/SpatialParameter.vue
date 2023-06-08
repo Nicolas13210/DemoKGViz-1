@@ -27,7 +27,7 @@ export default {
         selectedStations: {
             // Workaround in order to not get a warning in the console.
             set() {
-                return this.$store.getters.getSelectedStations;
+                // Empty.
             },
             get() {
                 return this.$store.getters.getSelectedStations;

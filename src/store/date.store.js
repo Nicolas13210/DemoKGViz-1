@@ -1,4 +1,4 @@
-import { groupRequestsByParam, reloadChart } from "@/utils/utils";
+import {reloadChart} from "@/utils/utils";
 
 export const dateModule = {
     namespace: false,
@@ -32,9 +32,6 @@ export const dateModule = {
         },
         getEndDate(state) {
             return state.endDate
-        },
-        getComparisonDate(state) {
-            return [state.comparisonDate[0].toString() + "-01-01", state.comparisonDate[1].toString() + "-12-31"]
         },
         getComparison(state) {
             return state.comparison

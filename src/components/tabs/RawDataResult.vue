@@ -3,19 +3,19 @@
         <v-table>
             <thead>
             <tr>
-                <th class="text-left">
+                <th class="text-left" scope="col">
                     Station Name
                 </th>
-                <th class="text-left">
+                <th class="text-left" scope="col">
                     Date
                 </th>
-                <th class="text-left">
+                <th class="text-left" scope="col">
                     Latitude
                 </th>
-                <th class="text-left">
+                <th class="text-left" scope="col">
                     Longitude
                 </th>
-                <th v-for="prop in existingProperties" :key="prop.param" class="text-left">
+                <th v-for="prop in existingProperties" :key="prop.param" class="text-left" scope="col">
                     {{ prop.param + " (" + prop.displayUnit + ")" }}
                 </th>
             </tr>

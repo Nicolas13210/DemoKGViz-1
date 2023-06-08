@@ -62,10 +62,6 @@ export default {
         }
     },
     methods: {
-        changeLocation(coordinates) {
-            this.center = coordinates;
-        },
-
         onEachFeature(feature, layer) {
             this.setRegionListeners(layer);
         },

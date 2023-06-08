@@ -97,7 +97,7 @@ export default {
                 return this.$store.getters.getStartDate
             },
             set() {
-                return this.$store.getters.getStartDate
+                // Empty.
             }
         },
         endDate: {
@@ -106,7 +106,7 @@ export default {
                 return this.$store.getters.getEndDate
             },
             set() {
-                return this.$store.getters.getEndDate
+                // Empty.
             }
         },
         comparison() {
