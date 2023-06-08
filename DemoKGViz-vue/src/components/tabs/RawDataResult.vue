@@ -15,8 +15,8 @@
                 <th class="text-left">
                     Longitude
                 </th>
-                <th class="text-left" v-for="prop in existingProperties" :key="prop.param">
-                    {{ prop.param + " (" + prop.displayUnit + ")"}}
+                <th v-for="prop in existingProperties" :key="prop.param" class="text-left">
+                    {{ prop.param + " (" + prop.displayUnit + ")" }}
                 </th>
             </tr>
             </thead>
@@ -38,15 +38,14 @@ import "leaflet/dist/leaflet.css";
 
 export default {
     name: 'RawDataResult',
-    data () {
+    data() {
         return {
-            data: [
-            ],
+            data: [],
         }
     },
     computed: {
         processData() {
-            return this.mergeWeatherData(this.$store.getters.getWeather.map(el=> el.result.values))
+            return this.mergeWeatherData(this.$store.getters.getWeather.map(el => el.result.values))
         },
         properties() {
             return this.$store.getters.getParameters
@@ -54,8 +53,8 @@ export default {
         existingProperties() {
             // List of properties available in merged data (containing a date)
             let properties = []
-            for(let prop of this.$store.getters.getParameters) {
-                if(prop.jsonPath in this.mergeWeatherData(this.$store.getters.getWeather.map(el=> el.result.values))[0]) {
+            for (let prop of this.$store.getters.getParameters) {
+                if (prop.jsonPath in this.mergeWeatherData(this.$store.getters.getWeather.map(el => el.result.values))[0]) {
                     properties.push(prop)
                 }
             }
@@ -67,7 +66,7 @@ export default {
             const mergedData = [];
             weatherArray.forEach(weather => {
                 weather.forEach(item => {
-                    if("date" in item) {
+                    if ("date" in item) {
                         const existingItem = mergedData.find(
                           mergedItem => mergedItem.date === item.date && mergedItem.stationName === item.stationName
                         );
@@ -78,7 +77,7 @@ export default {
                                 }
                             });
                         } else {
-                            mergedData.push({ ...item });
+                            mergedData.push({...item});
                         }
                     }
 
