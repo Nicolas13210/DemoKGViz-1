@@ -1,8 +1,8 @@
 <template>
-    <div class="spacial-parameter">
-        <div class="text-subtitle-2 font-weight-bold">Spacial parameter</div>
+    <div class="spatial-parameter">
+        <div class="text-subtitle-2 font-weight-bold">Spatial parameter</div>
         <v-select hide-details :items="this.stations" v-model="this.selectedStations"
-            label="Stations" @update:model-value="selectionUpdated($event)" multiple>
+                  label="Stations" @update:model-value="selectionUpdated($event)" multiple>
             <template v-slot:selection="{ item, index }">
                 <v-chip v-if="index < 3">
                     <span>{{ item.title }}</span>
@@ -18,7 +18,7 @@
 <script>
 
 export default {
-    name: "SpacialParameter",
+    name: "SpatialParameter",
     computed: {
         stations() {
             const stations = this.$store.getters.getStations;
@@ -44,7 +44,7 @@ export default {
 </script>
 
 <style scoped>
-.spacial-parameter {
+.spatial-parameter {
     display: flex;
     flex-direction: column;
     gap: 10px
