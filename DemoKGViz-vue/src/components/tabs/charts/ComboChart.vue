@@ -34,7 +34,13 @@ export default {
     data() {
         return {
             // Property for the chart.
-            properties: []
+            properties: [],
+
+            // Toggle to know if it is necessary to add a y-axis on the right side.
+            yRightEnable: false,
+
+            // Toggle to know if it is necessary to add a y-axis on the right side.
+            yLeftEnable: false
         }
     },
     methods: {
@@ -144,6 +150,10 @@ export default {
     },
     computed: {
         processData() {
+            // Reset the properties to the default state.
+            this.yRightEnable = false;
+            this.yLeftEnable = false;
+
             if (this.$store.getters.getWeather.length === 0) {
                 // No data loaded.
                 return undefined;
@@ -166,7 +176,7 @@ export default {
                     // For each station (station: XXX, data: [{attribute: XXX, value: XXX}]).
                     for (let property of this.properties) {
 
-                        const titleLabel = property.title + "(" + stationData.station + ")" + ((this.$store.getters.getComparison) ? " - " + year : "");
+                        const titleLabel = property.title + " (" + stationData.station + ")" + ((this.$store.getters.getComparison) ? " - " + year : "");
                         let data;
                         if (this.$store.getters.getComparison) {
                             data = stationData.data.filter(item => item.attribute === property.jsonPath && item.year === year).map(item => parseFloat(item.value))
@@ -178,6 +188,13 @@ export default {
                         // Low encryption method, just to randomize the String.
                         const colorSha1 = CryptoJS.SHA256(titleLabel).toString();
                         const colorUniq = uniqolor(colorSha1, {saturation: [45, 90], lightness: [45, 75]});
+
+                        if (this.yRightEnable === false && property.yAxisId === 'yRight') {
+                            this.yRightEnable = true;
+                        } else if (this.yLeftEnable === false && property.yAxisId === 'yLeft') {
+                            this.yLeftEnable = true;
+                        }
+
                         datasets.push({
                             label: titleLabel,
                             backgroundColor: colorUniq.color,
@@ -188,7 +205,8 @@ export default {
                             borderWidth: 3,
                             hoverBorderWidth: 10,
                             yAxisID: property.yAxisId,
-                            order: (property.yAxisId === 'yLeft') ? 0 : 1
+                            order: (property.yAxisId === 'yLeft') ? 0 : 1,
+                            tension: (property.yAxisId === 'yLeft') ? 0.2 : 0
                         });
                     }
                 }
@@ -224,7 +242,7 @@ export default {
                     }
                 },
                 scales: {
-                    yLeft: {
+                    yLeft: (this.yLeftEnable) ? {
                         type: 'linear',
                         display: true,
                         position: 'left',
@@ -232,8 +250,13 @@ export default {
                             display: true,
                             text: 'Temperature (°C)'
                         }
+                    } : {
+                        // Hide the axis.
+                        ticks: {
+                            display: false
+                        }
                     },
-                    yRight: {
+                    yRight: (this.yRightEnable) ? {
                         type: 'linear',
                         display: true,
                         position: 'right',
@@ -246,6 +269,11 @@ export default {
                         grid: {
                             drawOnChartArea: false, // only want the grid lines for one axis to show up
                         },
+                    } : {
+                        // Hide the axis.
+                        ticks: {
+                            display: false
+                        }
                     }
                 }
             };
