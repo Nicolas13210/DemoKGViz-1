@@ -254,6 +254,9 @@ export default {
                         // Hide the axis.
                         ticks: {
                             display: false
+                        },
+                        grid: {
+                            display: false
                         }
                     },
                     yRight: (this.yRightEnable) ? {
@@ -267,11 +270,14 @@ export default {
 
                         // grid line settings
                         grid: {
-                            drawOnChartArea: false, // only want the grid lines for one axis to show up
+                            drawOnChartArea: (!this.yLeftEnable), // only want the grid lines for one axis to show up
                         },
                     } : {
                         // Hide the axis.
                         ticks: {
+                            display: false
+                        },
+                        grid: {
                             display: false
                         }
                     }
