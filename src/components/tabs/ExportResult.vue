@@ -39,7 +39,7 @@ export default {
                     }
                 });
 
-                const aggregateRequest = axios.post("/sparql", {
+                const aggregateRequest = axios.post(import.meta.env.VITE_API_URL, {
                     format: extension,
                     query: buildQuery_exportAggregateData(this.$store.getters.getSelectedStationsJoin, this.$store.getters.getStartDate, this.$store.getters.getEndDate)
                 }, {
@@ -63,7 +63,7 @@ export default {
         },
         async downloadDataRdf() {
             try {
-                const dailyRequest = axios.post("/sparql", {
+                const dailyRequest = axios.post(import.meta.env.VITE_API_URL, {
                     format: 'text/turtle',
                     query: buildQuery_extractDailyRDF(this.$store.getters.getSelectedStationsJoin, this.$store.getters.getStartDate, this.$store.getters.getEndDate)
                 }, {
@@ -72,7 +72,7 @@ export default {
                     }
                 });
 
-                const aggregateRequest = axios.post("/sparql", {
+                const aggregateRequest = axios.post(import.meta.env.VITE_API_URL, {
                     format: 'text/turtle',
                     query: buildQuery_extractAggregateRDF(this.$store.getters.getSelectedStationsJoin, this.$store.getters.getStartDate, this.$store.getters.getEndDate)
                 }, {
