@@ -1,12 +1,20 @@
 <template>
     <div class="container">
-        <div class="text-subtitle-2 font-weight-bold">Agro-Meteorological Parameters</div>
+        <div class="text-subtitle-2 font-weight-bold">Agro-Meteorological Variables  </div>
+        <!-- TODO: remove "panel" to be more extensible -->
         <v-expansion-panels v-model="panel" multiple>
             <v-expansion-panel v-for="(parameter, i) in parameters" :key="i">
                 <v-expansion-panel-title disable-icon-rotate>
                     {{ parameter.title }}
                 </v-expansion-panel-title>
                 <v-expansion-panel-text>
+                    <v-text-field
+                      v-model="firstname"
+                      :rules="nameRules"
+                      :counter="10"
+                      label="First name"
+                      required
+                    ></v-text-field>
                     <MeteorologicalParameterItem v-for="item in parameter.items"
                                                  :title="item.title"
                                                  :tooltip="item.tooltip"
