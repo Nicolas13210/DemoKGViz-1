@@ -25,7 +25,7 @@
 
 <script>
 import MeteorologicalParameterItem from "@/components/sideBar/MeteorologicalParameterItem.vue";
-import {metricsConfig} from "@/config/metricsConfig"
+import {agroMeteorologicalConfig} from "@/config/agroMeteorologicalConfig"
 
 export default {
     name: "MeteorologicalParameter",
@@ -34,7 +34,7 @@ export default {
     },
     data() {
         return {
-            parameters: metricsConfig,
+            parameters: agroMeteorologicalConfig,
             panel: [0, 1, 2, 3, 4, 5, 6]
         }
     }

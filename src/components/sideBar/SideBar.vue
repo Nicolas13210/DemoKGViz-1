@@ -2,13 +2,15 @@
 import MeteorologicalParameter from "@/components/sideBar/MeteorologicalParameter.vue";
 import PeriodParameter from "@/components/sideBar/PeriodParameter.vue";
 import SpatialParameter from "@/components/sideBar/SpatialParameter.vue";
+import DailyParameter from "@/components/sideBar/DailyParameter.vue";
 
 export default {
     name: "SideBar",
     components: {
         PeriodParameter,
         MeteorologicalParameter,
-        SpatialParameter
+        SpatialParameter,
+        DailyParameter
     }
 }
 </script>
@@ -17,6 +19,7 @@ export default {
     <div class="sidebar">
         <SpatialParameter></SpatialParameter>
         <PeriodParameter></PeriodParameter>
+        <DailyParameter></DailyParameter>
         <MeteorologicalParameter></MeteorologicalParameter>
     </div>
 </template>
