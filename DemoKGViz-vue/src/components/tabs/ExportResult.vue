@@ -1,5 +1,10 @@
 <script>
-import {buildQuery_exportDailyData} from '@/queries/queries';
+import {
+    buildQuery_exportAggregateData,
+    buildQuery_exportDailyData,
+    buildQuery_extractAggregateRDF,
+    buildQuery_extractDailyRDF
+} from '@/queries/queries';
 import axios from "axios";
 
 export default {
@@ -25,7 +30,6 @@ export default {
         },
         async downloadData(extension, extensionType) {
             try {
-                // TODO: call the endpoint to get period data.
                 const dailyRequest = axios.post("/sparql", {
                     format: extension,
                     query: buildQuery_exportDailyData(this.$store.getters.getSelectedStationsJoin, this.$store.getters.getStartDate, this.$store.getters.getEndDate)
@@ -35,15 +39,54 @@ export default {
                     }
                 });
 
-                const [responseDaily] = await Promise.all([dailyRequest]);
+                const aggregateRequest = axios.post("/sparql", {
+                    format: extension,
+                    query: buildQuery_exportAggregateData(this.$store.getters.getSelectedStationsJoin, this.$store.getters.getStartDate, this.$store.getters.getEndDate)
+                }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+
+                const [responseDaily, responseAggregate] = await Promise.all([dailyRequest, aggregateRequest]);
                 this.downloadFile(
                   (extensionType === 'json') ? JSON.stringify(responseDaily.data) : responseDaily.data,
                   "daily." + extensionType,
                   "text/plain");
+                this.downloadFile(
+                  (extensionType === 'json') ? JSON.stringify(responseAggregate.data) : responseAggregate.data,
+                  "period." + extensionType,
+                  "text/plain");
             } catch (error) {
                 console.error("An error occurred while retrieving data to download a file", error);
             }
+        },
+        async downloadDataRdf() {
+            try {
+                const dailyRequest = axios.post("/sparql", {
+                    format: 'text/turtle',
+                    query: buildQuery_extractDailyRDF(this.$store.getters.getSelectedStationsJoin, this.$store.getters.getStartDate, this.$store.getters.getEndDate)
+                }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
 
+                const aggregateRequest = axios.post("/sparql", {
+                    format: 'text/turtle',
+                    query: buildQuery_extractAggregateRDF(this.$store.getters.getSelectedStationsJoin, this.$store.getters.getStartDate, this.$store.getters.getEndDate)
+                }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+
+                const [responseDaily, responseAggregate] = await Promise.all([dailyRequest, aggregateRequest]);
+                this.downloadFile(responseDaily.data, "daily.rdf", "text/plain");
+                this.downloadFile(responseAggregate.data, "aggregate.rdf", "text/plain");
+            } catch (error) {
+                console.error("An error occurred while retrieving data to download a file", error);
+            }
         }
     },
     computed: {
@@ -62,7 +105,8 @@ export default {
     </div>
     <div id="export">
         <div class="groupExport">
-            <v-btn class="export" variant="outlined" :disabled="getStationsLength === 0">
+            <v-btn class="export" variant="outlined" :disabled="getStationsLength === 0"
+                   @click="downloadDataRdf()">
                 <img class="export" src="../../img/rdf_logo.png" alt="export">
             </v-btn>
 
@@ -71,7 +115,8 @@ export default {
                 <img class="export" src="../../img/json_logo.png" alt="export">
             </v-btn>
 
-            <v-btn class="export" variant="outlined" :disabled="getStationsLength === 0" @click="downloadData('text/csv', 'csv')">
+            <v-btn class="export" variant="outlined" :disabled="getStationsLength === 0"
+                   @click="downloadData('text/csv', 'csv')">
                 <img class="export" src="../../img/csv_logo.png" alt="export">
             </v-btn>
         </div>
