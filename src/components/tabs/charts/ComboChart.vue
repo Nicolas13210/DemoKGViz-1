@@ -1,5 +1,5 @@
 <template>
-    <Bar ref="barChart" :data="processData" :options="chartOptions" @dblclick="resetZoom()"/>
+    <Bar v-if="displayChart" ref="barChart" :data="processData" :options="chartOptions" @dblclick="resetZoom()"/>
 </template>
 
 <script>
@@ -146,7 +146,7 @@ export default {
         },
         resetZoom() {
             this.$refs.barChart.chart.resetZoom();
-        }
+        },
     },
     computed: {
         processData() {
@@ -283,6 +283,9 @@ export default {
                     }
                 }
             };
+        },
+        displayChart() {
+            return this.$store.getters.isChartUsed("line") || this.$store.getters.isChartUsed("bar")
         }
     }
 }

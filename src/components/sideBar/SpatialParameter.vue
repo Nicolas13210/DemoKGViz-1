@@ -1,6 +1,6 @@
 <template>
     <div class="spatial-parameter">
-        <div class="text-subtitle-2 font-weight-bold">Spatial parameter</div>
+        <div class="text-subtitle-2 font-weight-bold">Spatial location</div>
         <v-select hide-details :items="this.stations" v-model="this.selectedStations"
                   label="Stations" @update:model-value="selectionUpdated($event)" multiple>
             <template v-slot:selection="{ item, index }">

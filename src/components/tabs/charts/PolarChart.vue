@@ -1,5 +1,5 @@
 <template>
-    <PolarArea :data="processData" :options="chartOptions" class="chart"/>
+    <PolarArea v-if="displayChart" :data="processData" :options="chartOptions" class="chart"/>
 </template>
 
 <script>
@@ -93,6 +93,9 @@ export default {
                     }
                 }
             };
+        },
+        displayChart() {
+            return this.$store.getters.isChartUsed("POLAR")
         }
     }
 }
