@@ -8,13 +8,6 @@
                     {{ parameter.title }}
                 </v-expansion-panel-title>
                 <v-expansion-panel-text>
-                    <v-text-field
-                      v-model="firstname"
-                      :rules="nameRules"
-                      :counter="10"
-                      label="First name"
-                      required
-                    ></v-text-field>
                     <MeteorologicalParameterItem v-for="item in parameter.items"
                                                  :title="item.title"
                                                  :tooltip="item.tooltip"

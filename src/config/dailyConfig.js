@@ -1,4 +1,4 @@
-import {buildQuery_dailyCumulativePrecipitation, buildQuery_tmpRainStation} from "@/queries/queries"
+import {getRequestDailyData} from "@/queries/daily_queries";
 
 export const dailyConfig = [
     {
@@ -8,7 +8,7 @@ export const dailyConfig = [
                 tooltip: "TO BE DEFINED",
                 param: "DTMin",
                 jsonPath: "daily_temp_min",
-                request: buildQuery_tmpRainStation,
+                request: getRequestDailyData,
                 availableChart: "line",
                 displayUnit: "°C",
                 enabled: true
@@ -17,7 +17,7 @@ export const dailyConfig = [
                 tooltip: "TO BE DEFINED",
                 param: "DTMax",
                 jsonPath: "daily_temp_max",
-                request: buildQuery_tmpRainStation,
+                request: getRequestDailyData,
                 availableChart: "line",
                 displayUnit: "°C",
                 enabled: true
@@ -26,7 +26,7 @@ export const dailyConfig = [
                 tooltip: "TO BE DEFINED",
                 param: "DTMean",
                 jsonPath: "daily_temp_mean",
-                request: buildQuery_tmpRainStation,
+                request: getRequestDailyData,
                 availableChart: "line",
                 displayUnit: "°C",
                 enabled: true
@@ -35,7 +35,7 @@ export const dailyConfig = [
                 tooltip: "TO BE DEFINED",
                 param: "DTRange",
                 jsonPath: "daily_thermal_ampl",
-                request: buildQuery_tmpRainStation,
+                request: getRequestDailyData,
                 availableChart: "line",
                 displayUnit: "°C",
                 enabled: true
@@ -44,8 +44,8 @@ export const dailyConfig = [
                 tooltip: "Sum of daily cumulative precipitation recorded during a period",
                 param: "rainSum",
                 jsonPath: "daily_rainfall",
-                request: buildQuery_tmpRainStation,
-                availableChart: "line",
+                request: getRequestDailyData,
+                availableChart: "bar",
                 displayUnit: "mm",
                 enabled: true
             }, {
@@ -62,7 +62,7 @@ export const dailyConfig = [
                 tooltip: "TO BE DEFINED",
                 param: "humAvg",
                 jsonPath: "daily_airhumidity",
-                request: buildQuery_tmpRainStation,
+                request: getRequestDailyData,
                 availableChart: "line",
                 displayUnit: "%",
                 enabled: true
@@ -80,7 +80,7 @@ export const dailyConfig = [
                 tooltip: "TO BE DEFINED",
                 param: "gdd",
                 jsonPath: "daily_gdd",
-                request: buildQuery_tmpRainStation,
+                request: getRequestDailyData,
                 availableChart: "bar",
                 displayUnit: "°C",
                 enabled: true

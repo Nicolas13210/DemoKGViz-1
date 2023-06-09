@@ -1,4 +1,8 @@
-import {buildQuery_GddDaysStation, buildQuery_nbStatsDaysStation, buildQuery_tmpRainStation} from "@/queries/queries"
+import {getRequestFreezingColdData} from "@/queries/freezing_cold_queries";
+import {getRequestHeatData} from "@/queries/heat_queries";
+import {getRequestHumidityConditionsData} from "@/queries/humidity_conditions_queries";
+import {getRequestWaterDeficitData} from "@/queries/water_deficit_queries";
+import {getRequestThermalConditionsData} from "@/queries/thermal_conditions_queries";
 
 export const agroMeteorologicalConfig = [{
     title: "Freezing cold", items: [{
@@ -6,7 +10,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "cDaysTMin",
         jsonPath: "nbDaysTemp5",
-        request: buildQuery_tmpRainStation,
+        request: getRequestFreezingColdData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -15,7 +19,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "cFrostDays",
         jsonPath: "nbfrostDaysTavg",
-        request: buildQuery_tmpRainStation,
+        request: getRequestFreezingColdData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -24,7 +28,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "cDaysTMin10",
         jsonPath: "nbDaysextremeTemp10",
-        request: buildQuery_tmpRainStation,
+        request: getRequestFreezingColdData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -33,7 +37,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "cDaysTMin4",
         jsonPath: "nbDaysextremeTemp4",
-        request: buildQuery_tmpRainStation,
+        request: getRequestFreezingColdData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -42,7 +46,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "cFrostDays",
         jsonPath: "nbfrostDaysTmin",
-        request: buildQuery_tmpRainStation,
+        request: getRequestFreezingColdData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -51,7 +55,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "vernDays",
         jsonPath: "vernalizationDays",
-        request: buildQuery_tmpRainStation,
+        request: getRequestFreezingColdData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -98,7 +102,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "xhsDaysMax20",
         jsonPath: "xhsdaysmax20",
-        request: buildQuery_nbStatsDaysStation,
+        request: getRequestHeatData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -107,7 +111,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "xhsDaysMax25",
         jsonPath: "xhsdaysmax25",
-        request: buildQuery_nbStatsDaysStation,
+        request: getRequestHeatData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -116,7 +120,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "hsDaysMean15",
         jsonPath: "hsdaysmean15",
-        request: buildQuery_nbStatsDaysStation,
+        request: getRequestHeatData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -125,7 +129,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "daysMean7",
         jsonPath: "daysmean7",
-        request: buildQuery_nbStatsDaysStation,
+        request: getRequestHeatData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -134,7 +138,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "xhsDaysMean25",
         jsonPath: "xhsdaysmean25",
-        request: buildQuery_nbStatsDaysStation,
+        request: getRequestHeatData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -143,7 +147,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "sumGDD",
         jsonPath: "SumGDD",
-        request: buildQuery_GddDaysStation,
+        request: getRequestHeatData,
         availableChart: "bar",
         displayUnit: "°C",
         enabled: true
@@ -181,7 +185,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "wetDays",
         jsonPath: "TODO",
-        request: buildQuery_nbStatsDaysStation,
+        request: getRequestHumidityConditionsData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -190,7 +194,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "dryDays",
         jsonPath: "TODO",
-        request: buildQuery_nbStatsDaysStation,
+        request: getRequestHumidityConditionsData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -207,7 +211,7 @@ export const agroMeteorologicalConfig = [{
         title: "Frequency of dry days (dryFreq)",
         tooltip: "TO BE DEFINED",
         param: "dryFreq",
-        jsonPath: "TODO",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
         displayUnit: "%",
@@ -255,7 +259,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "raiDays",
         jsonPath: "TODO",
-        request: undefined,
+        request: getRequestWaterDeficitData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -264,7 +268,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "hRaiDays15",
         jsonPath: "TODO",
-        request: undefined,
+        request: getRequestWaterDeficitData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -273,7 +277,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "hRaiDays20",
         jsonPath: "TODO",
-        request: undefined,
+        request: getRequestWaterDeficitData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -282,7 +286,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "hRaiDays30",
         jsonPath: "TODO",
-        request: undefined,
+        request: getRequestWaterDeficitData,
         availableChart: "POLAR",
         displayUnit: "day(s)",
         enabled: true
@@ -291,7 +295,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "cPrecip",
         jsonPath: "TODO",
-        request: undefined,
+        request: getRequestWaterDeficitData,
         availableChart: "bar",
         displayUnit: "mm",
         enabled: true
@@ -383,7 +387,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "meanMinT",
         jsonPath: "TODO",
-        request: undefined,
+        request: getRequestThermalConditionsData,
         availableChart: "POLAR",
         displayUnit: "°C",
         enabled: true
@@ -392,7 +396,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "meanMaxT",
         jsonPath: "TODO",
-        request: undefined,
+        request: getRequestThermalConditionsData,
         availableChart: "POLAR",
         displayUnit: "°C",
         enabled: true
@@ -401,7 +405,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "meanAvgT",
         jsonPath: "TODO",
-        request: undefined,
+        request: getRequestThermalConditionsData,
         availableChart: "POLAR",
         displayUnit: "°C",
         enabled: true
@@ -410,7 +414,7 @@ export const agroMeteorologicalConfig = [{
         tooltip: "TO BE DEFINED",
         param: "meanRangeT",
         jsonPath: "TODO",
-        request: undefined,
+        request: getRequestThermalConditionsData,
         availableChart: "POLAR",
         displayUnit: "°C",
         enabled: true

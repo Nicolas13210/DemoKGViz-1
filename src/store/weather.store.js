@@ -1,5 +1,7 @@
 import axios from "axios";
 import {transformData} from '@/utils/dataTransformation'
+import {getRequestFreezingColdData} from "@/queries/freezing_cold_queries";
+import {getRequestHeatData} from "@/queries/heat_queries";
 
 export const weatherModule = {
     namespace: false, state() {
@@ -18,8 +20,12 @@ export const weatherModule = {
     }, getters: {
         getWeather(state) {
             return state.weather;
-        }, getWeatherNbDay(state) {
-            return state.weather.find(value => value.queryMethod === "buildQuery_nbStatsDaysStation");
+        }, getAggregate(state) {
+            return state.weather.filter(value =>
+                value.queryMethod === "getRequestFreezingColdData" ||
+                value.queryMethod === "getRequestHeatData" ||
+                value.queryMethod === "getRequestHumidityConditionsData" ||
+                value.queryMethod === "getRequestThermalConditionsData").map(item => item.result);
         },
     }, actions: {
         async setWeather(context, payload) {
