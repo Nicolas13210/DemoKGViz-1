@@ -1,4 +1,4 @@
-import {buildQuery_GddDaysStation, buildQuery_nbStatsDaysStation} from "@/queries/queries"
+import {buildQuery_GddDaysStation, buildQuery_nbStatsDaysStation, buildQuery_tmpRainStation} from "@/queries/queries"
 
 export const agroMeteorologicalConfig = [{
     title: "Freezing cold", items: [{
@@ -100,7 +100,7 @@ export const agroMeteorologicalConfig = [{
         jsonPath: "xhsdaysmax20",
         request: buildQuery_nbStatsDaysStation,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "day(s)",
         enabled: true
     }, {
         title: "Number of days of extreme heat stress (T<sub>max</sub> > 25°C)",
@@ -118,16 +118,16 @@ export const agroMeteorologicalConfig = [{
         jsonPath: "hsdaysmean15",
         request: buildQuery_nbStatsDaysStation,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "day(s)",
         enabled: true
     }, {
-        title: "Number of days with mean temperatures (Tmean < 7 °C)",
-        tooltip: "",
-        param: "TODO",
-        jsonPath: "TODO",
-        request: undefined,
+        title: "Number of days with mean temperatures (T<sub>mean</sub> < 7°C)",
+        tooltip: "TO BE DEFINED",
+        param: "daysMean7",
+        jsonPath: "daysmean7",
+        request: buildQuery_nbStatsDaysStation,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "day(s)",
         enabled: true
     }, {
         title: "Number of days of extreme heat stress (T<sub>mean</sub> > 25°C)",
@@ -149,36 +149,27 @@ export const agroMeteorologicalConfig = [{
         enabled: true
     }, {
         title: "Spellheat",
-        tooltip: "Nombre de vagues de chaleur de plus de {Spellheat} jours (tmax > {Theat} °C).",
-        param: "TODO",
-        jsonPath: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "numbHeatWav",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
         displayUnit: "TO BE DEFINED",
         enabled: false
     }, {
-        title: "Accumulated growing degree days (sumGDD)",
-        tooltip: "Sum of average temperatures on days when tmean > 0°C.",
-        param: "gdd",
-        jsonPath: "gdd",
-        request: buildQuery_GddDaysStation,
-        availableChart: "line",
-        displayUnit: "°C",
-        enabled: true
-    }, {
         title: "Last heat day",
-        tooltip: "Dernier jour d'échaudage (tmax > {Theat} °C) en jour julien.",
-        param: "heatend",
-        jsonPath: "heatend",
+        tooltip: "TO BE DEFINED",
+        param: "heatEnd",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
         displayUnit: "TO BE DEFINED",
         enabled: false
     }, {
         title: "First heat day",
-        tooltip: "Premier jour d'échaudage (tmax > {Theat} °C) en jour julien.",
-        param: "heatend",
-        jsonPath: "heatend",
+        tooltip: "TO BE DEFINED",
+        param: "heatStart",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
         displayUnit: "TO BE DEFINED",
@@ -186,22 +177,22 @@ export const agroMeteorologicalConfig = [{
     }]
 }, {
     title: "Humidity conditions", items: [{
-        title: "Number of wet days (nbWetDays)",
-        tooltip: "Number of wet days represents the number of days during which the humidity is higher than 60% for a period",
+        title: "Number of wet days (wetDays)",
+        tooltip: "TO BE DEFINED",
         param: "wetDays",
-        jsonPath: "nbWetDays",
+        jsonPath: "TODO",
         request: buildQuery_nbStatsDaysStation,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "day(s)",
         enabled: true
     }, {
-        title: "Number of dry days (nbDryDays)",
-        tooltip: "Number of dry days represents the number of days during which the humidity is lower than 40% for a period",
-        param: "nbDryDays",
-        jsonPath: "nbDryDays",
+        title: "Number of dry days (dryDays)",
+        tooltip: "TO BE DEFINED",
+        param: "dryDays",
+        jsonPath: "TODO",
         request: buildQuery_nbStatsDaysStation,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "day(s)",
         enabled: true
     }, {
         title: "Frequency of wet days (wetFreq)",
@@ -210,67 +201,63 @@ export const agroMeteorologicalConfig = [{
         jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "%",
         enabled: false
     }, {
         title: "Frequency of dry days (dryFreq)",
-        tooltip: "Frequency of dry days represents the frequency during which the humidity is lower than 40% for a period",
-        param: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "dryFreq",
         jsonPath: "TODO",
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "%",
         enabled: false
-    },
-        {
-            title: "Sum of high humidity (highHumSum)",
-            tooltip: "TODO",
-            param: "TODO",
-            jsonPath: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: " day(s)",
-            enabled: false
-        },
-        {
-            title: "Sum of dry humidity (lowHumSum)",
-            tooltip: "TODO",
-            param: "TODO",
-            jsonPath: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: " day(s)",
-            enabled: false
-        },
-        {
-            title: "Waves of high humidity (numbWetWav)",
-            tooltip: "TODO",
-            param: "TODO",
-            jsonPath: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: " day(s)",
-            enabled: false
-        },
-        {
-            title: "Waves of low humidity (numbDryWav)",
-            tooltip: "TODO",
-            param: "TODO",
-            jsonPath: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: " day(s)",
-            enabled: false
-        }]
+    }, {
+        title: "Sum of high humidity (highHumSum)",
+        tooltip: "TO BE DEFINED",
+        param: "highHumSum",
+        jsonPath: undefined,
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "TO BE DEFINED",
+        enabled: false
+    }, {
+        title: "Sum of dry humidity (lowHumSum)",
+        tooltip: "TO BE DEFINED",
+        param: "lowHumSum",
+        jsonPath: undefined,
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "TO BE DEFINED",
+        enabled: false
+    }, {
+        title: "Waves of high humidity (numbWetWav)",
+        tooltip: "TO BE DEFINED",
+        param: "numbWetWav",
+        jsonPath: undefined,
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "TO BE DEFINED",
+        enabled: false
+    }, {
+        title: "Waves of low humidity (numbDryWav)",
+        tooltip: "TO BE DEFINED",
+        param: "numbDryWav",
+        jsonPath: undefined,
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "TO BE DEFINED",
+        enabled: false
+    }]
 }, {
     title: "Water Deficit", items: [{
-        title: "Number of rainy days",
-        tooltip: "Nombre de jours rr > 0 mm",
-        param: "raidays",
+        title: "Number of rainy days (rr > 0mm)",
+        tooltip: "TO BE DEFINED",
+        param: "raiDays",
         jsonPath: "TODO",
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "day(s)",
         enabled: true
     }, {
         title: "Number of heavy rainy days (rr > 15mm)",
@@ -301,12 +288,12 @@ export const agroMeteorologicalConfig = [{
         enabled: true
     }, {
         title: "Cumulative precipitation",
-        tooltip: "Amount of precipitation",
-        param: "cprecip",
+        tooltip: "TO BE DEFINED",
+        param: "cPrecip",
         jsonPath: "TODO",
         request: undefined,
-        availableChart: "POLAR",
-        displayUnit: " day(s)",
+        availableChart: "bar",
+        displayUnit: "mm",
         enabled: true
     }, {
         title: "Frequency of rainy days",
@@ -315,52 +302,52 @@ export const agroMeteorologicalConfig = [{
         jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: " %",
+        displayUnit: "%",
         enabled: false
     }, {
         title: "Number of rainless days",
-        tooltip: "Number of days with rainfall deficit.",
-        param: "defraidays",
-        jsonPath: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "defraiDays",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "day(s)",
         enabled: false
     }, {
         title: "Frequency of rainless days",
-        tooltip: "Frequency (%) of days with rainfall deficit",
-        param: "defraifreq",
-        jsonPath: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "defraiFreq",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: " %",
+        displayUnit: "%",
         enabled: false
     }, {
         title: "Number of days with water deficit",
-        tooltip: "Number of days with soil water content < 9.0.",
-        param: "watsdays",
-        jsonPath: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "watsDays",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "day(s)",
         enabled: false
     }, {
         title: "Frequency of days with water deficit",
-        tooltip: "Frequency (%) of days with soil water content < 9.0.",
-        param: "watsfreq",
-        jsonPath: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "watsFreq",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: " %",
+        displayUnit: "%",
         enabled: false
     }, {
         title: "Sum of water deficit",
-        tooltip: "Sum of water deficits: Σ(RAIN - ETP).",
-        param: "sumwd",
-        jsonPath: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "sumWd",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "line",
-        displayUnit: " mm",
+        displayUnit: "mm",
         enabled: false
     }, {
         title: "Number of days of water deficit",
@@ -373,53 +360,22 @@ export const agroMeteorologicalConfig = [{
         enabled: false
     }, {
         title: "Number of consecutive days with (rain - ETP) > seuil",
-        tooltip: "Highest number of consecutive days with (rain - FTE) > threshold.",
-        param: "maxconswatexcdays",
-        jsonPath: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "maxConsWatExcDays",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "day(s)",
         enabled: false
     }, {
         title: "Drought waves",
-        tooltip: "Number of dry spells (20 consecutive days without rain).",
-        param: "numbdroughtwav",
-        jsonPath: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "numbDroughtWav",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: " nb",
+        displayUnit: "TO BE DEFINED",
         enabled: false
-    } ]
-},/*{
-    title: "Wind", items: [{
-        title: "Number of high wind days (wind)",
-        tooltip: "Number of high wind days represents the number of days during the wind is higher than 5.28 m/s for a period",
-        param: "nbWindyDays",
-        jsonPath: "nbWindyDays",
-        request: buildQuery_nbStatsDaysStation,
-        availableChart: "POLAR",
-        displayUnit: " day(s)",
-        enabled: true
-    }]
-}*/ {
-    title: "Frost days and ice days", items: [{
-        title: "Number of frost days (frostDays)",
-        tooltip: "Number of frost days represents the number of days during which the minimum temperature is lower than 0°C for a period",
-        param: "nbFrostDays",
-        jsonPath: "nbFrostDays",
-        request: buildQuery_nbStatsDaysStation,
-        availableChart: "POLAR",
-        displayUnit: " day(s)",
-        enabled: true
-    }, {
-        title: "Number of ice days (iceDays)",
-        tooltip: "Number of ice days represents the number of days when the maximum temperature is lower than 0°C for a period",
-        param: "iceDays",
-        jsonPath: "TODO",
-        request: buildQuery_nbStatsDaysStation,
-        availableChart: "POLAR",
-        displayUnit: " day(s)",
-        enabled: true
     }]
 }, {
     title: "Thermal conditions", items: [{
@@ -433,16 +389,18 @@ export const agroMeteorologicalConfig = [{
         enabled: true
     }, {
         title: "Mean of daily maximum air temperature",
-        tooltip: "TODO",
-        param: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "meanMaxT",
+        jsonPath: "TODO",
         request: undefined,
         availableChart: "POLAR",
         displayUnit: "°C",
         enabled: true
     }, {
         title: "Mean of daily average air temperature",
-        tooltip: "TODO",
-        param: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "meanAvgT",
+        jsonPath: "TODO",
         request: undefined,
         availableChart: "POLAR",
         displayUnit: "°C",
