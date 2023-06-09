@@ -20,18 +20,16 @@ export default {
 
 <template>
     <div class="app">
-        <v-card>
-            <v-app>
-                <v-app-bar title="WeKG-MF-based Agrometeorological Parameters Computing and Visualisation"
-                           color="primary"></v-app-bar>
-                <v-navigation-drawer :permanent="true" :width="400">
-                    <SideBar></SideBar>
-                </v-navigation-drawer>
-                <v-main style="min-height: 300px;">
-                    <TabsBar></TabsBar>
-                </v-main>
-            </v-app>
-        </v-card>
+        <v-app>
+            <v-app-bar title="WeKG-MF-based Agrometeorological Parameters Computing and Visualisation"
+                color="primary"></v-app-bar>
+            <v-navigation-drawer :permanent="true" :width="400">
+                <SideBar></SideBar>
+            </v-navigation-drawer>
+            <v-main style="min-height: 300px;">
+                <TabsBar></TabsBar>
+            </v-main>
+        </v-app>
     </div>
 </template>
 
