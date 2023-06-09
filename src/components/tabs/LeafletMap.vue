@@ -1,6 +1,6 @@
 <template>
     <div class="map">
-        <l-map ref="map" v-model:zoom="zoom" :center="center" :use-global-leaflet="false">
+        <l-map class="map2" ref="map" v-model:zoom="zoom" :center="center" :use-global-leaflet="false">
             <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base"
                 name="OpenStreetMap"></l-tile-layer>
 
@@ -95,8 +95,11 @@ export default {
 
 <style scoped>
 .map {
-    display: flex;
-    flex-direction: column;
-    height: 80vh;
+    height: calc(100% + 50px);
+
+}
+
+.map2 {
+    height: 100%;
 }
 </style>

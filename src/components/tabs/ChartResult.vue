@@ -1,4 +1,8 @@
 <template>
+    <div v-if="getStationsLength === 0 || getStationsParameters === 0">
+        <v-alert type="info" title="Information" text="Please select at least one station and one parameter to show any chart."
+            variant="tonal"></v-alert>
+    </div>
     <div id="visualisation">
         <div class="groupVisualisation">
             <ComboChart v-if="getWeather.length > 0" :chartData="getWeather"></ComboChart>
@@ -23,6 +27,15 @@ export default {
         },
         getAggregate() {
             return this.$store.getters.getAggregate;
+        },
+        getStationsLength() {
+            return this.$store.getters.getSelectedStations.length;
+        },
+        getStationsLength() {
+            return this.$store.getters.getSelectedStations.length;
+        },
+        getStationsParameters() {
+            return this.$store.getters.getParameters.length
         },
     }
 }

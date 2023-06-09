@@ -19,6 +19,9 @@ export const parametersModule = {
     getters: {
         getParameters(state) {
             return state.parameters
+        },
+        isChartUsed: (state) => (availableChart) => {
+            return state.parameters.some((parameter) => parameter.availableChart === availableChart)
         }
     },
     actions: {
