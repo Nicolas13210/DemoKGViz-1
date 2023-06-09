@@ -2,91 +2,121 @@ import {buildQuery_GddDaysStation, buildQuery_nbStatsDaysStation} from "@/querie
 
 export const agroMeteorologicalConfig = [{
     title: "Freezing cold", items: [{
-        title: "Number of rainy days (nbRainDay)",
-        tooltip: "Number of rainy days represents the number of days during which R<sub>d</sub> > 1mm",
-        param: "nbRainyDays",
-        jsonPath: "nbRainyDays",
-        request: buildQuery_nbStatsDaysStation,
+        title: "Number of days with low temperatures (T<sub>min</sub> < -5°C)",
+        tooltip: "TO BE DEFINED",
+        param: "cDaysTMin",
+        jsonPath: "nbDaysTemp5",
+        request: buildQuery_tmpRainStation,
         availableChart: "POLAR",
-        displayUnit: " day(s)",
+        displayUnit: "day(s)",
         enabled: true
-    },
-        {
-            title: "Number of frost days (TMean < 0°C)",
-            tooltip: "TODO",
-            param: "TODO",
-            jsonPath: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: " day(s)",
-            enabled: true
-        },
-        {
-            title: "Number of days with extreme low temperatures (Tmin < -10°C)",
-            tooltip: "TODO",
-            param: "TODO",
-            jsonPath: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: " day(s)",
-            enabled: true
-        },
-        {
-            title: "Number of frost days (Tmin < 0°C)",
-            tooltip: "TODO",
-            param: "TODO",
-            jsonPath: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: " day(s)",
-            enabled: true
-        },
-        {
-            title: "Last frost day",
-            tooltip: "Last day of frost on a Julian day.",
-            param: "frostend",
-            jsonPath: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: " day(s)",
-            enabled: false
-        },
-        {
-            title: "Number of vernalization days (3°C < tmoy < 10 °C)",
-            tooltip: "Number of days for which 3°C < tmoy < 10 °C.",
-            param: "verndays",
-            jsonPath: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: " day(s)",
-            enabled: false
-        },
-        {
-            title: "Frequency of vernalization days ",
-            tooltip: "Frequency (%) of days with 3°C < mean tm < 10°C.",
-            param: "vernfreq",
-            jsonPath: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: " %",
-            enabled: false
-        }]
+    }, {
+        title: "Number of frost days (T<sub>Mean</sub> < 0°C)",
+        tooltip: "TO BE DEFINED",
+        param: "cFrostDays",
+        jsonPath: "nbfrostDaysTavg",
+        request: buildQuery_tmpRainStation,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
+        enabled: true
+    }, {
+        title: "Number of days with extreme low temperatures (T<sub>min</sub> < -10°C)",
+        tooltip: "TO BE DEFINED",
+        param: "cDaysTMin10",
+        jsonPath: "nbDaysextremeTemp10",
+        request: buildQuery_tmpRainStation,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
+        enabled: true
+    }, {
+        title: "Number of days with extreme low temperatures (T<sub>min</sub> < -4°C)",
+        tooltip: "TO BE DEFINED",
+        param: "cDaysTMin4",
+        jsonPath: "nbDaysextremeTemp4",
+        request: buildQuery_tmpRainStation,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
+        enabled: true
+    }, {
+        title: "Number of frost days (T<sub>min</sub> < 0°C)",
+        tooltip: "TO BE DEFINED",
+        param: "cFrostDays",
+        jsonPath: "nbfrostDaysTmin",
+        request: buildQuery_tmpRainStation,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
+        enabled: true
+    }, {
+        title: "Number of vernalization days (3°C < T<sub>mean</sub> < 10°C)",
+        tooltip: "TO BE DEFINED",
+        param: "vernDays",
+        jsonPath: "vernalizationDays",
+        request: buildQuery_tmpRainStation,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
+        enabled: true
+    }, {
+        title: "Frequency of vernalization days",
+        tooltip: "Frequency (%) of days with 3°C < mean tm < 10°C.",
+        param: "vernFreq",
+        jsonPath: undefined,
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "%",
+        enabled: false
+    }, {
+        title: "Spellrost",
+        tooltip: "TO BE DEFINED",
+        param: "numbColdWav",
+        jsonPath: undefined,
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "TO BE DEFINED",
+        enabled: false
+    }, {
+        title: "First frost day",
+        tooltip: "TO BE DEFINED",
+        param: "frostStart",
+        jsonPath: undefined,
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "TO BE DEFINED",
+        enabled: false
+    }, {
+        title: "Last frost day",
+        tooltip: "TO BE DEFINED",
+        param: "frostEnd",
+        jsonPath: undefined,
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "TO BE DEFINED",
+        enabled: false
+    }]
 }, {
     title: "Heat", items: [{
-        title: "Number of days of extreme heat stress (Tmax > 20 °C)",
-        tooltip: "Number of summer days represents the number of days during which the maximum temperature is higher than 25°C for a period",
-        param: "TODO",
-        jsonPath: "TODO",
+        title: "Number of days of extreme heat stress (T<sub>max</sub> > 20°C)",
+        tooltip: "TO BE DEFINED",
+        param: "xhsDaysMax20",
+        jsonPath: "xhsdaysmax20",
         request: buildQuery_nbStatsDaysStation,
         availableChart: "POLAR",
         displayUnit: " day(s)",
         enabled: true
     }, {
-        title: "Number of days of heat stress (Tmean> 15°C)",
-        tooltip: "",
-        param: "TODO",
-        jsonPath: "TODO",
-        request: undefined,
+        title: "Number of days of extreme heat stress (T<sub>max</sub> > 25°C)",
+        tooltip: "TO BE DEFINED",
+        param: "xhsDaysMax25",
+        jsonPath: "xhsdaysmax25",
+        request: buildQuery_nbStatsDaysStation,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
+        enabled: true
+    }, {
+        title: "Number of days of heat stress (T<sub>mean</sub> > 15°C)",
+        tooltip: "TO BE DEFINED",
+        param: "hsDaysMean15",
+        jsonPath: "hsdaysmean15",
+        request: buildQuery_nbStatsDaysStation,
         availableChart: "POLAR",
         displayUnit: " day(s)",
         enabled: true
@@ -100,13 +130,31 @@ export const agroMeteorologicalConfig = [{
         displayUnit: " day(s)",
         enabled: true
     }, {
+        title: "Number of days of extreme heat stress (T<sub>mean</sub> > 25°C)",
+        tooltip: "TO BE DEFINED",
+        param: "xhsDaysMean25",
+        jsonPath: "xhsdaysmean25",
+        request: buildQuery_nbStatsDaysStation,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
+        enabled: true
+    }, {
+        title: "Accumulated growing degree days",
+        tooltip: "TO BE DEFINED",
+        param: "sumGDD",
+        jsonPath: "SumGDD",
+        request: buildQuery_GddDaysStation,
+        availableChart: "bar",
+        displayUnit: "°C",
+        enabled: true
+    }, {
         title: "Spellheat",
         tooltip: "Nombre de vagues de chaleur de plus de {Spellheat} jours (tmax > {Theat} °C).",
         param: "TODO",
         jsonPath: "TODO",
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: "TODO",
+        displayUnit: "TO BE DEFINED",
         enabled: false
     }, {
         title: "Accumulated growing degree days (sumGDD)",
@@ -124,7 +172,7 @@ export const agroMeteorologicalConfig = [{
         jsonPath: "heatend",
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: "°C",
+        displayUnit: "TO BE DEFINED",
         enabled: false
     }, {
         title: "First heat day",
@@ -133,7 +181,7 @@ export const agroMeteorologicalConfig = [{
         jsonPath: "heatend",
         request: undefined,
         availableChart: "POLAR",
-        displayUnit: "°C",
+        displayUnit: "TO BE DEFINED",
         enabled: false
     }]
 }, {
@@ -157,9 +205,9 @@ export const agroMeteorologicalConfig = [{
         enabled: true
     }, {
         title: "Frequency of wet days (wetFreq)",
-        tooltip: "Frequency of wet days represents the frequency during which the humidity is higher than 60% for a period",
-        param: "TODO",
-        jsonPath: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "wetFreq",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
         displayUnit: " day(s)",
@@ -225,6 +273,33 @@ export const agroMeteorologicalConfig = [{
         displayUnit: " day(s)",
         enabled: true
     }, {
+        title: "Number of heavy rainy days (rr > 15mm)",
+        tooltip: "TO BE DEFINED",
+        param: "hRaiDays15",
+        jsonPath: "TODO",
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
+        enabled: true
+    }, {
+        title: "Number of heavy rainy days (rr > 20mm)",
+        tooltip: "TO BE DEFINED",
+        param: "hRaiDays20",
+        jsonPath: "TODO",
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
+        enabled: true
+    }, {
+        title: "Number of heavy rainy days (rr > 30mm)",
+        tooltip: "TO BE DEFINED",
+        param: "hRaiDays30",
+        jsonPath: "TODO",
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
+        enabled: true
+    }, {
         title: "Cumulative precipitation",
         tooltip: "Amount of precipitation",
         param: "cprecip",
@@ -235,9 +310,9 @@ export const agroMeteorologicalConfig = [{
         enabled: true
     }, {
         title: "Frequency of rainy days",
-        tooltip: "Frequency (%) of rainy days.",
-        param: "raifreq",
-        jsonPath: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "raiFreq",
+        jsonPath: undefined,
         request: undefined,
         availableChart: "POLAR",
         displayUnit: " %",
@@ -286,6 +361,15 @@ export const agroMeteorologicalConfig = [{
         request: undefined,
         availableChart: "line",
         displayUnit: " mm",
+        enabled: false
+    }, {
+        title: "Number of days of water deficit",
+        tooltip: "TO BE DEFINED",
+        param: "wdDays",
+        jsonPath: undefined,
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "day(s)",
         enabled: false
     }, {
         title: "Number of consecutive days with (rain - ETP) > seuil",
@@ -340,8 +424,8 @@ export const agroMeteorologicalConfig = [{
 }, {
     title: "Thermal conditions", items: [{
         title: "Mean of daily minimum air temperature",
-        tooltip: "TODO",
-        param: "TODO",
+        tooltip: "TO BE DEFINED",
+        param: "meanMinT",
         jsonPath: "TODO",
         request: undefined,
         availableChart: "POLAR",
@@ -363,24 +447,23 @@ export const agroMeteorologicalConfig = [{
         availableChart: "POLAR",
         displayUnit: "°C",
         enabled: true
-    },
-        {
-            title: "Mean of daily range of temperature",
-            tooltip: "TODO",
-            param: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: "°C",
-            enabled: true
-        },
-        {
-            title: "Photothermal coefficient",
-            tooltip: "TODO",
-            param: "TODO",
-            request: undefined,
-            availableChart: "POLAR",
-            displayUnit: "°C",
-            enabled: false
-        }
-    ]
+    }, {
+        title: "Mean of daily range of temperature",
+        tooltip: "TO BE DEFINED",
+        param: "meanRangeT",
+        jsonPath: "TODO",
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "°C",
+        enabled: true
+    }, {
+        title: "Photothermal coefficient",
+        tooltip: "TO BE DEFINED",
+        param: "photoThermalQuotient",
+        jsonPath: undefined,
+        request: undefined,
+        availableChart: "POLAR",
+        displayUnit: "°C",
+        enabled: false
+    }]
 }]

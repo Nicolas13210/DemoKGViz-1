@@ -43,18 +43,8 @@ export const dailyConfig = [
                 availableChart: "line",
                 displayUnit: "°C",
                 enabled: true
-            } /*{
-                title: "Daily precipitation (rainDay)",
-                tooltip: "Daily cumulative precipitation R<sub>d</sub> recorded from 6:00 UTC day d till 6:00 UTC day d+1",
-                type: "TmpRain",
-                param: "rainDay",
-                jsonPath: "rainfall",
-                request: buildQuery_tmpRainStation,
-                availableChart: "bar",
-                displayUnit: "mm",
-                enabled: false
-            }*/, {
-                title: "Daily cumulative precipitation (sumRain)",
+            }, {
+                title: "Daily cumulative precipitation (rain<sub>sum</sub>)",
                 tooltip: "Sum of daily cumulative precipitation recorded during a period",
                 type: "GddRain",
                 param: "sumRain",
@@ -81,7 +71,7 @@ export const dailyConfig = [
                 jsonPath: "TODO",
                 request: undefined,
                 availableChart: "line",
-                displayUnit: "TODO",
+                displayUnit: "%",
                 enabled: true
             }, {
                 title: "Sum of daily ETP",
