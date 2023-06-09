@@ -95,7 +95,7 @@ export default {
             };
         },
         displayChart() {
-            return this.$store.getters.isChartUsed("POLAR")
+            return this.$store.getters.isChartUsed("POLAR") && this.$store.getters.getSelectedStations.length
         }
     }
 }

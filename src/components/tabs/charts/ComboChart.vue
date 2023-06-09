@@ -285,7 +285,7 @@ export default {
             };
         },
         displayChart() {
-            return this.$store.getters.isChartUsed("line") || this.$store.getters.isChartUsed("bar")
+            return (this.$store.getters.isChartUsed("line") || this.$store.getters.isChartUsed("bar")) && this.$store.getters.getSelectedStations.length
         }
     }
 }
