@@ -7,7 +7,6 @@ import {PolarArea} from 'vue-chartjs';
 import {ArcElement, Chart as ChartJS, Legend, RadialLinearScale, Title, Tooltip} from 'chart.js'
 import CryptoJS from "crypto-js";
 import uniqolor from "uniqolor";
-import {th} from "vuetify/locale";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, RadialLinearScale);
 
@@ -61,7 +60,6 @@ export default {
         processData() {
             if (this.$store.getters.getAggregate.length === 0) {
                 // No data loaded.
-                console.log("undefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefined")
                 return undefined;
             }
 
@@ -69,13 +67,10 @@ export default {
             let backgroundColors = [];
             let data = [];
 
-            console.log(this.chartData)
-            console.log(this.chartData[0].values)
 
             let mergedData = this.mergeValuesByStationName(this.chartData)
             // For each station with data
             for (const stationData of mergedData[0].values) {
-                console.log(stationData)
                 const stationName = stationData["stationName"];
 
                 const titleLabels = this.extractKeys(stationName, mergedData[0], this.$store.getters.getParameters)
@@ -85,8 +80,6 @@ export default {
                 backgroundColors = backgroundColors.concat(titleLabels.map(item =>
                   uniqolor(CryptoJS.SHA256(item).toString(), {saturation: [45, 90], lightness: [45, 75]}).color
                 ));
-                console.log("this.extractValues(stationName, this.chartData[0], this.$store.getters.getParameters)")
-                console.log(this.extractValues(stationName, mergedData[0], this.$store.getters.getParameters))
                 data = data.concat(this.extractValues(stationName, mergedData[0], this.$store.getters.getParameters));
             }
 
