@@ -14,6 +14,8 @@ export const weatherModule = {
             } else {
                 state.weather.push(payload);
             }
+            console.log("state.weather")
+            console.log(state.weather)
         }
     }, getters: {
         getWeather(state) {

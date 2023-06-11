@@ -7,6 +7,7 @@ import {PolarArea} from 'vue-chartjs';
 import {ArcElement, Chart as ChartJS, Legend, RadialLinearScale, Title, Tooltip} from 'chart.js'
 import CryptoJS from "crypto-js";
 import uniqolor from "uniqolor";
+import {th} from "vuetify/locale";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, RadialLinearScale);
 
@@ -38,7 +39,23 @@ export default {
             const keys = Object.keys(json1.values.filter(item => item["stationName"] === stationName)[0]);
 
             return keys.filter(key => params.includes(key));
+        },
+        mergeValuesByStationName(data) {
+            const mergedData = {};
+            data.forEach(obj => {
+                const stationName = obj.values[0].stationName;
+                if (!mergedData[stationName]) {
+                    mergedData[stationName] = { values: [obj.values[0]] };
+                } else {
+                    mergedData[stationName].values[0] = {
+                        ...mergedData[stationName].values[0],
+                        ...obj.values[0]
+                    };
+                }
+            });
+            return Object.values(mergedData);
         }
+
     },
     computed: {
         processData() {
@@ -53,12 +70,14 @@ export default {
 
             console.log(this.chartData)
             console.log(this.chartData[0].values)
+
+            let mergedData = this.mergeValuesByStationName(this.chartData)
             // For each station with data
-            for (const stationData of this.chartData[0].values) {
+            for (const stationData of mergedData[0].values) {
                 console.log(stationData)
                 const stationName = stationData["stationName"];
 
-                const titleLabels = this.extractKeys(stationName, this.chartData[0], this.$store.getters.getParameters)
+                const titleLabels = this.extractKeys(stationName, mergedData[0], this.$store.getters.getParameters)
                   .map(item => item + " (" + stationName + ")");
                 labels = labels.concat(titleLabels);
 
@@ -66,8 +85,8 @@ export default {
                   uniqolor(CryptoJS.SHA256(item).toString(), {saturation: [45, 90], lightness: [45, 75]}).color
                 ));
                 console.log("this.extractValues(stationName, this.chartData[0], this.$store.getters.getParameters)")
-                console.log(this.extractValues(stationName, this.chartData[0], this.$store.getters.getParameters))
-                data = data.concat(this.extractValues(stationName, this.chartData[0], this.$store.getters.getParameters));
+                console.log(this.extractValues(stationName, mergedData[0], this.$store.getters.getParameters))
+                data = data.concat(this.extractValues(stationName, mergedData[0], this.$store.getters.getParameters));
             }
 
             const polarChart = {
