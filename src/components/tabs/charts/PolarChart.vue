@@ -42,7 +42,7 @@ export default {
     },
     computed: {
         processData() {
-            if (this.$store.getters.getWeatherNbDay.length === 0) {
+            if (this.$store.getters.getAggregate.length === 0) {
                 // No data loaded.
                 return undefined;
             }

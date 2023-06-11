@@ -2,7 +2,8 @@ import {getRequestDailyData} from "@/queries/daily_queries";
 
 export const dailyConfig = [
     {
-        title: "Daily Weather Variables", "items": [
+        title: "Daily Weather Variables",
+        items: [
             {
                 title: "Daily minimum temperature (DT<sub>min</sub>)",
                 tooltip: "TO BE DEFINED",
@@ -12,7 +13,8 @@ export const dailyConfig = [
                 availableChart: "line",
                 displayUnit: "°C",
                 enabled: true
-            }, {
+            },
+            {
                 title: "Daily maximum temperature (DT<sub>max</sub>)",
                 tooltip: "TO BE DEFINED",
                 param: "DTMax",
@@ -21,7 +23,8 @@ export const dailyConfig = [
                 availableChart: "line",
                 displayUnit: "°C",
                 enabled: true
-            }, {
+            },
+            {
                 title: "Daily mean (average) temperature (DT<sub>mean</sub>)",
                 tooltip: "TO BE DEFINED",
                 param: "DTMean",
@@ -30,7 +33,8 @@ export const dailyConfig = [
                 availableChart: "line",
                 displayUnit: "°C",
                 enabled: true
-            }, {
+            },
+            {
                 title: "Daily range of temperature (DT<sub>range</sub>)",
                 tooltip: "TO BE DEFINED",
                 param: "DTRange",
@@ -39,7 +43,8 @@ export const dailyConfig = [
                 availableChart: "line",
                 displayUnit: "°C",
                 enabled: true
-            }, {
+            },
+            {
                 title: "Daily cumulative precipitation (rain<sub>sum</sub>)",
                 tooltip: "Sum of daily cumulative precipitation recorded during a period",
                 param: "rainSum",
@@ -48,7 +53,8 @@ export const dailyConfig = [
                 availableChart: "bar",
                 displayUnit: "mm",
                 enabled: true
-            }, {
+            },
+            {
                 title: "Shortwave Radiation Sum (sr<sub>sum</sub>)",
                 tooltip: "TO BE DEFINED",
                 param: "srSum",
@@ -57,7 +63,8 @@ export const dailyConfig = [
                 availableChart: "line",
                 displayUnit: "TO BE DEFINED",
                 enabled: false
-            }, {
+            },
+            {
                 title: "Daily average humidity (hum<sub>avg</sub>)",
                 tooltip: "TO BE DEFINED",
                 param: "humAvg",
@@ -66,7 +73,8 @@ export const dailyConfig = [
                 availableChart: "line",
                 displayUnit: "%",
                 enabled: true
-            }, {
+            },
+            {
                 title: "Sum of daily ETP (sum<sub>ETP</sub>)",
                 tooltip: "TO BE DEFINED",
                 param: "sumEtp",
@@ -75,7 +83,8 @@ export const dailyConfig = [
                 availableChart: "line",
                 displayUnit: "TO BE DEFINED",
                 enabled: false
-            }, {
+            },
+            {
                 title: "GDD",
                 tooltip: "TO BE DEFINED",
                 param: "gdd",

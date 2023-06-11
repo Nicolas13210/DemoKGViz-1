@@ -21,7 +21,6 @@ export default {
     props: {
         title: String,
         tooltip: String,
-        type: String,
         param: String,
         request: Function,
         jsonPath: String,
@@ -34,7 +33,6 @@ export default {
             const isChecked = event.target.checked;
             if (isChecked) {
                 this.$store.dispatch('addParameter', {
-                    type: this.type,
                     param: this.param,
                     request: this.request,
                     jsonPath: this.jsonPath,

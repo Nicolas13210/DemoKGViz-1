@@ -1,5 +1,5 @@
 <template>
-    <div v-if="getStationsLength === 0 || getStationsParameters === 0">
+    <div v-if="getStationsLength === 0 || getStationsParametersLength === 0">
         <v-alert type="info" title="Information" text="Please select at least one station and one parameter to show any chart."
             variant="tonal"></v-alert>
     </div>
@@ -31,10 +31,7 @@ export default {
         getStationsLength() {
             return this.$store.getters.getSelectedStations.length;
         },
-        getStationsLength() {
-            return this.$store.getters.getSelectedStations.length;
-        },
-        getStationsParameters() {
+        getStationsParametersLength() {
             return this.$store.getters.getParameters.length
         },
     }

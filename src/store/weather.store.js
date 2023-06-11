@@ -1,7 +1,5 @@
 import axios from "axios";
 import {transformData} from '@/utils/dataTransformation'
-import {getRequestFreezingColdData} from "@/queries/freezing_cold_queries";
-import {getRequestHeatData} from "@/queries/heat_queries";
 
 export const weatherModule = {
     namespace: false, state() {
@@ -21,10 +19,37 @@ export const weatherModule = {
         getWeather(state) {
             return state.weather;
         }, getAggregate(state) {
+            const weatherList = state.weather;
+            console.log("state.weather", weatherList);
+            for (const weather of weatherList) {
+                console.log("test 1");
+                console.log("weather queryMethod", weather.queryMethod);
+                console.log("test 1");
+            }
+
+            const beforeMap = state.weather.filter(value =>
+                value.queryMethod === "getRequestFreezingColdData" ||
+                value.queryMethod === "getRequestHeatData" ||
+                value.queryMethod === "getRequestHumidityConditionsData" ||
+                value.queryMethod === "getRequestWaterDeficitData" ||
+                value.queryMethod === "getRequestThermalConditionsData");
+
+            console.log("getAggregate beforeMap", beforeMap);
+
+            const result = state.weather.filter(value =>
+                value.queryMethod === "getRequestFreezingColdData" ||
+                value.queryMethod === "getRequestHeatData" ||
+                value.queryMethod === "getRequestHumidityConditionsData" ||
+                value.queryMethod === "getRequestWaterDeficitData" ||
+                value.queryMethod === "getRequestThermalConditionsData").map(item => item.result);
+
+            console.log("getAggregate result", result);
+
             return state.weather.filter(value =>
                 value.queryMethod === "getRequestFreezingColdData" ||
                 value.queryMethod === "getRequestHeatData" ||
                 value.queryMethod === "getRequestHumidityConditionsData" ||
+                value.queryMethod === "getRequestWaterDeficitData" ||
                 value.queryMethod === "getRequestThermalConditionsData").map(item => item.result);
         },
     }, actions: {

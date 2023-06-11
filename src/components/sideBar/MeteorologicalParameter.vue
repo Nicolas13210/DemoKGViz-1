@@ -11,7 +11,6 @@
                     <MeteorologicalParameterItem v-for="item in parameter.items"
                                                  :title="item.title"
                                                  :tooltip="item.tooltip"
-                                                 :type="item.type"
                                                  :param="item.param"
                                                  :request="item.request"
                                                  :json-path="item.jsonPath"

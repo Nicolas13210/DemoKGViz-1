@@ -10,7 +10,6 @@
                                          :request="item.request"
                                          :title="item.title"
                                          :tooltip="item.tooltip"
-                                         :type="item.type"
             :enabled="item.enabled">
             </DailyParameterItem>
         </div>
