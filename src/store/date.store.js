@@ -4,7 +4,6 @@ export const dateModule = {
     namespace: false,
     state() {
         return {
-            // TODO: for production, use "2016-01-01".
             startDate: "2021-01-01",
             endDate: "2021-01-31",
 
