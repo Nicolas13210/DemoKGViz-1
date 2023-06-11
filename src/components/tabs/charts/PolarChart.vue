@@ -1,5 +1,6 @@
 <template>
-    <PolarArea v-if="displayChart && processData !== undefined" :data="processData" :options="chartOptions" class="chart"/>
+    <PolarArea v-if="displayChart && processData !== undefined" :data="processData" :options="chartOptions"
+               class="chart"/>
 </template>
 
 <script>
@@ -44,7 +45,7 @@ export default {
             data.forEach(obj => {
                 const stationName = obj.values[0].stationName;
                 if (!mergedData[stationName]) {
-                    mergedData[stationName] = { values: [obj.values[0]] };
+                    mergedData[stationName] = {values: [obj.values[0]]};
                 } else {
                     mergedData[stationName].values[0] = {
                         ...mergedData[stationName].values[0],
@@ -91,7 +92,6 @@ export default {
                 }]
             }
 
-            console.log("PolarChart computed", polarChart);
             return polarChart;
         },
         chartOptions() {

@@ -1,7 +1,4 @@
 export const isParameterTypeDataAlreadyFetch = (parameters, parameter) => {
-    console.log("isParameterTypeDataAlreadyFetch parameters", parameters);
-    console.log("isParameterTypeDataAlreadyFetch parameter", parameter);
-    console.log("isParameterTypeDataAlreadyFetch name", parameter.request.name);
     const foundTypeData = parameters.find(p => p.request.name === parameter.request.name);
     return !!foundTypeData
 }
