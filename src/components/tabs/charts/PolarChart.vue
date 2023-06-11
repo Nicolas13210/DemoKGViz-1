@@ -1,5 +1,5 @@
 <template>
-    <PolarArea v-if="displayChart" :data="processData" :options="chartOptions" class="chart"/>
+    <PolarArea v-if="displayChart && processData !== undefined" :data="processData" :options="chartOptions" class="chart"/>
 </template>
 
 <script>
@@ -61,6 +61,7 @@ export default {
         processData() {
             if (this.$store.getters.getAggregate.length === 0) {
                 // No data loaded.
+                console.log("undefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefinedundefined")
                 return undefined;
             }
 
