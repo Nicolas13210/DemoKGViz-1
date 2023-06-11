@@ -27,7 +27,7 @@ export default {
     methods: {
         extractValues(stationName, json1, json2) {
             const params = json2.map(param => param.param);
-            const values = json1.values.filter(item => item["stationName"] === stationName)[0];
+            const values = json1.filter(item => item["stationName"] === stationName)[0];
 
             return Object.keys(values)
               .filter(key => params.includes(key))
@@ -35,7 +35,7 @@ export default {
         },
         extractKeys(stationName, json1, json2) {
             const params = json2.map(param => param.param);
-            const keys = Object.keys(json1.values.filter(item => item["stationName"] === stationName)[0]);
+            const keys = Object.keys(json1.filter(item => item["stationName"] === stationName)[0]);
 
             return keys.filter(key => params.includes(key));
         }
@@ -52,7 +52,7 @@ export default {
             let data = [];
 
             // For each station with data
-            for (const stationData of this.chartData.values) {
+            for (const stationData of this.chartData.map(item => item.values)) {
                 const stationName = stationData["stationName"];
 
                 const titleLabels = this.extractKeys(stationName, this.chartData, this.$store.getters.getParameters)
