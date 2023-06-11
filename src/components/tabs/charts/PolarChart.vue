@@ -26,16 +26,16 @@ export default {
     },
     methods: {
         extractValues(stationName, json1, json2) {
-            const params = json2.map(param => param.param);
-            const values = json1.filter(item => item["stationName"] === stationName)[0];
+            const params = json2.map(param => param.jsonPath);
+            const values = json1.values.filter(item => item["stationName"] === stationName)[0];
 
             return Object.keys(values)
               .filter(key => params.includes(key))
               .map(key => parseInt(values[key]));
         },
         extractKeys(stationName, json1, json2) {
-            const params = json2.map(param => param.param);
-            const keys = Object.keys(json1.filter(item => item["stationName"] === stationName)[0]);
+            const params = json2.map(param => param.jsonPath);
+            const keys = Object.keys(json1.values.filter(item => item["stationName"] === stationName)[0]);
 
             return keys.filter(key => params.includes(key));
         }
@@ -51,18 +51,23 @@ export default {
             let backgroundColors = [];
             let data = [];
 
+            console.log(this.chartData)
+            console.log(this.chartData[0].values)
             // For each station with data
-            for (const stationData of this.chartData.map(item => item.values)) {
+            for (const stationData of this.chartData[0].values) {
+                console.log(stationData)
                 const stationName = stationData["stationName"];
 
-                const titleLabels = this.extractKeys(stationName, this.chartData, this.$store.getters.getParameters)
+                const titleLabels = this.extractKeys(stationName, this.chartData[0], this.$store.getters.getParameters)
                   .map(item => item + " (" + stationName + ")");
                 labels = labels.concat(titleLabels);
 
                 backgroundColors = backgroundColors.concat(titleLabels.map(item =>
                   uniqolor(CryptoJS.SHA256(item).toString(), {saturation: [45, 90], lightness: [45, 75]}).color
                 ));
-                data = data.concat(this.extractValues(stationName, this.chartData, this.$store.getters.getParameters));
+                console.log("this.extractValues(stationName, this.chartData[0], this.$store.getters.getParameters)")
+                console.log(this.extractValues(stationName, this.chartData[0], this.$store.getters.getParameters))
+                data = data.concat(this.extractValues(stationName, this.chartData[0], this.$store.getters.getParameters));
             }
 
             const polarChart = {
