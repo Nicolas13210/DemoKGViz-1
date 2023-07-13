@@ -257,6 +257,7 @@ VALUES ?stationName  {` + stationName + `}
 }
 
 export function buildQuery_tmpRainStation(stationName, startDate, endDate) {
+    console.log("Fetching tmpRainStation " + stationName + " between " + startDate + " and " + endDate)
     return `
 PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
 PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
@@ -296,6 +297,7 @@ ORDER BY ?date
 
 
 export function buildQuery_nbStatsDaysStation(stationName, startDate, endDate) {
+    console.log("Fetching nbStatsDaysStation " + stationName + " between " + startDate + " and " + endDate)
     // The end of this variable is a quickfix. The IN clause seems to not work if there is only one item in the list.
     const formattedStations = stationName.replace(/ /g, ",") + ",\"\"";
     return `
@@ -383,6 +385,7 @@ GROUP BY ?stationName
 }
 
 export function buildQuery_GddDaysStation(stationName, startDate, endDate) {
+    console.log("Fetching GddDaysStation " + stationName + " between " + startDate + " and " + endDate)
     return `
 PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
 PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
