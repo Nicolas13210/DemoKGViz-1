@@ -73,6 +73,7 @@ export default {
                 }]
             }
 
+            console.log("PolarChart computed", polarChart);
             return polarChart;
         },
         chartOptions() {
