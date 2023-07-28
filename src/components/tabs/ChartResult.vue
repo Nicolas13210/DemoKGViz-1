@@ -6,20 +6,21 @@
     <div id="visualisation">
         <div class="groupVisualisation">
             <ComboChart v-if="getWeather.length > 0" :chartData="getWeather"></ComboChart>
-            <PolarChart v-if="getWeatherNbDay !== undefined" :chartData="getWeatherNbDay"></PolarChart>
+            <BarChart v-if="getWeatherNbDay !== undefined" :chartData="getWeatherNbDay"></BarChart>
         </div>
     </div>
 </template>
 
 <script>
 import ComboChart from "@/components/tabs/charts/ComboChart.vue";
-import PolarChart from "@/components/tabs/charts/PolarChart.vue";
+import BarChart from "@/components/tabs/charts/BarChart.vue";
+
 
 export default {
     name: "ChartResult",
     components: {
         ComboChart,
-        PolarChart
+        BarChart,
     },
     computed: {
         getWeather() {
@@ -27,9 +28,7 @@ export default {
         },
         getWeatherNbDay() {
             return this.$store.getters.getWeatherNbDay?.result;
-        },
-        getStationsLength() {
-            return this.$store.getters.getSelectedStations.length;
+
         },
         getStationsLength() {
             return this.$store.getters.getSelectedStations.length;

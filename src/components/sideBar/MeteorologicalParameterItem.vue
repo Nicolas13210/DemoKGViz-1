@@ -7,6 +7,7 @@
                     <template v-slot:activator="{ props }">
                         <v-btn density="compact" icon="mdi-help-circle-outline" variant="text" v-bind="props"></v-btn>
                     </template>
+
                     <span v-html="tooltip"></span>
                 </v-tooltip>
             </template>
@@ -26,7 +27,9 @@ export default {
         request: Function,
         jsonPath: String,
         availableChart: String,
-        displayUnit: String
+        displayUnit: String,
+        axisLegend: String,
+        related: Array,
     },
     methods: {
         checkParameter(event) {
@@ -37,11 +40,41 @@ export default {
                     param: this.param,
                     request: this.request,
                     jsonPath: this.jsonPath,
-                    availableChart: this.availableChart,
-                    displayUnit: this.displayUnit
+                    availableChart : this.availableChart,
+                    displayUnit: this.displayUnit,
+                    axisLegend: this.axisLegend,
+                    tooltip: this.tooltip
+                });
+                this.related.forEach(element => {
+                    this.$store.dispatch('addParameter', {
+                        type: element.type,
+                        param: element.param,
+                        request: element.request,
+                        jsonPath: element.jsonPath,
+                        availableChart: element.availableChart,
+                        displayUnit: element.displayUnit,
+                        axisLegend: element.axisLegend,
+                        tooltip: element.tooltip
+                    });
+                    
                 });
             } else {
+                this.related.forEach(element =>{
+                    this.$store.dispatch('removeParameter', {param: element.param});
+                });
                 this.$store.dispatch('removeParameter', {param: this.param});
+            }
+            this.$store.getters.getConsecutiveDays
+
+        },
+    },
+    computed: {
+        baseTemp: {
+            // Workaround in order to not get a warning in the console.
+            get() {
+            },
+            set() {
+                // Empty.
             }
         }
     }
@@ -49,4 +82,9 @@ export default {
 </script>
 
 <style scoped>
+
+
+input{
+    width: 3em;
+}
 </style>

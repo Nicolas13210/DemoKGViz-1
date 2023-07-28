@@ -1,5 +1,4 @@
 export const isParameterTypeDataAlreadyFetch = (parameters, parameter) => {
-    console.log(parameters, parameter)
     const foundTypeData = parameters.find(p => p.type === parameter.type);
     return !!foundTypeData
 }
@@ -18,8 +17,23 @@ export function reloadChart(context) {
             query: fonction(
                 context.getters.getSelectedStationsJoin,
                 context.getters.getDate[0],
-                context.getters.getDate[1]),
-            queryMethod: fonction.name
+                context.getters.getDate[1],
+                context.getters.getBaseTemp,
+                context.getters.getColdMin,
+                context.getters.getHeat,
+                context.getters.getMinTemp,
+                context.getters.getMaxTemp,
+                context.getters.getMinHum,
+                context.getters.getMaxHum,
+                context.getters.getRainLevel,
+                context.getters.getDeficitLevel),
+            queryMethod: fonction.name,
+            nbDays:{
+                spellFrost:context.getters.getSpellFrost,
+                spellHeat:context.getters.getSpellHeat,
+                spellHum:context.getters.getSpellHum,
+                droughtWave:context.getters.getDroughtWave
+            }
         });
     }
 }

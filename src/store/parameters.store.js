@@ -22,6 +22,12 @@ export const parametersModule = {
         },
         isChartUsed: (state) => (availableChart) => {
             return state.parameters.some((parameter) => parameter.availableChart === availableChart)
+        },
+        getBarParameters(state) {
+            return state.parameters.filter(item=> item.availableChart==="POLAR")
+        },
+        getDatesParameters(state){
+            return state.parameters.filter(item=>item.availableChart==="table")
         }
     },
     actions: {
@@ -32,9 +38,24 @@ export const parametersModule = {
                     query: payload.request(
                         context.getters.getSelectedStationsJoin,
                         context.getters.getDate[0],
-                        context.getters.getDate[1]
+                        context.getters.getDate[1],
+                        context.getters.getBaseTemp,
+                        context.getters.getColdMin,
+                        context.getters.getHeat,
+                        context.getters.getMinTemp,
+                        context.getters.getMaxTemp,
+                        context.getters.getMinHum,
+                        context.getters.getMaxHum,
+                        context.getters.getRainLevel,
+                        context.getters.getDeficitLevel
                     ),
-                    queryMethod: payload.request.name
+                    queryMethod: payload.request.name,
+                    nbDays:{
+                        spellFrost:context.getters.getSpellFrost,
+                        spellHeat:context.getters.getSpellHeat,
+                        spellHum:context.getters.getSpellHum,
+                        droughtWave:context.getters.getDroughtWave
+                    }
                 });
             }
 

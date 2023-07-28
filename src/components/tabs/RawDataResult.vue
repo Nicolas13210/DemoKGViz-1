@@ -23,9 +23,9 @@
             <tbody>
             <tr v-for="item in processData" :key="item.name">
                 <td><a :href="this.findStationDetail(item.stationName).station.value">{{ item.stationName }}</a></td>
+                <td>{{ item.date }}</td>
                 <td>{{ this.findStationDetail(item.stationName).lat.value }}</td>
                 <td>{{ this.findStationDetail(item.stationName).long.value }}</td>
-                <td>{{ item.date }}</td>
                 <td v-for="prop in existingProperties" :key="prop.param">{{ item[prop.jsonPath] }}</td>
             </tr>
             </tbody>

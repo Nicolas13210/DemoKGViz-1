@@ -52,7 +52,7 @@ export default {
             localComparison: false,
 
             startDateBound: new Date(2016, 1, 1),
-            endDateBound: new Date(2021, 11, 31),
+            endDateBound: new Date(2023, 11, 31),
 
             // Comparison range slider
             yearsSelected: [2016, 2017],

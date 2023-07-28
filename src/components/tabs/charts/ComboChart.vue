@@ -36,26 +36,31 @@ export default {
             // Property for the chart.
             properties: [],
 
-            // Toggle to know if it is necessary to add a y-axis on the right side.
-            yRightEnable: false,
+            nbAxis:0,
 
-            // Toggle to know if it is necessary to add a y-axis on the right side.
-            yLeftEnable: false
+            //display degrees on the left scale
+
+            titles:[],
+
+            
+
+
+        
+
         }
     },
     methods: {
         setProperties(parameters) {
             let properties = [];
             for (let parameter in parameters) {
-                const chartType = parameters[parameter].availableChart;
-                if (chartType === "line" || chartType === "bar") {
+                const availableChart = parameters[parameter].availableChart;
+                if (availableChart === "line" || availableChart === 'bar') {
                     properties.push({
                         title: parameters[parameter].param,
                         jsonPath: parameters[parameter].jsonPath,
                         type: parameters[parameter].availableChart,
-                        displayUnit: parameters[parameter].displayUnit,
+                        axisLegend: parameters[parameter].axisLegend,
                         queryMethod: parameters[parameter].request.name,
-                        yAxisId: (chartType === 'line') ? 'yLeft' : 'yRight'
                     })
                 }
             }
@@ -63,6 +68,7 @@ export default {
         },
         selectAndConcatAttributes(json) {
             let properties = this.setProperties(this.$store.getters.getParameters)
+            console.log(properties);
             this.properties = properties;
 
             let result = [];
@@ -151,8 +157,9 @@ export default {
     computed: {
         processData() {
             // Reset the properties to the default state.
-            this.yRightEnable = false;
-            this.yLeftEnable = false;
+            this.nbAxis =   this.properties.length;
+            this.titles = [];
+            
 
             if (this.$store.getters.getWeather.length === 0) {
                 // No data loaded.
@@ -175,6 +182,8 @@ export default {
                 for (let stationData of computedData) {
                     // For each station (station: XXX, data: [{attribute: XXX, value: XXX}]).
                     for (let property of this.properties) {
+                        let axis = "yAxis";
+                        
 
                         const titleLabel = property.title + " (" + stationData.station + ")" + ((this.$store.getters.getComparison) ? " - " + year : "");
                         let data;
@@ -185,15 +194,18 @@ export default {
                             data = stationData.data.filter(item => item.attribute === property.jsonPath).map(item => item.value)
                         }
 
+                        
+
                         // Low encryption method, just to randomize the String.
                         const colorSha1 = CryptoJS.SHA256(titleLabel).toString();
                         const colorUniq = uniqolor(colorSha1, {saturation: [45, 90], lightness: [45, 75]});
-
-                        if (this.yRightEnable === false && property.yAxisId === 'yRight') {
-                            this.yRightEnable = true;
-                        } else if (this.yLeftEnable === false && property.yAxisId === 'yLeft') {
-                            this.yLeftEnable = true;
+                        if(this.titles.includes(property.axisLegend)){
+                            axis = axis.concat('',(this.titles.indexOf(property.axisLegend)+1).toString())
+                        } else{
+                            this.titles.push(property.axisLegend);
+                            axis = axis.concat('',this.titles.length.toString());
                         }
+                        console.log(axis);
 
                         datasets.push({
                             label: titleLabel,
@@ -201,12 +213,13 @@ export default {
                             borderColor: colorUniq.color,
                             data: data,
                             type: property.type,
-                            displayUnit: property.displayUnit,
+                            displayUnit: property.axisLegend,
                             borderWidth: 3,
                             hoverBorderWidth: 10,
-                            yAxisID: property.yAxisId,
-                            order: (property.yAxisId === 'yLeft') ? 0 : 1,
-                            tension: (property.yAxisId === 'yLeft') ? 0.2 : 0
+                            yAxisID: axis,
+                            order: 0,
+                            tension: 0.2
+                          
                         });
                     }
                 }
@@ -242,13 +255,13 @@ export default {
                     }
                 },
                 scales: {
-                    yLeft: (this.yLeftEnable) ? {
+                    yAxis1: (this.titles.length>0) ? {
                         type: 'linear',
                         display: true,
                         position: 'left',
                         title: {
                             display: true,
-                            text: 'Temperature (°C)'
+                            text: this.titles[0]
                         }
                     } : {
                         // Hide the axis.
@@ -259,18 +272,84 @@ export default {
                             display: false
                         }
                     },
-                    yRight: (this.yRightEnable) ? {
+                    yAxis2: (this.titles.length>1) ? {
                         type: 'linear',
                         display: true,
                         position: 'right',
                         title: {
                             display: true,
-                            text: 'Precipitation (mm)'
+                            text: this.titles[1]
                         },
 
                         // grid line settings
                         grid: {
-                            drawOnChartArea: (!this.yLeftEnable), // only want the grid lines for one axis to show up
+                            drawOnChartArea: (false), // only want the grid lines for one axis to show up
+                        },
+                    } : {
+                        // Hide the axis.
+                        ticks: {
+                            display: false
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    yAxis3: (this.titles.length>2) ? {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: this.titles[2]
+                        },
+
+                        // grid line settings
+                        grid: {
+                            drawOnChartArea: (false), // only want the grid lines for one axis to show up
+                        },
+                    } : {
+                        // Hide the axis.
+                        ticks: {
+                            display: false
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    yAxis4: (this.titles.length>3) ? {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: this.titles[3]
+                        },
+
+                        // grid line settings
+                        grid: {
+                            drawOnChartArea: (false), // only want the grid lines for one axis to show up
+                        },
+                    } : {
+                        // Hide the axis.
+                        ticks: {
+                            display: false
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    yAxis5: (this.titles.length>4) ? {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: this.titles[4]
+                        },
+
+                        // grid line settings
+                        grid: {
+                            drawOnChartArea: (false), // only want the grid lines for one axis to show up
                         },
                     } : {
                         // Hide the axis.

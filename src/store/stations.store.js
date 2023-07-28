@@ -1,7 +1,7 @@
 import axios from "axios";
 import {buildQuery_station} from "@/queries/queries"
 import {reloadChart} from "@/utils/utils";
-
+    
 export const stationsModule = {
     namespace: false,
     state() {
@@ -49,7 +49,7 @@ export const stationsModule = {
     actions: {
         async setStationsFromAPI(context) {
             try {
-                const response = await axios.post(import.meta.env.VITE_API_URL,
+                const response = await axios.post("api/sqrl",
                     {
                         query: buildQuery_station()
                     },
