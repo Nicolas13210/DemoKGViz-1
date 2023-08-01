@@ -45,16 +45,16 @@ export default {
     },
     computed: {
         processData() {
-            return this.mergeWeatherData(this.$store.getters.getWeather.map(el => el.result.values))
+            return this.mergeWeatherData(this.$store.getters.getRawWeather.map(el => el.result.values))
         },
         properties() {
-            return this.$store.getters.getParameters
+            return this.$store.getters.getRawParameters
         },
         existingProperties() {
             // List of properties available in merged data (containing a date)
             let properties = []
-            for (let prop of this.$store.getters.getParameters) {
-                if (prop.jsonPath in this.mergeWeatherData(this.$store.getters.getWeather.map(el => el.result.values))[0]) {
+            for (let prop of this.$store.getters.getRawParameters) {
+                if (prop.jsonPath in this.mergeWeatherData(this.$store.getters.getRawWeather.map(el => el.result.values))[0]) {
                     properties.push(prop)
                 }
             }

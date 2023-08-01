@@ -3,27 +3,32 @@ import {transformData} from '@/utils/dataTransformation'
 import { mapGetters } from "vuex";
 import {weatherParameterModule} from "./weatherParameters.store";
 
+function addOneDay(date) {
+  date.setDate(date.getDate() + 1);
+  return date;
+}
 
-function calculateSumOfDuration(data, minDuration,name) {
+function calculateSumOfDuration(data, minDuration, name) {
   const stationsMap = new Map();
+
+  // Initialize the map with each station having a value of 0
+  for (const entry of data) {
+    const { station } = entry;
+    stationsMap.set(station, 0);
+  }
 
   for (const entry of data) {
     const { station, duration } = entry;
-
     if (duration >= minDuration) {
-      if (stationsMap.has(station)) {
-        stationsMap.set(station, stationsMap.get(station) + 1);
-      } else {
-        stationsMap.set(station, 1);
-      }
+      stationsMap.set(station, stationsMap.get(station) + 1);
     }
   }
-
   return Array.from(stationsMap.entries()).map(([station, sumDuration]) => ({
     stationName: station,
-    [name]:sumDuration,
+    [name]: sumDuration,
   }));
 }
+
 
 function calculateDurationOfBiggestPeriod(data,name) {
 
@@ -59,32 +64,61 @@ function getNbWaves(payload) {
         case 'HighHum':
             minDay=minDays.spellHum;
             break;
+        case 'LowHum':
+            minDay=minDays.spellHum;
+            break;
         case 'DroughtWave':
             minDay=minDays.droughtWave;
             break;
     }
     let data = payload.result.values
     const consecutivePeriods = [];
-    let currentStartDate = data[0].date1;
-    let currentEndDate = data[0].date2;
-    let prevStation = data[0].stationName
+    let i=0;
+    let start = true;
+    while(start){
+        if(i<data.length){
+                if(!("date1" in data[i])){
+                    consecutivePeriods.push({station:data[i].stationName,duration:0})
+                    i++;
+                } else {
+                    start = false;
+                }
+            } else {
+                start = false
+            }
+    }
 
-      for (let i = 1; i < data.length; i++) {
-        const previousEndDate = currentEndDate;
-        const currentDate1 = data[i].date1;
-        const currentStation = data[i].stationName;
-        if (currentDate1 === previousEndDate && currentStation === prevStation) {
-        currentEndDate = data[i].date2;
-        } else {
-        consecutivePeriods.push({station: prevStation, start: currentStartDate, end: currentEndDate, duration: (new Date(currentEndDate) - new Date(currentStartDate))/(3600*24 * 1000)+1 });
-        currentStartDate = data[i].date1;
-        currentEndDate = data[i].date2;
-        prevStation = currentStation
+    if (i < data.length){
+        let currentStartDate = new Date(data[i].date1);
+        let currentEndDate = new Date(data[i].date1);
+        let prevStation = data[i].stationName;
+        i++
+          while (  i < data.length) {
+            if(!("date1" in data[i])){
+                consecutivePeriods.push({station:data[i].stationName,duration:0})
+            } else {
+                    const previousEndDate = currentEndDate;
+                    let nextDay = addOneDay(new Date(previousEndDate))
+                    const currentDate1 = new Date(data[i].date1);
+                    const currentStation = data[i].stationName;
+                    if (currentDate1.getTime()=== nextDay.getTime() && currentStation === prevStation) {
+                        currentEndDate = new Date(data[i].date1);
+                    } else {
+                        consecutivePeriods.push({station: prevStation, start: currentStartDate, end: currentEndDate, duration: (new Date(currentEndDate) - new Date(currentStartDate))/(3600*24 * 1000)+1 });
+                        currentStartDate = new Date(data[i].date1);
+                        currentEndDate = new Date(data[i].date1);
+                        prevStation = currentStation
+                    }
+                }
+            i++
         }
+        if(( "date1" in data[i-1])){
+            consecutivePeriods.push({ station: prevStation, start: currentStartDate, end: currentEndDate, duration: (new Date(currentEndDate) - new Date(currentStartDate))/(3600*24 * 1000)+1 });}
     }
     let sums ;
+    console.log(consecutivePeriods)
 
-    consecutivePeriods.push({ station: prevStation, start: currentStartDate, end: currentEndDate, duration: (new Date(currentEndDate) - new Date(currentStartDate))/(3600*24 * 1000)+1 });
+    
     if(name === 'maxConsDays') {
         sums = calculateDurationOfBiggestPeriod(consecutivePeriods,name)
     }else{
@@ -105,12 +139,14 @@ export const weatherModule = {
     namespace: false, state() {
         return {
             weather: [],
-            queries:["buildQuery_consecutiveDaysSpellFrost","buildQuery_consecutiveDaysSpellHeat","buildQuery_consecutiveDaysHighHum","buildQuery_consecutiveDaysDroughtWave","buildQuery_consecutiveDaysmaxConsDays"]
+            barQueries:["buildQuery_consecutiveDaysSpellFrost","buildQuery_consecutiveDaysSpellHeat","buildQuery_consecutiveDaysHighHum","buildQuery_consecutiveDaysDroughtWave",
+            "buildQuery_consecutiveDaysmaxConsDays","buildQuery_consecutiveDaysLowHum"],
+            rawQueries:["buildQuery_tmpRainStation","buildQuery_GddDaysStation","buildQuery_dailyCumulativePrecipitation","buildQuery_dailyCumulativeDeficit","buildQuery_nbStatsDaysHumStation"]
         }
     }, mutations: {
         setWeather(state, payload) {
             let index = state.weather.findIndex(value => value.queryMethod === payload.queryMethod)
-            if(state.queries.includes(payload.queryMethod)) {
+            if(state.barQueries.includes(payload.queryMethod)) {
                 payload = getNbWaves(payload)
             }
             if (index !== -1) {
@@ -120,10 +156,13 @@ export const weatherModule = {
             }
         }
     }, getters: {
-        getWeather(state) {
-            return state.weather;
+        getRawWeather(state) {
+            return state.weather.filter(value => state.rawQueries.includes(value.queryMethod));
         }, getWeatherNbDay(state) {
             return state.weather.find(value => value.queryMethod === "buildQuery_nbStatsDaysStation");
+        },
+        getWeather(state) {
+            return state.weather;
         }
     }, actions: {
         async setWeather(context, payload) {

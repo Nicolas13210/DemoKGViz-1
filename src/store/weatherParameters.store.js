@@ -2,19 +2,20 @@
  export const weatherParameterModule = {
     state() {
             return {
-                baseTemp : 5,
-                coldMin : 0,
-                heat : 30,
-                minTemp:0,
-                maxTemp:40,
-                minHum:40,
-                maxHum:60,
-                rainLevel:0,
-                deficitLevel:0,
-                spellFrost:5,
-                spellHeat:5,
-                spellHum:7,
-                droughtWave:20,
+                baseTemp : 5,   //Base temperature for GDD
+                coldMin : 0,    //Minimum temperature for frost/cold days
+                heat : 30,      //maximale temperature for heat day
+                minTemp:0,      //min temperature for vernalization day
+                maxTemp:40,     //max temperature for vernalization day
+                minHum:40,      //maximum temperature for dry days
+                maxHum:60,      //minimum temperature for wet days
+                rainLevel:0,    //minimum precipitation for rainy days
+                deficitLevel:0, //maximum water deficit for rainless days
+                spellFrost:5,   //minimum duration for a spell frost
+                spellHeat:5,    //minimum duration for a spell heat
+                spellHum:7,     //minimum duration for a spell of low/high humidity
+                droughtWave:20, //minimum duration for a drought wave
+                windSpeed:5,    //minimum windSpeed for a windy day
 
             }
         },
@@ -57,6 +58,9 @@
             },
             SET_DROUGHT_WAVE(state,payload) {
                 state.droughtWave = payload
+            },
+            SET_WIND_SPEED(state,payload) {
+                state.windSpeed = payload
             }
         },
         getters: {
@@ -98,6 +102,9 @@
             },
             getDroughtWave(state) {
                 return state.droughtWave
+            },
+            getWindSpeed(state) {
+                return state.windSpeed
             }
 
 
@@ -154,6 +161,10 @@
             },
             setDroughtWave(context,newDroughtWave) {
                 context.commit("SET_DROUGHT_WAVE",newDroughtWave);
+                reloadChart(context)
+            },
+            setWindSpeed(context,newWindSpeed) {
+                context.commit("SET_WIND_SPEED", newWindSpeed);
                 reloadChart(context)
             }
         }

@@ -26,7 +26,8 @@ export function reloadChart(context) {
                 context.getters.getMinHum,
                 context.getters.getMaxHum,
                 context.getters.getRainLevel,
-                context.getters.getDeficitLevel),
+                context.getters.getDeficitLevel,
+                context.getters.getWindSpeed),
             queryMethod: fonction.name,
             nbDays:{
                 spellFrost:context.getters.getSpellFrost,

@@ -2,12 +2,10 @@
     <div class="chart">
         <bar v-if="displayChart" :data="processData" :options="chartOptions" />
     </div>
-    <TableChart v-if="displayChart"></TableChart>
 </template>
 
 <script>
 import {Bar} from 'vue-chartjs';
-import TableChart from "@/components/tabs/charts/TableChart.vue";
 import {ArcElement, Chart as ChartJS, Legend, RadialLinearScale, Title, Tooltip} from 'chart.js'
 import CryptoJS from "crypto-js";
 import uniqolor from "uniqolor";
@@ -21,7 +19,6 @@ export default {
     },
     components: {
         Bar,
-        TableChart,
     },
 
     data() {
@@ -79,7 +76,6 @@ export default {
                 }]
             }
 
-            console.log("PolarChart computed", barChart);
             return barChart;
         },
         chartOptions() {

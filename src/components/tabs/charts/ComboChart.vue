@@ -67,8 +67,8 @@ export default {
             return properties;
         },
         selectAndConcatAttributes(json) {
+            console.log(this.chartData)
             let properties = this.setProperties(this.$store.getters.getParameters)
-            console.log(properties);
             this.properties = properties;
 
             let result = [];
@@ -161,7 +161,7 @@ export default {
             this.titles = [];
             
 
-            if (this.$store.getters.getWeather.length === 0) {
+            if (this.$store.getters.getRawWeather.length === 0) {
                 // No data loaded.
                 return undefined;
             }
@@ -205,8 +205,6 @@ export default {
                             this.titles.push(property.axisLegend);
                             axis = axis.concat('',this.titles.length.toString());
                         }
-                        console.log(axis);
-
                         datasets.push({
                             label: titleLabel,
                             backgroundColor: colorUniq.color,

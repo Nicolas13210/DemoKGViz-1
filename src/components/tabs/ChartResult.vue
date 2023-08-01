@@ -24,7 +24,7 @@ export default {
     },
     computed: {
         getWeather() {
-            return this.$store.getters.getWeather;
+            return this.$store.getters.getRawWeather;
         },
         getWeatherNbDay() {
             return this.$store.getters.getWeatherNbDay?.result;

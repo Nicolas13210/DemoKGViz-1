@@ -7,7 +7,10 @@ import {
     buildQuery_consecutiveDaysSpellHeat,
     buildQuery_consecutiveDaysHighHum,
     buildQuery_consecutiveDaysDroughtWave,
-    buildQuery_consecutiveDaysmaxConsDays
+    buildQuery_consecutiveDaysmaxConsDays,
+    buildQuery_StatsPeriod,
+    buildQuery_consecutiveDaysLowHum,
+    buildQuery_dailyCumulativeDeficit
 
     
 } from "@/queries/queries"
@@ -23,7 +26,18 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
         "availableChart": "line",
         "axisLegend": "Temperature (°C)" ,
         "displayUnit":"°C",
-        "related":[],
+        "related":[{
+            "title": "Mean of daily minimum air temperature",
+            "tooltip": "The mean of the daily minimum temperature over the period",
+            "type": "average",
+            "param":"minMean",
+            "jsonPath":"meanmint",
+            "request" : buildQuery_StatsPeriod,
+            "availableChart":"table",
+            "axisLegend":"Temperature (°C)",
+            "displayUnit": "°C",
+            "related":[]
+        }],
     }, {
         "title": "Maximum temperature (T<sub>max</sub>)",
         "tooltip": "The daily maximum temperature represents the highest air temperature recorded from 6:00 UTC day d till 6:00 UTC day d+1",
@@ -34,7 +48,18 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
         "availableChart": "line",
         "axisLegend": "Temperature (°C)" ,
         "displayUnit":"°C",
-        "related":[],
+        "related":[{
+            "title": "Mean of daily maximum air temperature",
+            "tooltip": "The mean of the daily maximum temperature over the period",
+            "type": "average",
+            "param":"maxMean",
+            "jsonPath":"meanmaxt",
+            "request" : buildQuery_StatsPeriod,
+            "availableChart":"table",
+            "axisLegend":"Temperature (°C)",
+            "displayUnit": "°C",
+            "related":[]
+        }],
     }, {
         "title": "Mean temperature (T<sub>avg</sub>)",
         "tooltip": "The daily mean temperature represents the average value of the temperatures",
@@ -45,7 +70,18 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
         "availableChart": "line",
         "axisLegend": "Temperature (°C)" ,
         "displayUnit":"°C",
-        "related":[],
+        "related":[{
+            "title": "Mean of daily average air temperature",
+            "tooltip": "The mean of the daily average temperature over the period",
+            "type": "average",
+            "param":"minAvg",
+            "jsonPath":"meanavgt",
+            "request" : buildQuery_StatsPeriod,
+            "availableChart":"table",
+            "axisLegend":"Temperature (°C)",
+            "displayUnit": "°C",
+            "related":[]
+        }],
     }, {
         "title": "Thermal amplitude (T<sub>Diff</sub>)",
         "tooltip": "The daily thermal amplitude represents the difference between the maximum and the minimum temperature for each days",
@@ -56,7 +92,18 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
         "availableChart": "line",
         "axisLegend": "Temperature (°C)",
         "displayUnit":"°C",
-        "related":[],
+        "related":[{
+            "title": "Mean of daily range temperature",
+            "tooltip": "The mean of the daily range temperature over the period",
+            "type": "average",
+            "param":"minRange",
+            "jsonPath":"meanranget",
+            "request" : buildQuery_StatsPeriod,
+            "availableChart":"table",
+            "axisLegend":"Temperature (°C)",
+            "displayUnit": "°C",
+            "related":[]
+        }],
     }, {
         "title": "Daily precipitation (rainDay)",
         "tooltip": "Daily cumulative precipitation R<sub>d</sub> recorded from 6:00 UTC day d till 6:00 UTC day d+1",
@@ -327,6 +374,17 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
         "axisLegend": "Cumulative Temperature (DJ)",
         "displayUnit":"DJ",
         "related":[],
+    }, {
+        "title": "Photothermal quotient",
+        "tooltip": "Photothermal quotient represents the cumulated radiation sum over the GDD on a period of time",
+        "type": "GddRain",
+        "param": "photothermalquotient",
+        "jsonPath": "photothermalquotient",
+        "request": buildQuery_GddDaysStation,
+        "availableChart": "line",
+        "axisLegend": "coeff photothermique (J/(m²DJ))",
+        "displayUnit":"J/(m²DJ)",
+        "related":[],
     }]
 }, {
     "title": "Humidity Conditions", "items": [{
@@ -385,7 +443,18 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
                     "displayUnit":"%",
                     "related":[]
         
-                } ]
+                }, {
+                    "title":"Low humidity",
+                    "tooltip":"Number of spell of low humidity that lasted at least {SpellHum} day (RH \< minHum) ",
+                    "type": "humidity",
+                    "param": "lowHum",
+                    "jsonPath": "LowHum",
+                    "request": buildQuery_consecutiveDaysLowHum,
+                    "availableChart": "table",
+                    "axisLegend": " day(s)",
+                    "displayUnit":"nb",
+                    "related":[]
+                    } ]
     }, {
         "title": "High Humidity Sum",
         "tooltip": "Sum of high humidity (higher than maxHum)",
@@ -456,21 +525,10 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
                     "related":[]
         
                 }, {
-                    "title":"Drought waves",
-                    "tooltip":"Number of Drought waves that lasted at least {droughtWave} day (precipitation \<= rainLimit) ",
-                    "type": "rain",
-                    "param": "droughtWave",
-                    "jsonPath": "DroughtWave",
-                    "request": buildQuery_consecutiveDaysDroughtWave,
-                    "availableChart": "table",
-                    "axisLegend": " day(s)",
-                    "displayUnit":"nb",
-                    "related":[]
-                    }, {
                     "title":"Max Consecutives Days",
                     "tooltip":"Max number of consecutives days for which (rain -ETP) \< threshold ",
                     "type": "consecutive",
-                    "param": "droughtWave",
+                    "param": "maxConsecutive days",
                     "jsonPath": "maxConsDays",
                     "request": buildQuery_consecutiveDaysmaxConsDays,
                     "availableChart": "table",
@@ -478,7 +536,65 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
                     "displayUnit":"days",
                     "related":[]
                     }]
+    }, {
+        "title":"Drought waves",
+        "tooltip":"Number of Drought waves that lasted at least {droughtWave} day (precipitation \<= rainLimit) ",
+        "type": "rain",
+        "param": "droughtWave",
+        "jsonPath": "DroughtWave",
+        "request": buildQuery_consecutiveDaysDroughtWave,
+        "availableChart": "table",
+        "axisLegend": " day(s)",
+        "displayUnit":"nb",
+        "related":[]
+    }, {
+        "title": "Cumulative Precipitations",
+        "tooltip": "Sum of all the precipitation over the period",
+        "type": "precipitation",
+        "param": "cumulativeRain",
+        "jsonPath": "cprecip",
+        "request": buildQuery_dailyCumulativeDeficit,
+        "availableChart": "line",
+        "axisLegend": "Cumulative    precipitation (mm)",
+        "displayUnit":"mm",
+        "related":[]
+    }, {
+        "title": "Sum of water deficit",
+        "tooltip": "Sum of all the water deficit (RAIN-ETP) over the period",
+        "type": "precipitation",
+        "param": "cumulativeWaterDeficit",
+        "jsonPath": "sumwd",
+        "request": buildQuery_dailyCumulativeDeficit,
+        "availableChart": "line",
+        "axisLegend": "waterDeficit (mm)",
+        "displayUnit":"mm",
+        "related":[]
     }]
 
+},{
+    "title": "Wind days", "items":[{
+        "title": "Number of Windy days ",
+        "tooltip": "Number of windy days represents the number of days during which the wind was higher than the  limit for a period",
+        "type": "Numb",
+        "param": "nbWindyDays",
+        "jsonPath": "nbWindyDays",
+        "request": buildQuery_nbStatsDaysStation,
+        "availableChart": "POLAR",
+        "axisLegend": " day(s)",
+        "displayUnit":"day(s)",
+        "related":[{
+                    "title": "Windy days frequencie",
+                    "tooltip": "Percentage of windy days over the period",
+                    "type": "Numb",
+                    "param": "windFrequencie",
+                    "jsonPath": "windFrequencie",
+                    "request": buildQuery_nbStatsDaysStation,
+                    "availableChart": "table",
+                    "axisLegend": "percentage",
+                    "displayUnit":"%",
+                    "related":[]
+        
+                }]
     }]
+}]
 }]

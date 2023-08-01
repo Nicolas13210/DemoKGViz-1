@@ -22,7 +22,7 @@
             <LeafletMap></LeafletMap>
         </v-window-item>
         <v-window-item value="data">
-            <RawDataResult></RawDataResult>
+            <Results></Results>
         </v-window-item>
         <v-window-item value="charts">
             <ChartResult></ChartResult>
@@ -30,6 +30,9 @@
         <v-window-item value="export">
             <ExportResult></ExportResult>
         </v-window-item>
+
+        
+
     </v-window>
 </template>
 
@@ -39,7 +42,7 @@ import LeafletMap from "@/components/tabs/LeafletMap.vue";
 import MeteorologicalParameter from "@/components/sideBar/MeteorologicalParameter.vue";
 import PeriodParameter from "@/components/sideBar/PeriodParameter.vue";
 import ExportResult from "@/components/tabs/ExportResult.vue";
-import RawDataResult from "@/components/tabs/RawDataResult.vue";
+import Results from "@/components/tabs/RawResult.vue";
 
 export default {
     name: "TabsBar",
@@ -47,12 +50,12 @@ export default {
         tab: null,
     }),
     components: {
-        RawDataResult,
         ChartResult,
         LeafletMap,
         MeteorologicalParameter,
         PeriodParameter,
-        ExportResult
+        ExportResult,
+        Results
     },
 }
 </script>

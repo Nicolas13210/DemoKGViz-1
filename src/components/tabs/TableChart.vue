@@ -32,6 +32,7 @@
     name: "TableChart",
     computed: {
       mergedData() {
+        console.log(this.$store.getters.getWeather)
         const weatherArray = this.$store.getters.getWeather.map(el => el.result.values);
         const mergedData = [];
         weatherArray.forEach(weather => {

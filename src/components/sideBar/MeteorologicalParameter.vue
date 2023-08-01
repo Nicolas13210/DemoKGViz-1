@@ -131,6 +131,15 @@
             :value="droughtWave"
             @input="updateDroughtWave"
           ></SliderParameter>
+          <SliderParameter
+            v-if="subParameter.title === 'Wind days'"
+            label="Wind speed (m/s)"
+            :minValue="0"
+            :maxValue="50"
+            :stepValue="1"
+            :value="windSpeed"
+            @input="updateWindSpeed"
+          ></SliderParameter>
 
 
         </v-expansion-panel-text>
@@ -278,6 +287,15 @@ export default {
         this.setDroughtWave(value)
       }
     },
+    ...mapGetters(["getWindSpeed"]),
+    windSpeed: {
+      get() {
+        return this.getWindSpeed;
+      },
+      set(value) {
+        this.setWindSpeed(value)
+      }
+    }
   },
   methods: {
     ...mapActions(["setBaseTemp"]),
@@ -333,6 +351,10 @@ export default {
     updateDroughtWave(newValue) {
       this.setDroughtWave(newValue)
     },
+    ...mapActions(["setWindSpeed"]),
+    updateWindSpeed(newValue) {
+      this.setWindSpeed(newValue)
+    }
   },
 };
 </script>

@@ -28,6 +28,9 @@ export const parametersModule = {
         },
         getDatesParameters(state){
             return state.parameters.filter(item=>item.availableChart==="table")
+        },
+        getRawParameters(state){
+            return state.parameters.filter(item=>item.availableChart!="POLAR" && item.availableChart!="table")
         }
     },
     actions: {
@@ -47,7 +50,8 @@ export const parametersModule = {
                         context.getters.getMinHum,
                         context.getters.getMaxHum,
                         context.getters.getRainLevel,
-                        context.getters.getDeficitLevel
+                        context.getters.getDeficitLevel,
+                        context.getters.getWindSpeed
                     ),
                     queryMethod: payload.request.name,
                     nbDays:{
