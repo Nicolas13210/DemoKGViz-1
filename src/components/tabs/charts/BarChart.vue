@@ -39,7 +39,6 @@ export default {
         extractKeys(stationName, json1, json2) {
             const params = json2.map(param => param.param);
             const keys = Object.keys(json1.values.filter(item => item["stationName"] === stationName)[0]);
-
             return keys.filter(key => params.includes(key));
         }
     },

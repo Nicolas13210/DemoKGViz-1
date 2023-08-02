@@ -32,12 +32,21 @@
           ></SliderParameter>
           <SliderParameter
             v-if="subParameter.title === 'Freezing cold'"
-            label="Cold"
+            label="Cold Threshold"
             :minValue="-10"
-            :maxValue="0"
+            :maxValue="10"
             :stepValue="1"
             :value="coldMin"
             @input="updateColdMin"
+          ></SliderParameter>
+          <SliderParameter
+            v-if="subParameter.title === 'Freezing cold'"
+            label="Cold Spell Duration"
+            :minValue="0"
+            :maxValue="50"
+            :stepValue="1"
+            :value="spellFrost"
+            @input="updateSpellFrost"
           ></SliderParameter>
           <RangeSlider
             v-if="subParameter.title === 'Freezing cold'"
@@ -51,17 +60,8 @@
             @input_min="updateMinTemp"
           ></RangeSlider>
           <SliderParameter
-            v-if="subParameter.title === 'Freezing cold'"
-            label="Spell Frost"
-            :minValue="0"
-            :maxValue="50"
-            :stepValue="1"
-            :value="spellFrost"
-            @input="updateSpellFrost"
-          ></SliderParameter>
-          <SliderParameter
             v-if="subParameter.title === 'Heat'"
-            label="Heat"
+            label="Heat Threshold"
             :minValue="20"
             :maxValue="40"
             :stepValue="1"
@@ -70,7 +70,7 @@
           ></SliderParameter>
           <SliderParameter
             v-if="subParameter.title === 'Heat'"
-            label="Spell heat"
+            label="Heat Spell Duration"
             :minValue="0"
             :maxValue="50"
             :stepValue="1"
@@ -97,7 +97,7 @@
           ></SliderParameter>
           <SliderParameter
             v-if="subParameter.title === 'Humidity Conditions'"
-            label="Spell humidity"
+            label="Humidity Spell Duration"
             :minValue="0"
             :maxValue="50"
             :stepValue="1"
@@ -124,7 +124,7 @@
           ></SliderParameter>
           <SliderParameter
             v-if="subParameter.title === 'Water Deficit'"
-            label="Drought wave"
+            label="Drought Duration"
             :minValue="0"
             :maxValue="50"
             :stepValue="1"
@@ -133,7 +133,7 @@
           ></SliderParameter>
           <SliderParameter
             v-if="subParameter.title === 'Wind days'"
-            label="Wind speed (m/s)"
+            label="Wind Threshold (m/s)"
             :minValue="0"
             :maxValue="50"
             :stepValue="1"
@@ -360,5 +360,11 @@ export default {
 </script>
 
 <style scoped>
-/* Your styles here */
+
 </style>
+
+
+
+
+
+

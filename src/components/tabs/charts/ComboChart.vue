@@ -67,7 +67,6 @@ export default {
             return properties;
         },
         selectAndConcatAttributes(json) {
-            console.log(this.chartData)
             let properties = this.setProperties(this.$store.getters.getParameters)
             this.properties = properties;
 

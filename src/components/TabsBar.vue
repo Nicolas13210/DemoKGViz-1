@@ -47,7 +47,7 @@ import Results from "@/components/tabs/RawResult.vue";
 export default {
     name: "TabsBar",
     data: () => ({
-        tab: null,
+        tab: "map",
     }),
     components: {
         ChartResult,
@@ -55,7 +55,7 @@ export default {
         MeteorologicalParameter,
         PeriodParameter,
         ExportResult,
-        Results
+        Results,
     },
 }
 </script>

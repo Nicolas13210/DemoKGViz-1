@@ -340,13 +340,13 @@ PREFIX wevp: <http://ns.inria.fr/meteo/vocab/weatherproperty/>
 
 SELECT
     ?stationName
-    (SUM(IF(?temp_min < ` + coldMin + `, 1, 0)) AS ?nbFrostDays)
-    (SUM(IF(?temp_avg < ` + coldMin + `, 1, 0)) AS ?nbColdDays)
+    (SUM(IF(?temp_min < ` + coldMin + `, 1, 0)) AS ?nbColdDays)
+    (SUM(IF(?temp_avg < ` + coldMin + `, 1, 0)) AS ?nbExtremeColdDays)
     (SUM(IF(?temp_avg > ` + minTemp + ` && ?temp_avg < `+ maxTemp + `, 1, 0)) AS ?nbVernDays)
     (SUM(IF(?rainfall > ` + rainLevel + `, 1, 0)) AS ?nbRainyDays)
     (SUM(IF(?rainfall < ` + deficitLevel + `, 1, 0)) AS ?nbDefDays)
     (SUM(IF(?temp_max > ` + heat + `, 1, 0)) AS ?nbHeatDays)
-    (SUM(IF(?temp_avg > ` + heat + `, 1, 0)) AS ?nbHeatDaysAvg)
+    (SUM(IF(?temp_avg > ` + heat + `, 1, 0)) AS ?nbExtremeHeatDays)
     (SUM(IF(?wind > ` + windSpeed + `, 1, 0)) AS ?nbWindyDays)
     (MIN(?dateF) AS ?startFrost)
     (MAX(?dateF) AS ?endFrost)
@@ -437,81 +437,6 @@ GROUP BY ?stationName
     `;
 }
 
-export function buildQuery_nbStatsDaysHumStation(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed) {
-    // The end of this variable is a quickfix. The IN clause seems to not work if there is only one item in the list.
-    const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
-    return `
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
-PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
-PREFIX qb: <http://purl.org/linked-data/cube#>
-PREFIX wes-dimension: <http://ns.inria.fr/meteo/observationslice/dimension#>
-PREFIX wes-measure: <http://ns.inria.fr/meteo/observationslice/measure#>
-PREFIX wes-attribute: <http://ns.inria.fr/meteo/observationslice/attribute#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX wep: <http://ns.inria.fr/meteo/ontology/property/>
-PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
-PREFIX wevp: <http://ns.inria.fr/meteo/vocab/weatherproperty/>
-
-SELECT
-    ?stationName
-    ?date
-    (SUM(?wetHumidity) AS ?wetCumul)
-    (SUM(?dryHumidity) AS ?dryCumul)
-    
-WHERE
-{
-  {
-    SELECT (AVG(?humidityR) AS ?humidity) ?date ?stationName WHERE {
-      ?station a weo:WeatherStation ;
-        rdfs:label ?stationName .
-
-      ?obs a weo:MeteorologicalObservation ;
-        sosa:observedProperty wevp:airRelativeHumidity ;
-        sosa:hasSimpleResult ?humidityR ;
-        sosa:resultTime ?datetime ;
-        wep:madeByStation ?station .          
-
-      BIND (xsd:date(SUBSTR(STR(?datetime), 1, 10)) AS ?date)
-      FILTER (?stationName IN (` + formattedStations + `))
-      FILTER (?date >= xsd:date("` + startDate + `"))
-      FILTER (?date <= xsd:date("` + endDate + `"))
-    }
-    GROUP BY ?stationName ?date
-  }
-
-  {
-    SELECT (AVG(?humidityR) AS ?humidity1) ?date1 ?stationName WHERE {
-      ?station a weo:WeatherStation ;
-        rdfs:label ?stationName .
-
-      ?obs a weo:MeteorologicalObservation ;
-        sosa:observedProperty wevp:airRelativeHumidity ;
-        sosa:hasSimpleResult ?humidityR ;
-        sosa:resultTime ?datetime ;
-        wep:madeByStation ?station .          
-
-      BIND (xsd:date(SUBSTR(STR(?datetime), 1, 10)) AS ?date1)
-      FILTER (?stationName IN (` + formattedStations + `))
-      FILTER (?date1 >= xsd:date("` + startDate + `"))
-      FILTER (?date1 <= xsd:date("` + endDate + `"))
-    }
-    GROUP BY ?stationName ?date1
-  }
-
-  FILTER(?date>=?date1)
-  BIND(IF(?humidity1 >` + maxHum + `,?humidity1,0) AS ?wetHumidity)
-  BIND(IF(?humidity1 <` + minHum + `,?humidity1,0) AS ?dryHumidity)
-
-  FILTER (?stationName IN (` + formattedStations + `))
-}
-GROUP BY ?stationName ?date ?humidity
-ORDER BY ?date
-    `;
-}
-
-
 export function buildQuery_GddDaysStation(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
@@ -582,7 +507,7 @@ export function buildQuery_dailyCumulativeDeficit(stationName, startDate, endDat
     PREFIX wes-attribute: <http://ns.inria.fr/meteo/observationslice/attribute#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-    SELECT ?stationName (?date1 AS ?date) (SUM(?deficit2) AS ?sumwd) (SUM(?rainfall2) AS ?cprecip){
+    SELECT ?stationName (?date1 AS ?date) (SUM(?rainfall2) AS ?cprecip){
         {SELECT  ?stationName ?date1 ?deficit1 ?rainfall1 WHERE
             {
                 ?s  a qb:Slice ;
@@ -591,17 +516,15 @@ export function buildQuery_dailyCumulativeDeficit(stationName, startDate, endDat
                 qb:observation [
                 a qb:Observation ;
                 wes-attribute:observationDate ?date1 ;
-                wes-measure:rainfall24h ?r;
-                wes-measure:evapotranspiration ?evapo] .
+                wes-measure:rainfall24h ?r;] .
                 ?station a weo:WeatherStation ; rdfs:label ?stationName.
-                BIND(IF(?r>0 , ?r,0) as ?rainfall1)
-                BIND(?rainfall1 - ?evapo AS ?deficit1)
+                BIND(IF(?r>0 && STR(?r)!="Unknown", ?r,0) as ?rainfall1)
                 FILTER (?date1 >=xsd:date("`+ startDate +`"))
                 FILTER (?date1 <=xsd:date("`+ endDate +`"))
                 FILTER (?stationName IN (` + formattedStations + `))
             }
         }
-        {SELECT  ?stationName ?date2 ?deficit2 ?rainfall2 WHERE
+        {SELECT  ?stationName ?date2  ?rainfall2 WHERE
             {
                 ?s  a qb:Slice ;
                 wes-dimension:station ?station  ;
@@ -610,11 +533,9 @@ export function buildQuery_dailyCumulativeDeficit(stationName, startDate, endDat
                 qb:observation [
                 a qb:Observation ;
                 wes-attribute:observationDate ?date2 ;
-                wes-measure:rainfall24h ?r;
-                wes-measure:evapotranspiration ?evapo] .
+                wes-measure:rainfall24h ?r] .
                 ?station a weo:WeatherStation ; rdfs:label ?stationName.
-                BIND(IF(?r>0 , ?r,0) as ?rainfall2)
-                BIND(?rainfall2 - ?evapo AS ?deficit2)
+                BIND(IF(?r>0 && STR(?r)!="Unknown", ?r,0) as ?rainfall2)
                 FILTER (?date2 >=xsd:date("`+ startDate +`"))
                 FILTER (?date2 <=xsd:date("`+ endDate +`"))
                 FILTER (?stationName IN (` + formattedStations + `))
@@ -623,7 +544,7 @@ export function buildQuery_dailyCumulativeDeficit(stationName, startDate, endDat
         FILTER(?date1>=?date2)
         FILTER (?stationName IN (` + formattedStations + `))
         }
-    GROUP BY ?stationName ?date1 ?deficit1 ?rainfall1
+    GROUP BY ?stationName ?date1 ?rainfall1
     ORDER BY ?stationName ?date1
     `;
 }
@@ -898,7 +819,9 @@ export function buildQuery_StatsPeriod(stationName,startDate,endDate,baseTemp,co
     PREFIX wes-attribute: <http://ns.inria.fr/meteo/observationslice/attribute#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-    SELECT ?stationName (ROUND(AVG(?temp_min)*100)/100 AS ?meanmint) (ROUND(AVG(?temp_max)*100)/100 AS ?meanmaxt) (ROUND(AVG(?temp_avg)*100)/100 AS ?meanavgt) (ROUND(AVG(?temp_diff)*100)/100 AS ?meanranget) WHERE 
+    SELECT ?stationName (ROUND(AVG(?temp_min)*100)/100 AS ?meanmint) (ROUND(AVG(?temp_max)*100)/100 AS ?meanmaxt) 
+    (ROUND(AVG(?temp_avg)*100)/100 AS ?meanavgt) (ROUND(AVG(?temp_diff)*100)/100 AS ?meanranget) 
+    (SUM(IF(?deficit <`+ deficitLevel + `,?deficit,0)) as ?sumwd) WHERE 
     {
             ?s a qb:Slice ;
                wes-dimension:station ?station ;
@@ -908,11 +831,13 @@ export function buildQuery_StatsPeriod(stationName,startDate,endDate,baseTemp,co
                    wes-attribute:observationDate ?date ;
                    wes-measure:minDailyTemperature ?temp_min ;
                    wes-measure:maxDailyTemperature ?temp_max ;
-                   wes-measure:avgDailyTemperature ?temp_avg 
-                   
+                   wes-measure:avgDailyTemperature ?temp_avg ;
+                   wes-measure:evapotranspiration ?evapo;
+                   wes-measure:rainfall24h ?rain
                ] .
             ?station a weo:WeatherStation ;
                      rdfs:label ?stationName .
+            BIND(IF(STR(?evapo)!="Unknown" && STR(?rain)!="Unknown",?rain-?evapo,0) AS ?deficit)
             FILTER (?stationName IN (` + formattedStations + `))
             FILTER (?date >= xsd:date("` + startDate + `"))
             FILTER (?date <= xsd:date("` + endDate + `"))

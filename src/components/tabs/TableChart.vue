@@ -1,38 +1,33 @@
 <template>
-    <div class="rawData">
-      <v-table>
-        <thead>
-          <tr>
-            <th class="text-left" scope="col">Station Name</th>
-            <th v-for="prop in $store.getters.getDatesParameters" :key="prop.param" class="text-left" scope="col">
-              {{ `${prop.param} (${prop.displayUnit})` }}
-              <v-tooltip location="bottom">
-                <template v-slot:activator="{props}">
-                  <v-btn density="compact" icon="mdi-help-circle-outline" variant="text" v-bind="props"></v-btn>
-                </template>
-                <span v-html="prop.tooltip"></span>
-              </v-tooltip>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in mergedData" :key="item.name">
-            <td><a :href="findStationDetail(item.stationName).station.value">{{ item.stationName }}</a></td>
-            <td v-for="prop in $store.getters.getDatesParameters" :key="prop.param">{{ item[prop.jsonPath] }}</td>
-          </tr>
-        </tbody>
-      </v-table>
-    </div>
-  </template>
+  <VDataTable
+    height=530px
+    :headers="headers"
+    :items="mergedData"
+    fixed-header = true  
+    hover = true
+    >
+    <template v-slot:item.raw=" {item} ">
+      <tr>
+        <td :class="{ 'fixed-column': true }">{{ item.stationName }}</td>
+        <td v-for="prop in existingProperties" :key="prop.param">{{ item[prop.jsonPath] }}</td>
+      </tr>
+    </template>
+  </VDataTable>
+</template>
+
   
   <script>
   import "leaflet/dist/leaflet.css";
+  import { VDataTable } from 'vuetify/labs/VDataTable'
+
   
   export default {
     name: "TableChart",
+    components:{
+      VDataTable
+    },
     computed: {
       mergedData() {
-        console.log(this.$store.getters.getWeather)
         const weatherArray = this.$store.getters.getWeather.map(el => el.result.values);
         const mergedData = [];
         weatherArray.forEach(weather => {
@@ -50,13 +45,25 @@
           });
         });
         return mergedData;
-      }
-    },
-    methods: {
-      findStationDetail(stationName) {
-        return this.$store.getters.getStations.find(value => value.stationName.value === stationName);
-      }
+      },
+      headers()  {
+        return [
+          {title: "Station Name", key: "stationName", fixed:"left"},
+          ...this.$store.getters.getDatesParameters.map((prop) => ({
+            title: `${prop.param} (${prop.displayUnit})`,
+            key: prop.jsonPath,
+          })),
+        ]
+      },
     }
   };
   </script>
+
+  <style scoped>
+    .fixed-column {
+    position: sticky;
+    left: 0;
+    background-color: #fff; /* You can customize the background color if needed */
+  }
+    </style>
   

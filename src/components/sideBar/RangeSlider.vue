@@ -6,7 +6,7 @@
       :max="max"
       :step="stepValue"
       thumb-label
-      label="Min Temperature"
+      label="MinTemp"
       class="slider slider-min"
     ></v-slider>
     <v-slider
@@ -15,7 +15,7 @@
       :max="max"
       :step="stepValue"
       thumb-label
-      label="Max Temperature"
+      label="MaxTemp"  
       class="slider slider-max"
     ></v-slider>
     <span class="selected-range">Temperature range: {{ minValue }}° - {{ maxValue }}° </span>

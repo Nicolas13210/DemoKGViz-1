@@ -116,7 +116,6 @@ function getNbWaves(payload) {
             consecutivePeriods.push({ station: prevStation, start: currentStartDate, end: currentEndDate, duration: (new Date(currentEndDate) - new Date(currentStartDate))/(3600*24 * 1000)+1 });}
     }
     let sums ;
-    console.log(consecutivePeriods)
 
     
     if(name === 'maxConsDays') {

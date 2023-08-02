@@ -2,8 +2,8 @@ import {createApp} from 'vue'
 import App from './App.vue'
 import {store} from "./store/store"
 
-import 'vuetify/styles'
-import {createVuetify} from 'vuetify'
+import 'vuetify/dist/vuetify.min.css';
+import { createVuetify } from 'vuetify/lib/framework';
 
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
@@ -14,6 +14,10 @@ import colors from 'vuetify/lib/util/colors'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/dist/vuetify.min.css';
+
+
+
 
 const vuetify = createVuetify({
     components,
