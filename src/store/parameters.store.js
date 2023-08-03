@@ -11,7 +11,6 @@ export const parametersModule = {
     mutations: {
         addParameter(state, payload) {
             state.parameters.push(payload)
-            console.log(state.parameters)
         },
         removeParameter(state, payload) {
             state.parameters = state.parameters.filter(parameter => parameter.param !== payload.param)
@@ -36,7 +35,6 @@ export const parametersModule = {
     },
     actions: {
         addParameter(context, payload) {
-            console.log( payload)
             if (context.getters.getSelectedStations.length > 0 &&
                 !isParameterTypeDataAlreadyFetch(context.getters.getParameters, payload)) {
                 context.dispatch("setWeather", {
