@@ -1,4 +1,4 @@
-import {createStore} from "vuex";
+    import {createStore} from "vuex";
 import {dateModule} from "./date.store";
 import {parametersModule} from "./parameters.store";
 import {stationsModule} from "./stations.store";

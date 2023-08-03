@@ -49,7 +49,7 @@ export const stationsModule = {
     actions: {
         async setStationsFromAPI(context) {
             try {
-                const response = await axios.post("api/sqrl",
+                const response = await axios.post(import.meta.env.VITE_API_URL,
                     {
                         query: buildQuery_station()
                     },

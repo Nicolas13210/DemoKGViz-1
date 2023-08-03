@@ -12,7 +12,7 @@ export default defineConfig({
     }
   },
   base: './' ,
-  
+  /*
   server: {
     proxy: {
       '/api': {
@@ -24,4 +24,5 @@ export default defineConfig({
     },
     cors:false
   }, 
+  */
 })

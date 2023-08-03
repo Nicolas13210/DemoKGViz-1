@@ -12,7 +12,7 @@
         <template v-slot:item="{ item }">
           <tr>
             <td :class="{ 'fixed-column': true, 'station-name': true }">
-              <a :href="findStationDetail(item.raw.stationName)">{{ item.raw.stationName }}</a>
+              <a :href="findStationDetail(item.raw)">{{ item.raw.stationName }}</a>
             </td>
             <td :class="{ 'fixed-column': true, 'date-column': true }">{{ item.raw.date }}</td>
             <td v-for="prop in existingProperties" :key="prop.param">{{ item.raw[prop.jsonPath] }}</td>
@@ -94,7 +94,8 @@
               return mergedData;
           },
           findStationDetail(stationName) {
-            return this.$store.getters.getStations.find(value => value.stationName.value === stationName)
+            console.log(stationName)
+            //return this.$store.getters.getStations.find(value => value.stationName.value === stationName)
           }
       }
     
