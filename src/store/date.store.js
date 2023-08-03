@@ -5,8 +5,8 @@
         state() {
             return {
                 // TODO: for production, use "2016-01-01".
-                startDate: "2023-01-01",
-                endDate: "2023-12-31",
+                startDate: "2020-01-01",
+                endDate: "2020-12-31",
                 comparison: false,
                 comparisonDate: [2016, 2017],
             }

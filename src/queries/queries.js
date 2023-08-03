@@ -271,7 +271,7 @@ PREFIX sosa: <http://www.w3.org/ns/sosa/>
 
 SELECT DISTINCT ?stationName ?date (SAMPLE(?temp_avg) AS ?temp_avg) 
 (SAMPLE(?temp_min) AS ?temp_min) (SAMPLE(?temp_max) AS ?temp_max) (SAMPLE(?temp_diff) AS ?temp_diff) (SAMPLE(?rainfall) AS ?rainfall) 
-(SAMPLE(?radiation) AS ?radiation) (SAMPLE(?evapotranspiration) AS ?evapotranspiration) (AVG(?hum) as ?humidity)
+(AVG(?hum) as ?humidity)
 WHERE {
 
     ?station a weo:WeatherStation ;
@@ -289,9 +289,7 @@ WHERE {
               wes-measure:minDailyTemperature ?temp_min ;
               wes-measure:maxDailyTemperature ?temp_max ;
               wes-measure:avgDailyTemperature ?temp_avg ;
-              wes-measure:rainfall24h ?r ; 
-              wes-measure:radiationSum ?radiation ;
-              wes-measure:evapotranspiration ?evapotranspiration
+              wes-measure:rainfall24h ?r 
            ] .
        }
        UNION 
@@ -344,7 +342,6 @@ SELECT
     (SUM(IF(?temp_avg < ` + coldMin + `, 1, 0)) AS ?nbExtremeColdDays)
     (SUM(IF(?temp_avg > ` + minTemp + ` && ?temp_avg < `+ maxTemp + `, 1, 0)) AS ?nbVernDays)
     (SUM(IF(?rainfall > ` + rainLevel + `, 1, 0)) AS ?nbRainyDays)
-    (SUM(IF(?rainfall < ` + deficitLevel + `, 1, 0)) AS ?nbDefDays)
     (SUM(IF(?temp_max > ` + heat + `, 1, 0)) AS ?nbHeatDays)
     (SUM(IF(?temp_avg > ` + heat + `, 1, 0)) AS ?nbExtremeHeatDays)
     (SUM(IF(?wind > ` + windSpeed + `, 1, 0)) AS ?nbWindyDays)
@@ -364,7 +361,6 @@ SELECT
     (SUM(IF(?humidity > ` + maxHum + `, 1, 0)) AS ?nbWetDays)
     (ROUND(xsd:double(SUM(IF(?humidity < ` + minHum + `, 1, 0))*100)/xsd:double(SAMPLE(?days))*100)/100 AS ?dryFrequencie)
     (ROUND(xsd:double(SUM(IF(?humidity > ` + maxHum + `, 1, 0))*100)/xsd:double(SAMPLE(?days))*100)/100 AS ?wetFrequencie)
-    (ROUND(xsd:double(SUM(IF(?rainfall < ` + deficitLevel + `, 1, 0))*100)/xsd:double(SAMPLE(?days))*100)/100 AS ?rainlessFrequencie)
     (ROUND(xsd:double(SUM(IF(?wind > ` + windSpeed + `, 1, 0))*100)/xsd:double(SAMPLE(?days))*100)/100 AS ?windFrequencie)
 
 WHERE
@@ -379,8 +375,7 @@ WHERE
                wes-measure:minDailyTemperature ?temp_min ;
                wes-measure:maxDailyTemperature ?temp_max ;
                wes-measure:avgDailyTemperature ?temp_avg ;
-               wes-measure:rainfall24h ?rainfall ;
-               wes-measure:evapotranspiration ?evapo
+               wes-measure:rainfall24h ?rainfall 
                
            ] .
         ?station a weo:WeatherStation ;
@@ -391,7 +386,7 @@ WHERE
         BIND(IF(?temp_min<` + coldMin + `,?date,xsd:date('0000-01-01')) AS ?dateF)
         BIND(IF(?temp_max>` + heat + `,?date,xsd:date('0000-01-01')) AS ?dateH)
         BIND((xsd:date("` + endDate + `")-xsd:date("` + startDate + `"))/(3600*24)+1 AS ?days)
-        BIND(?rainfall - ?evapo AS ?deficit)
+        BIND(?rainfall - 0 AS ?deficit)
     }
     UNION
     {
@@ -447,8 +442,8 @@ export function buildQuery_GddDaysStation(stationName, startDate, endDate, baseT
     PREFIX wes-measure: <http://ns.inria.fr/meteo/observationslice/measure#>
     PREFIX wes-attribute: <http://ns.inria.fr/meteo/observationslice/attribute#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?stationName ?date ?cumulativeGDD ?GDD (IF(?cumulativeGDD >0,?cumulativeRadiation/?cumulativeGDD,0) AS ?photothermalquotient)
-    {SELECT DISTINCT ?stationName ?date ?GDD  (SUM(?GDDSUM) AS ?cumulativeGDD) (SUM(?radiation1) AS ?cumulativeRadiation)
+    SELECT ?stationName ?date ?cumulativeGDD ?GDD 
+    {SELECT DISTINCT ?stationName ?date ?GDD  (SUM(?GDDSUM) AS ?cumulativeGDD)
         WHERE
         {
             VALUES ?stationName { `+ stationName +` }
@@ -460,7 +455,6 @@ export function buildQuery_GddDaysStation(stationName, startDate, endDate, baseT
                    wes-attribute:observationDate ?date ;
                    wes-measure:minDailyTemperature ?min ;
                    wes-measure:maxDailyTemperature ?max ;
-                   wes-measure:radiationSum ?radiation
                ] .
             ?s a qb:Slice ;
                wes-dimension:station ?station ;
@@ -470,7 +464,6 @@ export function buildQuery_GddDaysStation(stationName, startDate, endDate, baseT
                    wes-attribute:observationDate ?date1 ;
                    wes-measure:minDailyTemperature ?min1 ;
                    wes-measure:maxDailyTemperature ?max1 ;
-                   wes-measure:radiationSum ?radiation1 
                 ] .
             ?station a weo:WeatherStation ;
                      rdfs:label ?stationName .
@@ -491,7 +484,7 @@ export function buildQuery_GddDaysStation(stationName, startDate, endDate, baseT
             FILTER (?date <= xsd:date("`+ endDate +`"))
             FILTER ((?date) >=(?date1))
         }
-        GROUP BY ?stationName ?date ?GDD ?radiation
+        GROUP BY ?stationName ?date ?GDD 
         ORDER BY ?date
         }`;
 }
@@ -508,7 +501,7 @@ export function buildQuery_dailyCumulativeDeficit(stationName, startDate, endDat
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
     SELECT ?stationName (?date1 AS ?date) (SUM(?rainfall2) AS ?cprecip){
-        {SELECT  ?stationName ?date1 ?deficit1 ?rainfall1 WHERE
+        {SELECT  ?stationName ?date1 ?rainfall1 WHERE
             {
                 ?s  a qb:Slice ;
                 wes-dimension:station ?station  ;
@@ -753,7 +746,7 @@ export function buildQuery_consecutiveDaysDroughtWave(stationName,startDate,endD
       
             FILTER (?date1 >=xsd:date("`+ startDate +`"))
             FILTER (?date1 <=xsd:date("`+ endDate +`"))
-            FILTER (?rainfall1 <= ` + rainLevel + `)}
+            FILTER (?rainfall1 <= 0)}
             UNION
             {
                 ?station a weo:WeatherStation ; rdfs:label ?stationName.
@@ -789,11 +782,10 @@ export function buildQuery_consecutiveDaysmaxConsDays(stationName,startDate,endD
                     a qb:Observation ;
                     wes-attribute:observationDate ?date1 ;
                     wes-measure:rainfall24h ?rainfall1 ;
-                    wes-measure:evapotranspiration ?evapotranspiration1
                 ] .
             FILTER (?date1 >=xsd:date("`+ startDate +`"))
             FILTER (?date1 <=xsd:date("`+ endDate +`"))
-            BIND(?rainfall1 - ?evapotranspiration1 as ?deficit1)
+            BIND(?rainfall1 - 0 as ?deficit1)
             FILTER (?deficit1 <= ` + deficitLevel + `)
         }
         UNION
@@ -821,7 +813,7 @@ export function buildQuery_StatsPeriod(stationName,startDate,endDate,baseTemp,co
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     SELECT ?stationName (ROUND(AVG(?temp_min)*100)/100 AS ?meanmint) (ROUND(AVG(?temp_max)*100)/100 AS ?meanmaxt) 
     (ROUND(AVG(?temp_avg)*100)/100 AS ?meanavgt) (ROUND(AVG(?temp_diff)*100)/100 AS ?meanranget) 
-    (SUM(IF(?deficit <`+ deficitLevel + `,?deficit,0)) as ?sumwd) WHERE 
+     WHERE 
     {
             ?s a qb:Slice ;
                wes-dimension:station ?station ;
@@ -832,12 +824,10 @@ export function buildQuery_StatsPeriod(stationName,startDate,endDate,baseTemp,co
                    wes-measure:minDailyTemperature ?temp_min ;
                    wes-measure:maxDailyTemperature ?temp_max ;
                    wes-measure:avgDailyTemperature ?temp_avg ;
-                   wes-measure:evapotranspiration ?evapo;
                    wes-measure:rainfall24h ?rain
                ] .
             ?station a weo:WeatherStation ;
                      rdfs:label ?stationName .
-            BIND(IF(STR(?evapo)!="Unknown" && STR(?rain)!="Unknown",?rain-?evapo,0) AS ?deficit)
             FILTER (?stationName IN (` + formattedStations + `))
             FILTER (?date >= xsd:date("` + startDate + `"))
             FILTER (?date <= xsd:date("` + endDate + `"))

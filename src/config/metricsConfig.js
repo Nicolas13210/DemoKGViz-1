@@ -517,7 +517,7 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
         "title":"Number of droughts waves",
         "tooltip":"Number of drought waves that lasted at least {drought Duration} day (precipitation \<= rain Level) ",
         "type": "rain",
-        "param": "nbDroughtsWaves",
+        "param": "nbDroughtsWavesFS",
         "jsonPath": "DroughtWave",
         "request": buildQuery_consecutiveDaysDroughtWave,
         "availableChart": "table",
