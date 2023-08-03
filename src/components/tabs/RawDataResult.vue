@@ -9,13 +9,12 @@
         hover = true
     
       >
-        <template v-slot:item="{ item }">
+        <template v-slot:item.raw="{ item }">
           <tr>
-            <td :class="{ 'fixed-column': true, 'station-name': true }">
-              <a :href="findStationDetail(item.raw)">{{ item.raw.stationName }}</a>
+            <td :class="{ 'fixed-column': true, 'station-name': true }">{{ item.stationName }}
             </td>
-            <td :class="{ 'fixed-column': true, 'date-column': true }">{{ item.raw.date }}</td>
-            <td v-for="prop in existingProperties" :key="prop.param">{{ item.raw[prop.jsonPath] }}</td>
+            <td :class="{ 'fixed-column': true, 'date-column': true }">{{ item.date }}</td>
+            <td v-for="prop in existingProperties" :key="prop.param">{{ item[prop.jsonPath] }}</td>
           </tr>
         </template>
       </VDataTable>
