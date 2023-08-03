@@ -35,10 +35,8 @@ export const parametersModule = {
     },
     actions: {
         addParameter(context, payload) {
-            console.log(context.getters.getSelectedStations.length)
             if (context.getters.getSelectedStations.length > 0 &&
                 !isParameterTypeDataAlreadyFetch(context.getters.getParameters, payload)) {
-                console.log("dispatching!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                 context.dispatch("setWeather", {
                     query: payload.request(
                         context.getters.getSelectedStationsJoin,

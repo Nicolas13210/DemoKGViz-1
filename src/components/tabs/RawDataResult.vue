@@ -70,7 +70,6 @@
     },
     methods: {
           mergeWeatherData(weatherArray) {
-            console.log(weatherArray)
               const mergedData = [];
               weatherArray.forEach(weather => {
                   weather.forEach(item => {
@@ -93,10 +92,6 @@
               });
               return mergedData;
           },
-          findStationDetail(stationName) {
-            console.log(stationName)
-            //return this.$store.getters.getStations.find(value => value.stationName.value === stationName)
-          }
       }
     
   }

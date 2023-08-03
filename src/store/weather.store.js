@@ -156,9 +156,6 @@ export const weatherModule = {
         }
     }, getters: {
         getRawWeather(state) {
-            console.log(state.weather)
-            console.log(state.rawQueries)
-            console.log(state.weather.filter(value => state.rawQueries.includes(value.queryMethod)))
             return state.weather.filter(value => state.rawQueries.includes(value.queryMethod));
         }, getWeatherNbDay(state) {
             return state.weather.find(value => value.queryMethod === "buildQuery_nbStatsDaysStation");
