@@ -2,6 +2,21 @@ import axios from "axios";
 import {transformData} from '@/utils/dataTransformation'
 import { mapGetters } from "vuex";
 import {weatherParameterModule} from "./weatherParameters.store";
+import {
+    buildQuery_tmpRainStation,
+    buildQuery_nbStatsDaysStation,
+    buildQuery_GddDaysStation,
+    buildQuery_consecutiveDaysSpellFrost,
+    buildQuery_consecutiveDaysSpellHeat,
+    buildQuery_consecutiveDaysHighHum,
+    buildQuery_consecutiveDaysDroughtWave,
+    buildQuery_consecutiveDaysmaxConsDays,
+    buildQuery_StatsPeriod,
+    buildQuery_consecutiveDaysLowHum,
+    buildQuery_dailyCumulativeDeficit
+
+    
+} from "@/queries/queries"
 
 function addOneDay(date) {
   date.setDate(date.getDate() + 1);
@@ -138,9 +153,9 @@ export const weatherModule = {
     namespace: false, state() {
         return {
             weather: [],
-            barQueries:["buildQuery_consecutiveDaysSpellFrost","buildQuery_consecutiveDaysSpellHeat","buildQuery_consecutiveDaysHighHum","buildQuery_consecutiveDaysDroughtWave",
-            "buildQuery_consecutiveDaysmaxConsDays","buildQuery_consecutiveDaysLowHum"],
-            rawQueries:["buildQuery_tmpRainStation","buildQuery_GddDaysStation","buildQuery_dailyCumulativePrecipitation","buildQuery_dailyCumulativeDeficit","buildQuery_nbStatsDaysHumStation"]
+            barQueries:[buildQuery_consecutiveDaysSpellFrost.name,buildQuery_consecutiveDaysSpellHeat.name,buildQuery_consecutiveDaysHighHum.name,buildQuery_consecutiveDaysDroughtWave.name,
+            buildQuery_consecutiveDaysmaxConsDays.name,buildQuery_consecutiveDaysLowHum.name],
+            rawQueries:[buildQuery_tmpRainStation.name,buildQuery_GddDaysStation.name,buildQuery_dailyCumulativeDeficit.name]
         }
     }, mutations: {
         setWeather(state, payload) {
@@ -159,7 +174,7 @@ export const weatherModule = {
         getRawWeather(state) {
             return state.weather.filter(value => state.rawQueries.includes(value.queryMethod));
         }, getWeatherNbDay(state) {
-            return state.weather.find(value => value.queryMethod === "buildQuery_nbStatsDaysStation");
+            return state.weather.find(value => value.queryMethod === buildQuery_nbStatsDaysStation.name);
         },
         getWeather(state) {
             return state.weather;

@@ -1,4 +1,4 @@
-export const buildQuery_extractDailyRDF =function buildQuery_extractDailyRDF(stationName, startDate, endDate) {
+export function buildQuery_extractDailyRDF(stationName, startDate, endDate) {
     return `
 PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
 PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
@@ -74,7 +74,7 @@ WHERE {
     `;
 }
 
-export const buildQuery_extractAggregateRDF = function buildQuery_extractAggregateRDF(stationName, startDate, endDate) {
+export function buildQuery_extractAggregateRDF(stationName, startDate, endDate) {
     return `
 PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
 PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
@@ -140,7 +140,7 @@ WHERE
     `;
 }
 
-export const buildQuery_station = function buildQuery_station() {
+export function buildQuery_station() {
     return `
 PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -156,7 +156,7 @@ WHERE {
     `;
 }
 
-export const buildQuery_exportDailyData = function buildQuery_exportDailyData(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel,deficitLevel, windSpeed) {
+export function buildQuery_exportDailyData(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel,deficitLevel, windSpeed) {
     return `
 PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
 PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
@@ -209,7 +209,7 @@ ORDER BY ?date ?stationName
     `;
 }
 
-export const buildQuery_exportAggregateData =  function buildQuery_exportAggregateData(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel,deficitLevel, windSpeed) {
+export function buildQuery_exportAggregateData(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel,deficitLevel, windSpeed) {
     return `
 PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
 PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
@@ -256,7 +256,7 @@ VALUES ?stationName  {` + stationName + `}
     `;
 }
 
-export const buildQuery_tmpRainStation = function buildQuery_tmpRainStation(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed) {
+export function buildQuery_tmpRainStation(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
 PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -319,7 +319,7 @@ ORDER BY ?stationName ?date
 }
 
 
-export const buildQuery_nbStatsDaysStation =function buildQuery_nbStatsDaysStation(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed) {
+export function buildQuery_nbStatsDaysStation(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed) {
     // The end of this variable is a quickfix. The IN clause seems to not work if there is only one item in the list.
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
@@ -432,7 +432,7 @@ GROUP BY ?stationName
     `;
 }
 
-export const buildQuery_GddDaysStation = function buildQuery_GddDaysStation(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed) {
+export function buildQuery_GddDaysStation(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -489,7 +489,7 @@ export const buildQuery_GddDaysStation = function buildQuery_GddDaysStation(stat
         }`;
 }
 
-export const buildQuery_dailyCumulativeDeficit = function buildQuery_dailyCumulativeDeficit(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed) {
+export function buildQuery_dailyCumulativeDeficit(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -541,7 +541,7 @@ export const buildQuery_dailyCumulativeDeficit = function buildQuery_dailyCumula
     ORDER BY ?stationName ?date1
     `;
 }
-export const buildQuery_consecutiveDaysSpellFrost = function buildQuery_consecutiveDaysSpellFrost(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
+export function buildQuery_consecutiveDaysSpellFrost(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -583,7 +583,7 @@ export const buildQuery_consecutiveDaysSpellFrost = function buildQuery_consecut
   `
 }
 
-export const buildQuery_consecutiveDaysSpellHeat = function buildQuery_consecutiveDaysSpellHeat(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
+export function buildQuery_consecutiveDaysSpellHeat(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -621,7 +621,7 @@ export const buildQuery_consecutiveDaysSpellHeat = function buildQuery_consecuti
   `
 }
 
-export const buildQuery_consecutiveDaysHighHum = function buildQuery_consecutiveDaysHighHum(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
+export function buildQuery_consecutiveDaysHighHum(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -670,7 +670,7 @@ export const buildQuery_consecutiveDaysHighHum = function buildQuery_consecutive
   `
 }
 
-export const buildQuery_consecutiveDaysLowHum = function buildQuery_consecutiveDaysLowHum(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
+export function buildQuery_consecutiveDaysLowHum(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -719,7 +719,7 @@ export const buildQuery_consecutiveDaysLowHum = function buildQuery_consecutiveD
   `
 }
 
-export const buildQuery_consecutiveDaysDroughtWave = function buildQuery_consecutiveDaysDroughtWave(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
+export function buildQuery_consecutiveDaysDroughtWave(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -759,7 +759,7 @@ export const buildQuery_consecutiveDaysDroughtWave = function buildQuery_consecu
   `
 }
 
-export const buildQuery_consecutiveDaysmaxConsDays = function buildQuery_consecutiveDaysmaxConsDays(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
+export function buildQuery_consecutiveDaysmaxConsDays(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
@@ -800,7 +800,7 @@ export const buildQuery_consecutiveDaysmaxConsDays = function buildQuery_consecu
   `
 }
 
-export const buildQuery_StatsPeriod =  function buildQuery_StatsPeriod(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
+export function buildQuery_StatsPeriod(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed) {
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
     return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
