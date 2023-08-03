@@ -4,16 +4,15 @@
         height="530px"
         :headers="headers"
         :items="processData"
-        items-per-page=-1
         fixed-header = true
         hover = true
     
       >
         <template v-slot:item.raw="{ item }">
           <tr>
-            <td :class="{ 'fixed-column': true, 'station-name': true }">{{ item.stationName }}
+            <td>{{ item.stationName }}
             </td>
-            <td :class="{ 'fixed-column': true, 'date-column': true }">{{ item.date }}</td>
+            <td>{{ item.date }}</td>
             <td v-for="prop in existingProperties" :key="prop.param">{{ item[prop.jsonPath] }}</td>
           </tr>
         </template>
@@ -58,7 +57,7 @@
       },
       headers()  {
         return [
-          {title: "Station Name", key: "stationName", width:150},
+          {title: "Station Name", key: "stationName"},
           {title: "Date", key: "date"},
           ...this.existingProperties.map((prop) => ({
             title: `${prop.param} (${prop.displayUnit})`,

@@ -8,7 +8,7 @@
     >
     <template v-slot:item.raw=" {item} ">
       <tr>
-        <td :class="{ 'fixed-column': true }">{{ item.stationName }}</td>
+        <td>{{ item.stationName }}</td>
         <td v-for="prop in existingProperties" :key="prop.param">{{ item[prop.jsonPath] }}</td>
       </tr>
     </template>
@@ -48,7 +48,7 @@
       },
       headers()  {
         return [
-          {title: "Station Name", key: "stationName", fixed:"left"},
+          {title: "Station Name", key: "stationName"},
           ...this.$store.getters.getDatesParameters.map((prop) => ({
             title: `${prop.param} (${prop.displayUnit})`,
             key: prop.jsonPath,
@@ -60,10 +60,6 @@
   </script>
 
   <style scoped>
-    .fixed-column {
-    position: sticky;
-    left: 0;
-    background-color: #fff; /* You can customize the background color if needed */
-  }
+
     </style>
   

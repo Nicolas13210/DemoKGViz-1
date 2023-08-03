@@ -35,6 +35,7 @@ export const parametersModule = {
     },
     actions: {
         addParameter(context, payload) {
+            console.log("addParameter\n" + payload)
             if (context.getters.getSelectedStations.length > 0 &&
                 !isParameterTypeDataAlreadyFetch(context.getters.getParameters, payload)) {
                 context.dispatch("setWeather", {
