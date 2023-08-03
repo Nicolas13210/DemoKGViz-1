@@ -38,6 +38,7 @@
     },
     computed:{
       processData() {
+        console.log(this.$store.getters.getRawWeather)
         return this.mergeWeatherData(this.$store.getters.getRawWeather.map(el => el.result.values))
       },
       properties() {
@@ -69,6 +70,7 @@
     },
     methods: {
           mergeWeatherData(weatherArray) {
+            console.log(weatherArray)
               const mergedData = [];
               weatherArray.forEach(weather => {
                   weather.forEach(item => {
