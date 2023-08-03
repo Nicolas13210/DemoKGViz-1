@@ -38,7 +38,6 @@
     },
     computed:{
       processData() {
-        console.log(this.$store.getters.getRawWeather)
         return this.mergeWeatherData(this.$store.getters.getRawWeather.map(el => el.result.values))
       },
       properties() {
@@ -92,6 +91,10 @@
               });
               return mergedData;
           },
+          findStationDetail(stationName) {
+            console.log(stationName)
+            //return this.$store.getters.getStations.find(value => value.stationName.value === stationName)
+          }
       }
     
   }
