@@ -14,8 +14,8 @@ import {
     
 } from "@/queries/queries"
 
-export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
-    "title": "Daily temperature", "items": [{
+export const metricsConfig = [{"title":"Weather Variables" , "items":[{
+    "title": "Daily values", "items": [{
         "title": "Minimum temperature (T<sub>min</sub>)",
         "tooltip": "The daily minimum temperature represents the lower air temperature recorded from 18:00 UTC day d-1 till 18:00 UTC day d",
         "type": "TmpRain",
@@ -104,7 +104,7 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
             "related":[]
         }],
     }, {
-        "title": "Daily precipitation (rain)",
+        "title": "Sum precipitations (Prec<sub>day<sub>)",
         "tooltip": "Daily cumulative precipitation R<sub>d</sub> recorded from 6:00 UTC day d till 6:00 UTC day d+1",
         "type": "TmpRain",
         "param": "Rain",
@@ -457,8 +457,8 @@ export const metricsConfig = [{"title":"Daily Weather Variables" , "items":[{
     },]
 }, {
     "title": "Water Deficit", "items": [{
-        "title": "Number of rainy days (rain > rainLevel)",
-        "tooltip": "Number of rainy days represents the number of days during which precipitation are higher than the rain limit for a period",
+        "title": "Number of precipitation days (rain > rainLevel)",
+        "tooltip": "Number of precipitation days represents the number of days during which precipitation are higher than the rain limit for a period",
         "type": "Numb",
         "param": "nbRainyDays",
         "jsonPath": "nbRainyDays",

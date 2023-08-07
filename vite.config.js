@@ -12,11 +12,11 @@ export default defineConfig({
     }
   },
   base: './' ,
-  /*
+  
   server: {
     proxy: {
       '/api': {
-        target: 'http://weakg.i3s.unice.fr/sparql',
+        target: 'http://localhost:8890/sparql',
         changeOrigin: true,
         secure:false ,
         rewrite: (path) => path.replace(/^\/api/, ""),
@@ -24,5 +24,5 @@ export default defineConfig({
     },
     cors:false
   }, 
-  */
+  
 })

@@ -1,13 +1,32 @@
 <template>
     <div class="data-table-container">
       <VDataTable
+        class= customHeader
         height="530px"
         :headers="headers"
         :items="processData"
         fixed-header = true
         hover = true
-    
       >
+      <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+      <tr>
+        <template v-for="column in columns" :key="column.key">
+          <td>
+            <span class="mr-2 cursor-pointer" @click="() => toggleSort(column)">{{ column.title }}</span>
+            <template v-if="isSorted(column)">
+              <v-icon :icon="getSortIcon(column)"></v-icon>
+            </template>
+              <v-tooltip v-if="column.info" location="bottom">
+                    <template v-slot:activator="{ props }">
+                        <v-btn density="compact" icon="mdi-help-circle-outline" variant="text" v-bind="props"></v-btn>
+                    </template>
+
+                    <span v-html="column.info"></span>
+              </v-tooltip>
+          </td>
+        </template>
+      </tr>
+    </template>
         <template v-slot:item.raw="{ item }">
           <tr>
             <td>{{ item.stationName }}
@@ -61,7 +80,7 @@
           {title: "Date", key: "date"},
           ...this.existingProperties.map((prop) => ({
             title: `${prop.param} (${prop.displayUnit})`,
-            key: prop.jsonPath,
+            key: prop.jsonPath, info:`${prop.tooltip}`
           })),
         ]
       },
@@ -101,5 +120,8 @@
   </script>
   
   <style scoped>
+  .customHeader th:hover {
+  color: red;
+}
   
   </style>
