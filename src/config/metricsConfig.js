@@ -104,7 +104,7 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
             "related":[]
         }],
     }, {
-        "title": "Sum precipitations (Prec<sub>day<sub>)",
+        "title": "Amount of precipitations (Prec<sub>day<sub>)",
         "tooltip": "Daily cumulative precipitation R<sub>d</sub> recorded from 6:00 UTC day d till 6:00 UTC day d+1",
         "type": "TmpRain",
         "param": "Rain",
@@ -458,7 +458,7 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
 }, {
     "title": "Water Deficit", "items": [{
         "title": "Number of precipitation days (rain > rainLevel)",
-        "tooltip": "Number of precipitation days represents the number of days during which precipitation are higher than the rain limit for a period",
+        "tooltip": "Number of precipitation days represents the number of days during which precipitation are higher than the precipitation limit for a period",
         "type": "Numb",
         "param": "nbRainyDays",
         "jsonPath": "nbRainyDays",
@@ -515,9 +515,9 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
                     }]
     }, {
         "title":"Number of droughts waves",
-        "tooltip":"Number of drought waves that lasted at least {drought Duration} day (precipitation \<= rain Level) ",
+        "tooltip":"Number of drought waves that lasted at least {drought Duration} day (precipitation \<= 0) ",
         "type": "rain",
-        "param": "nbDroughtsWavesFS",
+        "param": "nbDroughtsWaves",
         "jsonPath": "DroughtWave",
         "request": buildQuery_consecutiveDaysDroughtWave,
         "availableChart": "table",
