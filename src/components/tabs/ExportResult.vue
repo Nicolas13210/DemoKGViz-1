@@ -3,7 +3,8 @@ import {
     buildQuery_exportAggregateData,
     buildQuery_exportDailyData,
     buildQuery_extractAggregateRDF,
-    buildQuery_extractDailyRDF
+    buildQuery_extractDailyRDF,
+    buildQueryEvapoRadiation
 } from '@/queries/queries';
 import axios from "axios";
 
@@ -61,6 +62,7 @@ export default {
                 console.error("An error occurred while retrieving data to download a file", error);
             }
         },
+        
         async downloadDataRdf() {
             try {
                 const dailyRequest = axios.post(import.meta.env.VITE_API_URL, {
@@ -87,7 +89,7 @@ export default {
             } catch (error) {
                 console.error("An error occurred while retrieving data to download a file", error);
             }
-        }
+        },
     },
     computed: {
         getStationsLength() {

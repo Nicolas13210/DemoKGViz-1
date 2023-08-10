@@ -28,9 +28,27 @@ export default {
         }
     },
     methods: {
+        concatAttribute(json) {
+            let attributes = json[0].result.values
+            if (json.length>1){
+                for (let i=1;i<json.length;i++){
+                    let property = json[i].result.values
+                    for (let result of property){
+                        const attribute = attributes.find((value) => value.stationName === result.stationName)
+                        for(let prop of Object.keys(result)){
+                            if(prop!="stationName"){
+
+                                attribute[prop] = result[prop]
+                            }
+                        }
+                    }
+                }
+            }
+            return attributes
+        },
         extractValues(stationName, json1, json2) {
             const params = json2.map(param => param.param);
-            const values = json1.values.filter(item => item["stationName"] === stationName)[0];
+            const values = json1.filter(item => item["stationName"] === stationName)[0];
 
             return Object.keys(values)
               .filter(key => params.includes(key))
@@ -38,7 +56,8 @@ export default {
         },
         extractKeys(stationName, json1, json2) {
             const params = json2.map(param => param.param);
-            const keys = Object.keys(json1.values.filter(item => item["stationName"] === stationName)[0]);
+            const keys = Object.keys(json1.filter(item => item["stationName"] === stationName)[0]);
+            
             return keys.filter(key => params.includes(key));
         }
     },
@@ -48,23 +67,25 @@ export default {
                 // No data loaded.
                 return undefined;
             }
-
             let labels = [];
             let backgroundColors = [];
             let data = [];
+            let concatData = this.concatAttribute(this.chartData)
+            console.log(concatData)
+
 
             // For each station with data
-            for (const stationData of this.chartData.values) {
+            for (const stationData of concatData) {
                 const stationName = stationData["stationName"];
 
-                const titleLabels = this.extractKeys(stationName, this.chartData, this.$store.getters.getBarParameters)
+                const titleLabels = this.extractKeys(stationName, concatData, this.$store.getters.getBarParameters)
                   .map(item => item + " (" + stationName + ")");
                 labels = labels.concat(titleLabels);
 
                 backgroundColors = backgroundColors.concat(titleLabels.map(item =>
                   uniqolor(CryptoJS.SHA256(item).toString(), {saturation: [45, 90], lightness: [45, 75]}).color
                 ));
-                data = data.concat(this.extractValues(stationName, this.chartData, this.$store.getters.getBarParameters));
+                data = data.concat(this.extractValues(stationName, concatData, this.$store.getters.getBarParameters));
             }
 
             const barChart = {

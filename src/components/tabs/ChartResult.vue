@@ -6,7 +6,7 @@
     <div id="visualisation">
         <div class="groupVisualisation">
             <ComboChart v-if="getWeather.length > 0" :chartData="getWeather"></ComboChart>
-            <BarChart v-if="getWeatherNbDay !== undefined" :chartData="getWeatherNbDay"></BarChart>
+            <BarChart v-if="getWeatherNbDay.length >0" :chartData="getWeatherNbDay"></BarChart>
         </div>
     </div>
 </template>
@@ -27,7 +27,7 @@ export default {
             return this.$store.getters.getRawWeather;
         },
         getWeatherNbDay() {
-            return this.$store.getters.getWeatherNbDay?.result;
+            return this.$store.getters.getWeatherNbDay;
 
         },
         getStationsLength() {

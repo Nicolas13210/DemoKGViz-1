@@ -9,7 +9,10 @@ import {
     buildQuery_consecutiveDaysmaxConsDays,
     buildQuery_StatsPeriod,
     buildQuery_consecutiveDaysLowHum,
-    buildQuery_dailyCumulativeDeficit
+    buildQuery_dailyCumulativeDeficit,
+    buildQueryEvapoRadiation,
+    buildQuery_WaterDef,
+    buildQuery_nbStatsDaysWindStation
 
     
 } from "@/queries/queries"
@@ -117,10 +120,10 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
     }, {
         "title": "Radiation sum (rad<sub>sum</sub>)",
         "tooltip": "The radiation sum",
-        "type": "TmpRain",
+        "type": "EvapoRad",
         "param": "RadSum",
-        "jsonPath": "radiation",
-        "request": buildQuery_tmpRainStation,
+        "jsonPath": "radiationSum",
+        "request": buildQueryEvapoRadiation,
         "availableChart": "line",
         "axisLegend": "Radiations (W/m²)",
         "displayUnit":"W/m²",
@@ -139,12 +142,12 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
     }, {
         "title": "Evapotranspiration (ET)",
         "tooltip": "The evapotranspiration",
-        "type": "TmpRain",
+        "type": "EvapoRad",
         "param": "ET",
         "jsonPath": "evapotranspiration",
-        "request": buildQuery_tmpRainStation,
+        "request": buildQueryEvapoRadiation,
         "availableChart": "line",
-        "axisLegend": " Evapotranspiration (ET)",
+        "axisLegend": "Evapotranspiration (ET)",
         "displayUnit":"mm",
         "related":[],
         
@@ -485,7 +488,7 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
         "type": "Numb",
         "param": "nbDefDays",
         "jsonPath": "nbDefDays",
-        "request": buildQuery_nbStatsDaysStation,
+        "request": buildQuery_WaterDef,
         "availableChart": "POLAR",
         "axisLegend": " day(s)",
         "displayUnit":"day(s)",
@@ -494,8 +497,8 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
                     "tooltip": "Percentage of water deficit days over the period",
                     "type": "Numb",
                     "param": "waterDeficitFrequencie",
-                    "jsonPath": "rainlessFrequencie",
-                    "request": buildQuery_nbStatsDaysStation,
+                    "jsonPath": "waterDeficitFrequencie",
+                    "request": buildQuery_WaterDef,
                     "availableChart": "table",
                     "axisLegend": "percentage",
                     "displayUnit":"%",
@@ -552,26 +555,26 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
     "title": "Wind days", "items":[{
         "title": "Number of Windy days (wind > wind threshold) ",
         "tooltip": "Number of windy days represents the number of days during which the wind was higher than the  wind threshold for a period",
-        "type": "Numb",
+        "type": "wind",
         "param": "nbWindyDays",
         "jsonPath": "nbWindyDays",
-        "request": buildQuery_nbStatsDaysStation,
+        "request": buildQuery_nbStatsDaysWindStation,
         "availableChart": "POLAR",
         "axisLegend": " day(s)",
         "displayUnit":"day(s)",
         "related":[{
                     "title": "Windy days frequencie",
                     "tooltip": "Percentage of windy days over the period",
-                    "type": "Numb",
+                    "type": "wind",
                     "param": "windFrequencie",
                     "jsonPath": "windFrequencie",
-                    "request": buildQuery_nbStatsDaysStation,
+                    "request": buildQuery_nbStatsDaysWindStation,
                     "availableChart": "table",
                     "axisLegend": "percentage",
                     "displayUnit":"%",
                     "related":[]
         
                 }]
+            }]
     }]
-}]
 }]

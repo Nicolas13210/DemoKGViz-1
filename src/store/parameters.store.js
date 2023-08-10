@@ -51,7 +51,8 @@ export const parametersModule = {
                         context.getters.getMaxHum,
                         context.getters.getRainLevel,
                         context.getters.getDeficitLevel,
-                        context.getters.getWindSpeed
+                        context.getters.getWindSpeed,
+                        context.getters.getURLStations
                     ),
                     queryMethod: payload.request.name,
                     nbDays:{

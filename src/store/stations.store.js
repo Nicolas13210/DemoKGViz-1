@@ -39,6 +39,15 @@ export const stationsModule = {
                 return 0;
             });
         },
+        getURLStations(state){
+            const URLs =[]
+            for (let station of state.selectedStations){
+                let myStation = state.stations.find(value => value.stationName.value === station)
+                let URL = "https://sms.i3s.unice.fr/sparql-ms/open-meteo/getHistoricalDataByLongLat?latitude=" + myStation.lat.value + "&longitude=" +myStation.long.value
+                URLs.push(URL)
+            }
+            return URLs
+        },
         getSelectedStations(state) {
             return state.selectedStations.sort();
         },

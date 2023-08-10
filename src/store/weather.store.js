@@ -13,10 +13,17 @@ import {
     buildQuery_consecutiveDaysmaxConsDays,
     buildQuery_StatsPeriod,
     buildQuery_consecutiveDaysLowHum,
-    buildQuery_dailyCumulativeDeficit
+    buildQuery_dailyCumulativeDeficit,
+    buildQueryEvapoRadiation,
+    buildQuery_WaterDef,
+    buildQuery_nbStatsDaysWindStation
 
     
 } from "@/queries/queries"
+
+function getStationInfo(stationName, stations) {
+    return stations.find(value => value.stationName.value === stationName)
+}
 
 function addOneDay(date) {
   date.setDate(date.getDate() + 1);
@@ -153,14 +160,15 @@ export const weatherModule = {
     namespace: false, state() {
         return {
             weather: [],
-            barQueries:[buildQuery_consecutiveDaysSpellFrost.name,buildQuery_consecutiveDaysSpellHeat.name,buildQuery_consecutiveDaysHighHum.name,buildQuery_consecutiveDaysDroughtWave.name,
+            globalQueries:[buildQuery_consecutiveDaysSpellFrost.name,buildQuery_consecutiveDaysSpellHeat.name,buildQuery_consecutiveDaysHighHum.name,buildQuery_consecutiveDaysDroughtWave.name,
             buildQuery_consecutiveDaysmaxConsDays.name,buildQuery_consecutiveDaysLowHum.name],
-            rawQueries:[buildQuery_tmpRainStation.name,buildQuery_GddDaysStation.name,buildQuery_dailyCumulativeDeficit.name]
+            rawQueries:[buildQuery_tmpRainStation.name,buildQuery_GddDaysStation.name,buildQuery_dailyCumulativeDeficit.name,buildQueryEvapoRadiation.name],
+            barQueries:[buildQuery_nbStatsDaysStation.name,buildQuery_nbStatsDaysWindStation.name, buildQuery_WaterDef.name]
         }
     }, mutations: {
         setWeather(state, payload) {
             let index = state.weather.findIndex(value => value.queryMethod === payload.queryMethod)
-            if(state.barQueries.includes(payload.queryMethod)) {
+            if(state.globalQueries.includes(payload.queryMethod)) {
                 payload = getNbWaves(payload)
             }
             if (index !== -1) {
@@ -173,19 +181,20 @@ export const weatherModule = {
         getRawWeather(state) {
             return state.weather.filter(value => state.rawQueries.includes(value.queryMethod));
         }, getWeatherNbDay(state) {
-            return state.weather.find(value => value.queryMethod === buildQuery_nbStatsDaysStation.name);
+            return state.weather.filter(value => state.barQueries.includes(value.queryMethod));
         },
         getWeather(state) {
             return state.weather;
         }
     }, actions: {
         async setWeather(context, payload) {
+            
             try {
                 const response = await axios.post(import.meta.env.VITE_API_URL,{
                     query: payload.query
                 }, {
                     headers: {
-                         'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }, responseType: 'json'
                 });
                 const transformedData = transformData(response.data);
