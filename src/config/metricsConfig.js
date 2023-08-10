@@ -362,8 +362,8 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
         "jsonPath": "GDD",
         "request": buildQuery_GddDaysStation,   
         "availableChart": "bar",
-        "axisLegend": "Temperature (DJ)",
-        "displayUnit":"DD",
+        "axisLegend": "Temperature (°C)",
+        "displayUnit":"°C",
         "related":[],
     }, {
         "title": "Accumulated growing degree days (sumGDD)",
@@ -373,8 +373,8 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
         "jsonPath": "cumulativeGDD",
         "request": buildQuery_GddDaysStation,
         "availableChart": "line",
-        "axisLegend": "Cumulative Temperature (DJ)",
-        "displayUnit":"DD",
+        "axisLegend": "Cumulative Temperature (°C)",
+        "displayUnit":"°C",
         "related":[],
     }, {
         "title": "Photothermal ratio (PTR)",
