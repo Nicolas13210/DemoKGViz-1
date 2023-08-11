@@ -562,16 +562,10 @@ GROUP BY ?stationName
 }
 
 export function buildQuery_GddDaysStation(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed,urls) {
-    const finalURL = []
     const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
-    urls.forEach((url) =>{
-        finalURL.push(url+"&start_date=" + startDate + "&end_date=" + endDate)
-    })
 
 
-    const stations = formattedStations.split(',')
-
-    let query =  `
+    return `
     PREFIX wes: <http://ns.inria.fr/meteo/observationslice/>
     PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
     PREFIX qb: <http://purl.org/linked-data/cube#>
@@ -579,97 +573,51 @@ export function buildQuery_GddDaysStation(stationName, startDate, endDate, baseT
     PREFIX wes-measure: <http://ns.inria.fr/meteo/observationslice/measure#>
     PREFIX wes-attribute: <http://ns.inria.fr/meteo/observationslice/attribute#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?stationName ?date ?cumulativeGDD (?GDDT AS ?GDD) ?photothermalquotient  WHERE {
-    {
-    SELECT DISTINCT ?stationName ?date (SAMPLE (?cumulativeGDD) as ?cumulativeGDD) (SAMPLE(?GDD) AS ?GDD) (SAMPLE(?radiationSum) AS ?radiationSum) {
-        {SELECT DISTINCT ?stationName ?date ?GDD  (SUM(?GDDSUM) AS ?cumulativeGDD)
-            WHERE
-            {
-                VALUES ?stationName { `+ stationName +` }
-                ?s a qb:Slice ;
-                   wes-dimension:station ?station ;
-                   qb:observation [
-                       a qb:Observation ;
-                       wes-attribute:observationDate ?date ;
-                       wes-measure:minDailyTemperature ?min ;
-                       wes-measure:maxDailyTemperature ?max ;
-                   ] .
-                ?s1 a qb:Slice ;
-                   wes-dimension:station ?station ;
-                   qb:observation [
-                       a qb:Observation ;
-                       wes-attribute:observationDate ?date1 ;
-                       wes-measure:minDailyTemperature ?min1 ;
-                       wes-measure:maxDailyTemperature ?max1 ;
-                    ] .
-                ?station a weo:WeatherStation ;
-                         rdfs:label ?stationName .
-                BIND(IF(?r > 0, ?r, 0) AS ?rainfall1)
-        
-        
-                BIND(IF(STR(?min)!="Unknown" && STR(?max)!="Unknown",(?min +  ?max)/2," ") AS ?temp_avg)
-                BIND(IF(STR(?temp_avg)!=" ", IF(?temp_avg > `+ baseTemp + `, ?temp_avg - `+ baseTemp + `, 0),"Unknown" ) AS ?GDD)
-        
-        
-                BIND(IF(STR(?min1)!="Unknown" && STR(?max1)!="Unknown",(?min1 +  ?max1)/2," ") AS ?temp_avg1)
-                BIND(IF(STR(?temp_avg1)!=" ", IF(?temp_avg1 > `+ baseTemp + `, ?temp_avg1 - `+ baseTemp + `, 0),"Unknown" ) AS ?GDD1)
-        
-        
-                BIND(IF(STR(?GDD1)!="Unknown",?GDD1,0) AS ?GDDSUM)
-                FILTER (?date >= xsd:date("`+ startDate +`"))
-                FILTER (?stationName IN (` + formattedStations + `))
-                FILTER (?date <= xsd:date("`+ endDate +`"))
-                FILTER (?date1 >= xsd:date("`+ startDate +`"))
-                FILTER (?date1 <= xsd:date("`+ endDate +`"))
-                FILTER ((?date) >=(?date1))
-            }
-            GROUP BY ?stationName ?date ?GDD 
-            ORDER BY ?date}
-            UNION
-            {
-                {
-            SERVICE  <` +finalURL[0] + `> {
-                SELECT DISTINCT ?stationName ?date  ?radiationSum WHERE {
-                    ?s1 qb:observation ?observation .
-                    VALUES ?stationName {` + stations[0] + `}
-                    ?observation a qb:Observation ;
-                        wes-attribute:observationDate ?time ; 
-                        wes-measure:radiationSum ?radiationSum .
-                    BIND(xsd:date(?time) as ?date)
-                }
-            }
+    SELECT ?stationName ?date ?cumulativeGDD ?GDD 
+    {SELECT DISTINCT ?stationName ?date ?GDD  (SUM(?GDDSUM) AS ?cumulativeGDD)
+        WHERE
+        {
+            VALUES ?stationName { `+ stationName +` }
+            ?s a qb:Slice ;
+               wes-dimension:station ?station ;
+               qb:observation [
+                   a qb:Observation ;
+                   wes-attribute:observationDate ?date ;
+                   wes-measure:minDailyTemperature ?min ;
+                   wes-measure:maxDailyTemperature ?max ;
+               ] .
+            ?s1 a qb:Slice ;
+               wes-dimension:station ?station ;
+               qb:observation [
+                   a qb:Observation ;
+                   wes-attribute:observationDate ?date1 ;
+                   wes-measure:minDailyTemperature ?min1 ;
+                   wes-measure:maxDailyTemperature ?max1 ;
+                ] .
+            ?station a weo:WeatherStation ;
+                     rdfs:label ?stationName .
+            BIND(IF(?r > 0, ?r, 0) AS ?rainfall1)
+    
+    
+            BIND(IF(STR(?min)!="Unknown" && STR(?max)!="Unknown",(?min +  ?max)/2," ") AS ?temp_avg)
+            BIND(IF(STR(?temp_avg)!=" ", IF(?temp_avg > `+ baseTemp + `, ?temp_avg - `+ baseTemp + `, 0),"Unknown" ) AS ?GDD)
+    
+    
+            BIND(IF(STR(?min1)!="Unknown" && STR(?max1)!="Unknown",(?min1 +  ?max1)/2," ") AS ?temp_avg1)
+            BIND(IF(STR(?temp_avg1)!=" ", IF(?temp_avg1 > `+ baseTemp + `, ?temp_avg1 - `+ baseTemp + `, 0),"Unknown" ) AS ?GDD1)
+    
+    
+            BIND(IF(STR(?GDD1)!="Unknown",?GDD1,0) AS ?GDDSUM)
+            FILTER (?date >= xsd:date("`+ startDate +`"))
+            FILTER (?stationName IN (` + formattedStations + `))
+            FILTER (?date <= xsd:date("`+ endDate +`"))
+            FILTER (?date1 >= xsd:date("`+ startDate +`"))
+            FILTER (?date1 <= xsd:date("`+ endDate +`"))
+            FILTER ((?date) >=(?date1))
         }
-            }
-
-            `
-
-    if(finalURL.length>1){
-        for(let i=1;i<finalURL.length;i++){
-            query +=`
-            UNION
-            {
-            SERVICE  <` +finalURL[i] + `> {
-                SELECT DISTINCT ?stationName ?date   ?radiationSum WHERE {
-                    ?s1 qb:observation ?observation .
-                    VALUES ?stationName {` + stations[i] + `}
-                    ?observation a qb:Observation ;
-                        wes-attribute:observationDate ?time ; 
-                        wes-measure:radiationSum ?radiationSum .
-                    BIND(xsd:date(?time) as ?date)
-                }
-            }
-        }`
-        }
-    }
-
-    query+= `
-        }
+        GROUP BY ?stationName ?date ?GDD 
         ORDER BY ?date
-        }
-        BIND(IF(BOUND(?GDD),?GDD,xsd:double(0)) AS ?GDDT)
-        BIND (IF(?GDDT>0, ?radiationSum/?GDDT ,0) AS ?photothermalquotient)
-    }`;
-    return query
+        }`;
 }
 
 export function buildQuery_dailyCumulativeDeficit(stationName, startDate, endDate, baseTemp,coldMin, heat, minTemp, maxTemp, minHum, maxHum, rainLevel, deficitLevel, windSpeed,urls) {
@@ -978,72 +926,7 @@ export function buildQuery_StatsPeriod(stationName,startDate,endDate,baseTemp,co
         GROUP BY ?stationName`
     }
 
-export function buildQueryEvapoRadiation(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed,urls){
-    const finalURL = []
-    urls.forEach((url) =>{
-        finalURL.push(url+"&start_date=" + startDate + "&end_date=" + endDate)
-    })
 
-    stationName = stationName.substr(1,stationName.length -2)
-    const stations = stationName.split('\" \"')
-    
-
-    let query = `
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX api: <http://ns.inria.fr/sparql-micro-service/api#>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-    PREFIX qb: <http://purl.org/linked-data/cube#>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX wes-measure: <http://ns.inria.fr/meteo/observationslice/measure#>
-    PREFIX  wes-attribute: <http://ns.inria.fr/meteo/observationslice/attribute#>
-    prefix geo2:    <http://www.w3.org/2003/01/geo/wgs84_pos#>
-    prefix wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wes-dimension: <http://ns.inria.fr/meteo/observationslice/dimension#>
-    SELECT  ?stationName  ?date ?radiationSum ?evapotranspiration  WHERE 
-    {
-        {
-            SERVICE  <` +finalURL[0] + `> {
-                SELECT DISTINCT ?stationName ?date  ?radiationSum ?evapotranspiration WHERE {
-                    ?s1 qb:observation ?observation ; geo2:lat ?lat1; geo2:long ?long1.
-                    VALUES ?stationName {"` + stations[0] + `"}
-                    ?observation a qb:Observation ;
-                        wes-attribute:observationDate ?time ; 
-                        wes-measure:radiationSum ?radiationSum ; 
-                        wes-measure:evapotranspiration ?evapotranspiration .
-                    BIND(xsd:date(?time) as ?date)
-                }
-            }
-        }
-    
-
-    `
-    //QUERY THE EVAPOTRANSPIRATION FOR EACH STATION
-
-    if(finalURL.length>1){
-        for(let i=1;i<finalURL.length;i++){
-            query +=`
-            UNION
-            {
-            SERVICE  <` +finalURL[i] + `> {
-                SELECT DISTINCT ?stationName ?date  ?radiationSum ?evapotranspiration WHERE {
-                    ?s1 qb:observation ?observation ; geo2:lat ?lat1; geo2:long ?long1.
-                    VALUES ?stationName {"` + stations[i] + `"}
-                    ?observation a qb:Observation ;
-                        wes-attribute:observationDate ?time ; 
-                        wes-measure:radiationSum ?radiationSum ; 
-                        wes-measure:evapotranspiration ?evapotranspiration .
-                    BIND(xsd:date(?time) as ?date)
-                }
-            }
-        }`
-        }
-    }
-
-    query +="}"
-    return query
-    
-}
 
 export function buildQuery_WaterDef(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed,urls)  {
     const finalURL = []
@@ -1145,6 +1028,113 @@ GROUP BY ?stationName `
     
 }
 
+export function buildQuery_DailyWaterDef(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed,urls)  {
+    const finalURL = []
+    const formattedStations = stationName.replace(/\" \"/g, "\",\"") + ",\"\"";
+    urls.forEach((url) =>{
+        finalURL.push(url+"&start_date=" + startDate + "&end_date=" + endDate)
+    })
+
+
+    const stations = formattedStations.split(',')
+
+    
+
+    let query = `
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX api: <http://ns.inria.fr/sparql-micro-service/api#>
+    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    PREFIX weo: <http://ns.inria.fr/meteo/ontology/>
+    PREFIX qb: <http://purl.org/linked-data/cube#>
+    PREFIX dct: <http://purl.org/dc/terms/>
+    PREFIX wes-measure: <http://ns.inria.fr/meteo/observationslice/measure#>
+    PREFIX wes-attribute: <http://ns.inria.fr/meteo/observationslice/attribute#>
+    PREFIX geo2: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wes-dimension: <http://ns.inria.fr/meteo/observationslice/dimension#>
+    SELECT ?stationName ?date ?waterDef ?radiationSum ?evapotranspiration ?photothermalquotient
+{
+    {
+    SELECT DISTINCT ?stationName ?date (SAMPLE(?rainfall) AS ?rainfall) 
+    (SAMPLE(?evapotranspiration ) AS ?evapotranspiration) (SAMPLE(?radiationSum) AS ?radiationSum) 
+    (SAMPLE(?GDD) AS ?GDD) WHERE {
+        {
+            ?station a weo:WeatherStation ; rdfs:label ?stationName.
+
+            ?s1 a qb:Slice ;
+                wes-dimension:station ?station ;
+                qb:observation [
+                    a qb:Observation ;
+                    wes-attribute:observationDate ?date ;
+                    wes-measure:rainfall24h ?r ;
+                    wes-measure:minDailyTemperature ?min ;
+                    wes-measure:maxDailyTemperature ?max 
+                ] .
+            BIND(IF(?r > 0.0, ?r, 0.0) AS ?rain)
+            BIND(IF(STR(?rainfall) = "Unknown",0,?rain) AS ?rainfall)
+            BIND(IF(STR(?min)!="Unknown" && STR(?max)!="Unknown",(?min +  ?max)/2," ") AS ?temp_avg)
+            BIND(IF(STR(?temp_avg)!=" ", IF(?temp_avg > `+ baseTemp + `, ?temp_avg - `+ baseTemp + `, 0),"Unknown" ) AS ?GDD)
+            FILTER (?stationName IN (` + formattedStations + `))
+            FILTER (?date >= xsd:date("` + startDate + `"))
+            FILTER (?date <= xsd:date("` + endDate + `"))
+
+        }
+        
+        UNION
+        
+        {
+            SERVICE  <` +finalURL[0] + `> {
+                SELECT ?stationName ?date ?radiationSum ?evapotranspiration WHERE {
+                    ?s1 qb:observation ?observation .
+                    ?observation a qb:Observation ;
+                        wes-attribute:observationDate ?time ;
+                        wes-measure:evapotranspiration ?evapotranspiration ;
+                        wes-measure:radiationSum ?radiationSum .
+                    BIND(xsd:date(?time) as ?date)
+                    VALUES ?stationName {` + stations[0] + `}
+                }
+            }
+        }
+    
+
+    `
+    //QUERY THE EVAPOTRANSPIRATION FOR EACH STATION
+
+    if(finalURL.length>1){
+        for(let i=1;i<finalURL.length;i++){
+            query +=`
+            UNION
+            {
+            SERVICE  <` +finalURL[i] + `> {
+                SELECT DISTINCT ?stationName ?date  ?radiationSum ?evapotranspiration WHERE {
+                    ?s1 qb:observation ?observation .
+                    VALUES ?stationName {` + stations[i] + `}
+                    ?observation a qb:Observation ;
+                        wes-attribute:observationDate ?time ; 
+                        wes-measure:evapotranspiration ?evapotranspiration ;
+                        wes-measure:radiationSum ?radiationSum .
+                    BIND(xsd:date(?time) as ?date)
+                }
+            }
+        }`
+        }
+    }
+
+    query +=`
+    }
+    ORDER BY ?date
+    }
+    BIND((xsd:date("` + endDate + `")-xsd:date("` + startDate + `"))/(3600*24)+1 AS ?days)
+    BIND(?rainfall -?evapotranspiration AS ?waterDef)
+    BIND(IF(BOUND(?GDD),?GDD,xsd:double(0)) AS ?GDDT)
+    BIND (IF(?GDDT>0, ?radiationSum/?GDDT ,0) AS ?photothermalquotient)
+}
+GROUP BY ?stationName `
+    return query
+    
+}
+
 
 export function buildQuery_consecutiveDaysmaxConsDays(stationName,startDate,endDate,baseTemp,coldMin,heat,minTemp,maxTemp,minHum,maxHum,rainLevel,deficitLevel, windSpeed,urls) {
     const finalURL = []
@@ -1235,6 +1225,7 @@ export function buildQuery_consecutiveDaysmaxConsDays(stationName,startDate,endD
     }
     ORDER BY ?date
     }
+
     BIND(?rainfall -?evapotranspiration AS ?deficit)
     FILTER(?deficit < `+ deficitLevel + `)
 }

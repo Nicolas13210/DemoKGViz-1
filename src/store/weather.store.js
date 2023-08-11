@@ -14,9 +14,9 @@ import {
     buildQuery_StatsPeriod,
     buildQuery_consecutiveDaysLowHum,
     buildQuery_dailyCumulativeDeficit,
-    buildQueryEvapoRadiation,
     buildQuery_WaterDef,
-    buildQuery_nbStatsDaysWindStation
+    buildQuery_nbStatsDaysWindStation,
+    buildQuery_DailyWaterDef
 
     
 } from "@/queries/queries"
@@ -162,7 +162,7 @@ export const weatherModule = {
             weather: [],
             globalQueries:[buildQuery_consecutiveDaysSpellFrost.name,buildQuery_consecutiveDaysSpellHeat.name,buildQuery_consecutiveDaysHighHum.name,buildQuery_consecutiveDaysDroughtWave.name,
             buildQuery_consecutiveDaysmaxConsDays.name,buildQuery_consecutiveDaysLowHum.name],
-            rawQueries:[buildQuery_tmpRainStation.name,buildQuery_GddDaysStation.name,buildQuery_dailyCumulativeDeficit.name,buildQueryEvapoRadiation.name],
+            rawQueries:[buildQuery_tmpRainStation.name,buildQuery_GddDaysStation.name,buildQuery_dailyCumulativeDeficit.name,buildQuery_DailyWaterDef.name],
             barQueries:[buildQuery_nbStatsDaysStation.name,buildQuery_nbStatsDaysWindStation.name, buildQuery_WaterDef.name]
         }
     }, mutations: {

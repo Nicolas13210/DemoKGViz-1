@@ -4,7 +4,6 @@ import {
     buildQuery_exportDailyData,
     buildQuery_extractAggregateRDF,
     buildQuery_extractDailyRDF,
-    buildQueryEvapoRadiation
 } from '@/queries/queries';
 import axios from "axios";
 

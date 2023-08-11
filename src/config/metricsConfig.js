@@ -10,9 +10,9 @@ import {
     buildQuery_StatsPeriod,
     buildQuery_consecutiveDaysLowHum,
     buildQuery_dailyCumulativeDeficit,
-    buildQueryEvapoRadiation,
     buildQuery_WaterDef,
-    buildQuery_nbStatsDaysWindStation
+    buildQuery_nbStatsDaysWindStation,
+    buildQuery_DailyWaterDef
 
     
 } from "@/queries/queries"
@@ -123,16 +123,16 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
         "type": "EvapoRad",
         "param": "RadSum",
         "jsonPath": "radiationSum",
-        "request": buildQueryEvapoRadiation,
+        "request": buildQuery_DailyWaterDef,
         "availableChart": "line",
         "axisLegend": "Radiations (W/m²)",
         "displayUnit":"W/m²",
         "related":[],
     }, {
-        "title": "Daily Average Humidity (Hum<sub>mean</sub>)",
+        "title": "Daily Relative Humidity (Hum<sub>rel</sub>)",
         "tooltip": "The average humidiy",
         "type": "TmpRain",
-        "param": "HumMean",
+        "param": "HumRel",
         "jsonPath": "humidity",
         "request": buildQuery_tmpRainStation,
         "availableChart": "line",
@@ -140,17 +140,28 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
         "displayUnit":"%",
         "related":[],
     }, {
-        "title": "Evapotranspiration (ET)",
+        "title": "Evapotranspiration (ET0)",
         "tooltip": "The evapotranspiration",
         "type": "EvapoRad",
-        "param": "ET",
+        "param": "ET0",
         "jsonPath": "evapotranspiration",
-        "request": buildQueryEvapoRadiation,
+        "request": buildQuery_DailyWaterDef,
         "availableChart": "line",
-        "axisLegend": "Evapotranspiration (ET)",
+        "axisLegend": "Evapotranspiration (mm)",
         "displayUnit":"mm",
         "related":[],
         
+    }, {
+        "title": "Daily Water Deficit (Water<sub>def</sub>)",
+        "tooltip": "The average humidiy",
+        "type": "waterDeficit",
+        "param": "waterDef",
+        "jsonPath": "waterDef",
+        "request": buildQuery_DailyWaterDef,
+        "availableChart": "line",
+        "axisLegend": "Water Deficit (mm)",
+        "displayUnit":"mm",
+        "related":[],
     }]
 }]}, {
     "title":"Agro-Meteorological Variables  ", "items":[
@@ -382,7 +393,7 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
         "type": "GddRain",
         "param": "PTR",
         "jsonPath": "photothermalquotient",
-        "request": buildQuery_GddDaysStation,
+        "request": buildQuery_DailyWaterDef,
         "availableChart": "line",
         "axisLegend": "coeff photothermique (J/(m²DD))",
         "displayUnit":"J/(m²DJ)",
@@ -483,7 +494,7 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
         
                 }]
         }, {
-        "title": "Number of days with water deficit (rain - ET < deficit threshold) ",
+        "title": "Number of days with water deficit (rain - ET0 < deficit threshold) ",
         "tooltip": "Number of rainless days represents the number of days during which the precipitation minus the evapotranspiratoin was lower than the deficit threshold for a period",
         "type": "Numb",
         "param": "nbDefDays",
@@ -540,7 +551,7 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
         "related":[]
     }, {
         "title": "Sum of water deficit",
-        "tooltip": "Sum of all the water deficit (RAIN-ETP) over the period",
+        "tooltip": "Sum of all the water deficit (RAIN-ET0) over the period",
         "type": "average",
         "param": "cumulativeWaterDeficit",
         "jsonPath": "sumwd",

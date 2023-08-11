@@ -61,6 +61,7 @@ export default {
                         type: parameters[parameter].availableChart,
                         axisLegend: parameters[parameter].axisLegend,
                         queryMethod: parameters[parameter].request.name,
+                        unit: parameters[parameter].displayUnit
                     })
                 }
             }
@@ -82,7 +83,10 @@ export default {
                     // Use the first query to obtain the dates
                     attributes = json[0].result.values;
                 } else {
-                    attributes = json.find(value => value.queryMethod === attribute.queryMethod).result.values;
+                    let temp = json.find(value => value.queryMethod === attribute.queryMethod)
+                    if (temp!=undefined){
+                        attributes = temp.result.values;
+                    }
                 }
 
                 for (let valueObj of attributes) {
@@ -215,7 +219,8 @@ export default {
                             hoverBorderWidth: 10,
                             yAxisID: axis,
                             order: 0,
-                            tension: 0.2
+                            tension: 0.2,
+                            unit: property.unit
                           
                         });
                     }
@@ -234,7 +239,7 @@ export default {
                     tooltip: {
                         callbacks: {
                             label: (chart) =>
-                              chart.dataset.label + ": " + chart.formattedValue + chart.dataset.displayUnit
+                              chart.dataset.label + ": " + chart.formattedValue + chart.dataset.unit
                         }
                     },
                     zoom: {
