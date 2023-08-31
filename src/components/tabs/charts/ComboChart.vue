@@ -1,10 +1,23 @@
 <template>
     <Bar v-if="displayChart" ref="barChart" :data="processData" :options="chartOptions" @dblclick="resetZoom()"/>
+    <div v-if="displayChart" class="button">
+        <v-btn class="export"  > <img class="export" src="../../../img/csv_logo.png" @click="this.downloadData('text/csv', 'csv')"> </v-btn>
+        <v-btn class="export"> <img class="export" src="../../../img/json_logo.png" @click="this.downloadData('application/sparql-results+json', 'json')" alt="JSON export"> </v-btn>
+    </div>
+    <div v-if="displayChart" class="button">
+        <v-btn @click=show> {{text}} </v-btn>
+    </div>
+    <div v-show = "showed">
+        <RawDataResult></RawDataResult>
+    </div>
 </template>
 
 <script>
 import {Bar} from 'vue-chartjs';
 import CryptoJS from 'crypto-js';
+import {getDailyValues,downloadFile,downloadDaily} from '@/utils/dataGatherer'
+import RawDataResult from "@/components/tabs/RawDataResult.vue";
+
 import {
     BarElement,
     CategoryScale,
@@ -29,12 +42,18 @@ export default {
         chartData: Object,
     },
     components: {
-        Bar
+        Bar,
+        RawDataResult
     },
     data() {
         return {
+                
             // Property for the chart.
             properties: [],
+
+            showed: false,
+
+            text:"show daily data",
 
             nbAxis:0,
 
@@ -50,6 +69,20 @@ export default {
         }
     },
     methods: {
+        downloadData(extension, extensionType) {
+            downloadDaily(this.$store.getters.getRawWeather.map(el => el.result.values),this.$store.getters.getRawParameters,extension,extensionType)
+        },
+
+        show(){
+
+            this.showed = !this.showed
+            if (this.showed){
+                this.text = "Hide daily data"
+            }
+            else{
+                this.text = "Show daily data"
+            }
+        },
         setProperties(parameters) {
             let properties = [];
             for (let parameter in parameters) {
@@ -67,48 +100,7 @@ export default {
             }
             return properties;
         },
-        selectAndConcatAttributes(json) {
-            let properties = this.setProperties(this.$store.getters.getParameters)
-            this.properties = properties;
 
-            let result = [];
-            for (let attribute of properties.concat({
-                jsonPath: "date",
-            })) {
-
-                let values = [];
-                let attributes = [];
-
-                if (attribute.jsonPath === "date") {
-                    // Use the first query to obtain the dates
-                    attributes = json[0].result.values;
-                } else {
-                    let temp = json.find(value => value.queryMethod === attribute.queryMethod)
-                    if (temp!=undefined){
-                        attributes = temp.result.values;
-                    }
-                }
-
-                for (let valueObj of attributes) {
-                    let value = valueObj[attribute.jsonPath];
-                    values.push({"station": valueObj['stationName'], "value": value});
-                }
-
-                values.forEach(item => {
-                    const existingItem = result.find(outputItem => outputItem.station === item.station);
-
-                    if (existingItem) {
-                        existingItem.data.push({"attribute": attribute.jsonPath, "value": item.value});
-                    } else {
-                        result.push({
-                            station: item.station,
-                            data: [{"attribute": attribute.jsonPath, "value": item.value}]
-                        });
-                    }
-                });
-            }
-            return result;
-        },
         selectAndConcatAttributesDateComparaison(json) {
             let properties = this.setProperties(this.$store.getters.getParameters)
             this.properties = properties;
@@ -157,6 +149,14 @@ export default {
             this.$refs.barChart.chart.resetZoom();
         },
     },
+    watch:{
+        displayChart(newValue){
+            if(!newValue){
+                this.text = "Show daily data"
+                this.showed=false
+            }
+        }
+    },
     computed: {
         processData() {
             // Reset the properties to the default state.
@@ -174,10 +174,14 @@ export default {
                 computedData = this.selectAndConcatAttributesDateComparaison(this.chartData);
                 labels = [...new Set(computedData[0].data.filter(item => item.attribute === "date").map(item => item.value.slice(5)))];
             } else {
-                computedData = this.selectAndConcatAttributes(this.chartData);
+                this.properties = this.setProperties(this.$store.getters.getParameters)
+                computedData = getDailyValues(this.$store.getters.getRawWeather,this.$store.getters.getParameters);
+                if(computedData.length ===0){
+                    return undefined
+                }
                 labels = [...new Set(computedData[0].data.filter(item => item.attribute === "date").map(item => item.value))];
             }
-
+                
             const years = [...new Set(computedData[0].data.map(entry => entry.year))];
 
             const datasets = [];
@@ -372,4 +376,21 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+img.export {
+    width: 75px;
+    height: 75px;
+    margin: auto;
+    display: block;
+}
+button.export {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+    margin: 0 3em;
+}
+
+button{
+    margin:20px
+}
+</style>

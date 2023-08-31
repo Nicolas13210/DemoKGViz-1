@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-for="(parameter, i) in parameters" :key="i">
+  <div v-show="show" class="container" v-for="(parameter, i) in parameters" :key="i">
     <div class="text-subtitle-2 font-weight-bold" >{{ parameter.title }}</div>
     <v-expansion-panels v-model="panel" multiple>
       <v-expansion-panel v-for="subParameter in parameter.items" :key="subParameter.title">
@@ -169,7 +169,11 @@ export default {
       panel: [0, 1, 2, 3, 4],
     };
   },
+  props:{
+    show:Boolean,
+  },
   computed: {
+    
     ...mapGetters(["getBaseTemp"]),
     baseTemp: {
       get() {

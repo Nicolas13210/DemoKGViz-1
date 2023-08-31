@@ -14,6 +14,22 @@ export default {
     created() {
         // Retrieve the stations at app start.
         this.$store.dispatch("setStationsFromAPI");
+    },
+    computed:{
+        map(){
+            return this.tab==="charts"
+        }
+    },
+    data(){ 
+        return {
+            tab: "charts"
+        }
+    },
+    methods:{
+        changeTab(newValue){
+            this.tab = newValue
+
+        }
     }
 }
 </script>
@@ -24,10 +40,10 @@ export default {
             <v-app-bar title="WeKG-MF-based Agrometeorological Parameters Computing and Visualisation"
                 color="primary"></v-app-bar>
             <v-navigation-drawer :permanent="true" :width="400">
-                <SideBar></SideBar>
+                <SideBar :map="map"></SideBar>
             </v-navigation-drawer>
             <v-main style="min-height: 300px;">
-                <TabsBar></TabsBar>
+                <TabsBar @tab="changeTab"></TabsBar>
             </v-main>
         </v-app>
     </div>

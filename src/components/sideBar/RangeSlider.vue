@@ -46,6 +46,8 @@ export default {
         type: Number,
         required: true,
       },
+      min:Number,
+      max:Number,
     },
     data() {
       return {

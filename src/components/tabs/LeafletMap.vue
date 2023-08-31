@@ -4,11 +4,11 @@
             <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base"
                 name="OpenStreetMap"></l-tile-layer>
 
-            <l-geo-json :geojson="geoJson" :options="geoJsonOptions" :optionsStyle="() => geoJsonStyle"></l-geo-json>
-
+            <l-geo-json :geojson="geoJson" :options="geoJsonOptions" :optionsStyle="() => geoJsonStyle"></l-geo-json>005
             <l-marker v-for="(marker, i) in stations"
-                :lat-lng="[parseFloat(marker.lat.value), parseFloat(marker.long.value)]" :name="marker.name"
-                :draggable="false" :ref="marker.stationName.value" @click="this.selectStation(marker)">
+                :lat-lng="[parseFloat(marker.lat.value)*1.005, parseFloat(marker.long.value)]" :name="marker.name"
+                :draggable="false" :ref="marker.stationName.value" @click="this.selectStation(marker)"
+                :icon="chooseColor(marker)">
                 <l-popup :ref="'marker' + i" :content="marker.stationName.value"></l-popup>
             </l-marker>
         </l-map>
@@ -18,7 +18,9 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import regionsJson from "../../assets/regions.json"
-import { LMap, LTileLayer, LGeoJson, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
+import L from 'leaflet';
+
+import { LMap, LTileLayer, LGeoJson, LMarker, LPopup} from "@vue-leaflet/vue-leaflet";
 
 export default {
     name: 'LeafletMap',
@@ -36,6 +38,16 @@ export default {
     },
     data() {
         return {
+
+            blueIcon: L.icon({
+                iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png", // Replace with your icon path
+                iconSize: [32, 48], 
+            }),
+
+            redIcon: L.icon({
+                iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png", // Replace with your icon path
+                iconSize: [32, 48], 
+            }),
             // Map
             zoom: 6,
             center: [47.41322, 2],
@@ -59,9 +71,16 @@ export default {
                 color: 'white',
                 fillOpacity: 0.4
             },
+
         }
     },
     methods: {
+        chooseColor(marker){
+            if(this.$store.getters.getSelectedStations.includes(marker.stationName.value)){
+                return this.redIcon
+            }
+            return this.blueIcon
+        },
         onEachFeature(feature, layer) {
             this.setRegionListeners(layer);
         },

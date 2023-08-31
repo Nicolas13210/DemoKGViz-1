@@ -5,8 +5,8 @@
         height="530px"
         :headers="headers"
         :items="processData"
-        fixed-header = true
-        hover = true
+        :fixed-header = "true"
+        :hover = "true"
       >
       <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
       <tr>
@@ -42,6 +42,8 @@
   <script>
   import { VDataTable } from 'vuetify/labs/VDataTable'
   import "leaflet/dist/leaflet.css";
+  import Papa from 'papaparse';
+
   
   
   export default {
@@ -57,20 +59,26 @@
     },
     computed:{
       processData() {
-        return this.mergeWeatherData(this.$store.getters.getRawWeather.map(el => el.result.values))
+        
+        if(this.properties.length>0 && this.stations>0){
+          return this.mergeWeatherData(this.$store.getters.getRawWeather.map(el => el.result.values))
+      } return undefined
       },
       properties() {
         return this.$store.getters.getRawParameters
       },
       existingProperties() {
+
       // List of properties available in merged data (containing a date)
         let properties = []
         for (let prop of this.$store.getters.getRawParameters) {
-          if(this.$store.getters.getRawWeather.map(el => el.result.values).length>0){
-            if (prop.jsonPath in this.mergeWeatherData(this.$store.getters.getRawWeather.map(el => el.result.values))[0]) {
-              properties.push(prop)
-            }
-          }
+          const data = this.$store.getters.getRawWeather.map(el => el.result.values)
+          if(data.length>0){
+            if(data[0].length>0){
+              if (prop.jsonPath in this.mergeWeatherData(data)[0]) {
+                properties.push(prop)
+              }
+            }}
         }
         return properties;
       },
@@ -84,6 +92,9 @@
           })),
         ]
       },
+      stations() {
+        return this.$store.getters.getSelectedStations.length
+      }
   
     },
     methods: {
@@ -112,9 +123,9 @@
           },
           findStationDetail(stationName) {
             console.log(stationName)
-            //return this.$store.getters.getStations.find(value => value.stationName.value === stationName)
           }
       }
+
     
   }
   </script>

@@ -9,7 +9,7 @@ import {Bar} from 'vue-chartjs';
 import {ArcElement, Chart as ChartJS, Legend, RadialLinearScale, Title, Tooltip} from 'chart.js'
 import CryptoJS from "crypto-js";
 import uniqolor from "uniqolor";
-
+import {getDailyValues,downloadFile,downloadGlobal} from '@/utils/dataGatherer'
 ChartJS.register(Title, Tooltip, Legend, ArcElement, RadialLinearScale);
 
 export default {
@@ -24,10 +24,12 @@ export default {
     data() {
         return {
             // Property for the chart.
-            properties: []
+            properties: [],
+
         }
     },
     methods: {
+        
         concatAttribute(json) {
             let attributes = json[0].result.values
             if (json.length>1){
@@ -71,7 +73,6 @@ export default {
             let backgroundColors = [];
             let data = [];
             let concatData = this.concatAttribute(this.chartData)
-            console.log(concatData)
 
 
             // For each station with data
@@ -127,4 +128,6 @@ export default {
 .chart {
     width: 50vw;
 }
+
+
 </style>

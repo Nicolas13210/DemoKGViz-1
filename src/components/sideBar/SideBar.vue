@@ -5,6 +5,10 @@ import SpatialParameter from "@/components/sideBar/SpatialParameter.vue";
 
 export default {
     name: "SideBar",
+    props:{
+        map:Boolean
+    },
+    
     components: {
         PeriodParameter,
         MeteorologicalParameter,
@@ -16,8 +20,8 @@ export default {
 <template>
     <div class="sidebar">
         <SpatialParameter></SpatialParameter>
-        <PeriodParameter></PeriodParameter>
-        <MeteorologicalParameter></MeteorologicalParameter>
+        <PeriodParameter v-show="map"></PeriodParameter>
+        <MeteorologicalParameter v-show="map" :show="map"></MeteorologicalParameter>
     </div>
 </template>
 

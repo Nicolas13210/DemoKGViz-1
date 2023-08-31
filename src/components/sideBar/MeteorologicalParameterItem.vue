@@ -64,7 +64,6 @@ export default {
                 });
                 this.$store.dispatch('removeParameter', {param: this.param});
             }
-            this.$store.getters.getConsecutiveDays
 
         },
     },
@@ -77,7 +76,8 @@ export default {
                 // Empty.
             }
         }
-    }
+    },
+
 }
 </script>
 

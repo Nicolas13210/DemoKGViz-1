@@ -107,10 +107,10 @@ export const metricsConfig = [{"title":"Weather Variables" , "items":[{
             "related":[]
         }],
     }, {
-        "title": "Amount of precipitations (Prec<sub>day<sub>)",
+        "title": "Amount of precipitations (Prec<sub>day</sub>)",
         "tooltip": "Daily cumulative precipitation R<sub>d</sub> recorded from 6:00 UTC day d till 6:00 UTC day d+1",
         "type": "TmpRain",
-        "param": "Rain",
+        "param": "precDay",
         "jsonPath": "rainfall",
         "request": buildQuery_tmpRainStation,
         "availableChart": "bar",
